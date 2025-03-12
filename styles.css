@@ -247,3 +247,15 @@ canvas {
     max-width: 60px;
     z-index: 1100;
 }
+
+/* Ajuste específico para dispositivos con pantallas grandes como el S23 Ultra */
+@media (min-width: 1000px) {
+    header h1 {
+        font-size: 1.7rem; /* Reduce el tamaño del encabezado en pantallas más grandes */
+    }
+
+    /* Ajuste para la imagen del logo en pantallas grandes */
+    .logo-bottom-right {
+        right: 25px; /* Desplaza más el logo a la derecha */
+    }
+}
