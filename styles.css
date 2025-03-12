@@ -165,9 +165,9 @@ canvas {
     .menu {
         width: 200px;
     }
-    
+
     header h1 {
-        font-size: 1.5rem;
+        font-size: 1.3rem; /* Reducir más el tamaño del texto en pantallas pequeñas */
     }
 
     footer p {
@@ -179,7 +179,7 @@ canvas {
         width: 50px; /* Aumenta la reducción en pantallas pequeñas */
         max-width: 50px; /* Limita el tamaño máximo de la imagen */
         bottom: 15px; /* Ajusta la posición para que no quede muy pegada */
-        right: 10px; /* Asegura que no esté pegada al borde derecho */
+        right: 15px; /* Mueve el logo más hacia la derecha */
     }
 }
 
@@ -213,8 +213,12 @@ canvas {
     .logo-bottom-right {
         width: 40px; /* Haz la imagen aún más pequeña */
         max-width: 40px;
-        bottom: 40px; /* Baja la imagen para que no tape el encabezado */
-        right: 5px; /* Ajusta aún más la posición */
+        bottom: 30px; /* Baja más la imagen para que no tape el encabezado */
+        right: 20px; /* Mueve más a la derecha */
+    }
+
+    header h1 {
+        font-size: 1.2rem; /* Reduce aún más el tamaño de la fuente del encabezado */
     }
 }
 
