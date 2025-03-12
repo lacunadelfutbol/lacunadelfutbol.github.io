@@ -15,7 +15,7 @@ body {
     font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #121212;
+    background-color: #121212; /* Fondo oscuro para toda la página */
     color: #f5c518;
     line-height: 1.6;
     transition: background-color 0.3s ease, color 0.3s ease;
@@ -213,10 +213,11 @@ canvas {
     .logo-bottom-right {
         width: 40px; /* Haz la imagen aún más pequeña */
         max-width: 40px;
-        bottom: 10px; /* Baja más la imagen para que no tapen las letras */
+        bottom: 40px; /* Baja la imagen para que no tape el encabezado */
         right: 5px; /* Ajusta aún más la posición */
     }
 }
+
 /* Carrusel */
 .carousel-inner img {
     width: 100%;
