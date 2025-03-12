@@ -168,6 +168,7 @@ canvas {
 
     header h1 {
         font-size: 1.3rem; /* Reducir más el tamaño del texto en pantallas pequeñas */
+        margin-bottom: 50px; /* Asegura que haya espacio para el logo */
     }
 
     footer p {
@@ -219,6 +220,7 @@ canvas {
 
     header h1 {
         font-size: 1.2rem; /* Reduce aún más el tamaño de la fuente del encabezado */
+        margin-bottom: 60px; /* Da espacio suficiente para el logo */
     }
 }
 
@@ -252,6 +254,7 @@ canvas {
 @media (min-width: 1000px) {
     header h1 {
         font-size: 1.7rem; /* Reduce el tamaño del encabezado en pantallas más grandes */
+        margin-bottom: 30px; /* Reduce el margen inferior para más espacio */
     }
 
     /* Ajuste para la imagen del logo en pantallas grandes */
