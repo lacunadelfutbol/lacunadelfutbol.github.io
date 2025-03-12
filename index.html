@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrenamiento Deportivo para Niños</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Menú Lateral -->
+    <nav id="menu" class="menu">
+        <ul>
+            <li><a href="index.html">Recomendaciones</a></li>
+            <li><a href="index2.html">Entrenamientos Semanales</a></li>
+            <li><a href="index3.html">Conócenos</a></li>
+            <li><a href="index4.html">Conoce nuestros Jugadores</a></li>
+            <li><a href="index5.html">Contáctanos</a></li>
+        </ul>
+    </nav>
+
+    <!-- Ícono de los 3 puntos -->
+    <div id="menu-toggle" class="menu-toggle">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+
+    <!-- Contenido Principal -->
+    <div class="content">
+        <header>
+            <h1>Entrenamiento Deportivo para Niños (6-12 años)</h1>
+            <!-- Imagen Lacuna abajo a la derecha -->
+            <img src="lacuna.jpg" alt="Logo La Cuna del Fútbol" class="logo-bottom-right">
+        </header>
+
+        <main>
+            <section>
+                <h2>Partidos por semana recomendados</h2>
+                <p>Aquí se muestra la cantidad de partidos que los niños pueden jugar por semana según su edad:</p>
+                <canvas id="partidosChart"></canvas>
+            </section>
+
+            <section>
+                <h2>Riesgo de lesiones por número de partidos</h2>
+                <p>Estadísticas sobre el riesgo de lesiones según la cantidad de partidos jugados por semana:</p>
+                <canvas id="lesionesChart"></canvas>
+            </section>
+
+            <section>
+                <h2>Actividad física recomendada por la OMS</h2>
+                <p>Distribución de horas de actividad física recomendada para niños:</p>
+                <canvas id="actividadChart"></canvas>
+            </section>
+        </main>
+
+        <footer>
+            <p>© 2023 Entrenamiento Deportivo para Niños. Todos los derechos reservados.</p>
+            <p>La información está avalada por la <a href="https://www.fifa.com/" target="_blank">FIFA</a>.</p>
+        </footer>
+    </div>
+
+    <script src="scripts.js"></script>
+</body>
+</html>

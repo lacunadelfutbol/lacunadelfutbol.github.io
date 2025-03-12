@@ -1,0 +1,219 @@
+/* Estilos para la imagen del logo */
+.logo-bottom-right {
+    width: 60px; /* Reducido el tamaño de la imagen */
+    height: auto;
+    position: absolute;
+    bottom: 20px; /* Asegura que no quede pegada al borde inferior */
+    right: 20px; /* Ajusta la posición de la imagen */
+    display: block;
+    max-width: 60px; /* Limita el tamaño máximo de la imagen */
+    z-index: 1100; /* Asegura que el logo quede sobre el contenido */
+}
+
+/* General */
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #121212;
+    color: #f5c518;
+    line-height: 1.6;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Modo claro */
+@media (prefers-color-scheme: light) {
+    body {
+        background-color: #f4f4f4;
+        color: #333;
+    }
+}
+
+/* Encabezados */
+h1, h2 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    color: #f5c518;
+    margin-bottom: 15px;
+    z-index: 100; /* Asegura que el título se mantenga por encima del contenido */
+}
+
+@media (prefers-color-scheme: light) {
+    h1, h2 {
+        color: #000;
+    }
+}
+
+/* Menú lateral */
+.menu {
+    width: 250px;
+    height: 100vh;
+    background-color: #000;
+    position: fixed;
+    top: 0;
+    left: -250px;
+    padding-top: 20px;
+    transition: left 0.3s ease;
+    z-index: 1000; /* Asegura que el menú se muestre por encima de otros elementos */
+}
+
+.menu ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.menu ul li {
+    padding: 15px;
+    text-align: center;
+    font-size: 1.1rem;
+}
+
+.menu ul li a {
+    color: #f5c518;
+    text-decoration: none;
+    display: block;
+}
+
+.menu ul li a:hover {
+    background-color: #222;
+}
+
+/* Contenido principal */
+.content {
+    margin-left: 0;
+    padding: 20px;
+    width: 100%;
+    transition: margin-left 0.3s ease;
+    z-index: 999; /* Asegura que el contenido no quede por debajo del menú */
+}
+
+/* Encabezado */
+header {
+    background-color: #000;
+    color: #f5c518;
+    padding: 20px;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    position: relative;
+    z-index: 100; /* Asegura que el encabezado esté encima de otros elementos */
+}
+
+/* Footer */
+footer {
+    background-color: #000;
+    color: #f5c518;
+    text-align: center;
+    padding: 10px;
+}
+
+footer a {
+    color: #f5c518;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+/* Canvas (Gráficos) */
+canvas {
+    width: 100%;
+    max-width: 700px;
+    height: 400px;
+    margin: 20px auto;
+    border-radius: 8px;
+}
+
+/* Estilos del menú hamburguesa */
+.menu-toggle {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+.menu-toggle .dot {
+    width: 30px;
+    height: 5px;
+    background-color: #f5c518;
+    margin: 5px 0;
+    border-radius: 5px;
+}
+
+.menu-toggle .dot:hover {
+    background-color: #cfae17;
+}
+
+/* Estilos para dispositivos pequeños */
+@media (max-width: 768px) {
+    .menu {
+        left: -250px;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .content {
+        margin-left: 0;
+    }
+
+    .menu {
+        width: 200px;
+    }
+    
+    header h1 {
+        font-size: 1.5rem;
+    }
+
+    footer p {
+        font-size: 0.875rem;
+    }
+
+    /* Ajuste para la imagen en dispositivos pequeños */
+    .logo-bottom-right {
+        width: 50px; /* Aumenta la reducción en pantallas pequeñas */
+        max-width: 50px; /* Limita el tamaño máximo de la imagen */
+        bottom: 15px; /* Ajusta la posición para que no quede muy pegada */
+        right: 10px; /* Asegura que no esté pegada al borde derecho */
+    }
+}
+
+/* Estilos del mapa (ahora 100% responsivo) */
+.map-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.map-container iframe {
+    width: 90vw; /* Usa el 90% del ancho de la pantalla */
+    height: 60vh; /* Usa el 60% del alto de la pantalla */
+    max-width: 1200px; /* Máximo tamaño en pantallas grandes */
+    max-height: 600px;
+    border-radius: 15px;
+    border: 3px solid #f5c518;
+}
+
+/* Ajustes específicos para móviles */
+@media (max-width: 600px) {
+    .map-container iframe {
+        width: 95vw; /* Usa más espacio en móviles */
+        height: 50vh; /* Ajusta el alto para no ocupar toda la pantalla */
+        border-radius: 10px;
+    }
+
+    /* Ajusta la imagen aún más en móviles */
+    .logo-bottom-right {
+        width: 40px; /* Haz la imagen aún más pequeña */
+        max-width: 40px;
+        bottom: 10px; /* Baja más la imagen para que no tapen las letras */
+        right: 5px; /* Ajusta aún más la posición */
+    }
+}
