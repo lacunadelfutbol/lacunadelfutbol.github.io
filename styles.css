@@ -66,6 +66,8 @@ h1, h2 {
     color: #f5c518;
     margin-bottom: 15px;
     z-index: 100; /* Asegura que el título se mantenga por encima del contenido */
+    text-align: center;
+    padding-top: 80px; /* Ajuste para evitar superposición con el logo */
 }
 
 @media (prefers-color-scheme: light) {
@@ -149,6 +151,7 @@ header {
     letter-spacing: 2px;
     position: relative;
     z-index: 100; /* Asegura que el encabezado esté encima de otros elementos */
+    padding-top: 60px; /* Espaciado para evitar superposición con el logo */
 }
 
 /* Footer */
@@ -201,5 +204,9 @@ button:focus, a:focus, input:focus {
     
     .content {
         padding: 15px;
+    }
+    
+    h1, h2 {
+        padding-top: 100px; /* Mayor espaciado para evitar superposición en pantallas pequeñas */
     }
 }
