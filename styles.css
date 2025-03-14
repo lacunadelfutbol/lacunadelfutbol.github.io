@@ -15,7 +15,7 @@ body {
     font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #121212; /* Fondo oscuro para toda la página */
+    background-color: #121212; /* Fondo oscuro */
     color: #f5c518;
     line-height: 1.6;
     transition: background-color 0.3s ease, color 0.3s ease;
@@ -24,20 +24,20 @@ body {
 /* Modo claro */
 @media (prefers-color-scheme: light) {
     body {
-        background-color: #ffffff; /* Fondo blanco en modo claro */
-        color: #b8860b; /* Texto dorado para modo claro */
+        background-color: #ffffff;
+        color: #b8860b;
     }
     
     h1, h2 {
-        color: #b8860b; /* Encabezados en dorado */
+        color: #b8860b;
     }
     
     .menu {
-        background-color: #f4f4f4; /* Menú con fondo claro */
+        background-color: #f4f4f4;
     }
     
     .menu ul li a {
-        color: #b8860b; /* Enlaces del menú en dorado */
+        color: #b8860b;
     }
     
     .menu ul li a:hover {
@@ -45,17 +45,17 @@ body {
     }
     
     header {
-        background-color: #ffffff; /* Encabezado en blanco */
-        color: #b8860b; /* Texto dorado */
+        background-color: #ffffff;
+        color: #b8860b;
     }
     
     footer {
-        background-color: #ffffff; /* Fondo del footer */
-        color: #b8860b; /* Texto dorado */
+        background-color: #ffffff;
+        color: #b8860b;
     }
     
     footer a {
-        color: #b8860b; /* Enlaces en dorado */
+        color: #b8860b;
     }
 }
 
@@ -65,15 +65,9 @@ h1, h2 {
     font-weight: 600;
     color: #f5c518;
     margin-bottom: 15px;
-    z-index: 100; /* Asegura que el título se mantenga por encima del contenido */
+    z-index: 100;
     text-align: center;
     padding-top: 80px; /* Ajuste para evitar superposición con el logo */
-}
-
-@media (prefers-color-scheme: light) {
-    h1, h2 {
-        color: #b8860b;
-    }
 }
 
 /* Menú lateral */
@@ -86,7 +80,7 @@ h1, h2 {
     left: -250px;
     padding-top: 20px;
     transition: left 0.3s ease;
-    z-index: 1000; /* Asegura que el menú se muestre por encima de otros elementos */
+    z-index: 1000;
 }
 
 .menu ul {
@@ -116,7 +110,7 @@ h1, h2 {
     top: 20px;
     left: 20px;
     cursor: pointer;
-    z-index: 1001; /* Asegura que el botón esté sobre el contenido */
+    z-index: 1001;
 }
 
 .menu-toggle .dot {
@@ -137,7 +131,7 @@ h1, h2 {
     padding: 20px;
     width: 100%;
     transition: margin-left 0.3s ease;
-    z-index: 999; /* Asegura que el contenido no quede por debajo del menú */
+    z-index: 999;
 }
 
 /* Encabezado */
@@ -150,7 +144,7 @@ header {
     font-weight: 700;
     letter-spacing: 2px;
     position: relative;
-    z-index: 100; /* Asegura que el encabezado esté encima de otros elementos */
+    z-index: 100;
     padding-top: 60px; /* Espaciado para evitar superposición con el logo */
 }
 
@@ -207,12 +201,12 @@ button:focus, a:focus, input:focus {
     }
     
     h1, h2 {
-        padding-top: 100px; /* Más espacio entre el logo y el encabezado */
+        padding-top: 100px;
     }
     
     .logo-bottom-right {
-        width: 50px; /* Reducir tamaño del logo en pantallas pequeñas */
-        right: 10px; /* Ajustar la posición del logo en móviles */
+        width: 50px;
+        right: 10px;
         bottom: 10px;
     }
 }
@@ -220,52 +214,52 @@ button:focus, a:focus, input:focus {
 /* Ajuste específico para Android */
 @media screen and (max-width: 600px) {
     .logo-bottom-right {
-        width: 50px; /* Reducir aún más el tamaño del logo en pantallas más pequeñas */
-        right: 20px; /* Asegurarse de que no se amontone */
+        width: 50px;
+        right: 20px;
         bottom: 20px;
     }
 
     h1, h2 {
-        font-size: 1.3rem; /* Reducir tamaño de texto en pantallas pequeñas */
-        padding-top: 120px; /* Aumentar espacio entre el logo y el encabezado */
+        font-size: 1.3rem;
+        padding-top: 120px;
     }
 
     /* Sección Conócenos */
     .conocenos {
-        padding-top: 130px; /* Espacio extra para evitar que el texto se amontone con el logo */
+        padding-top: 130px;
     }
 }
 
 /* Evitar amontonamiento del logo en cualquier navegador */
 @media screen and (max-width: 480px) {
     .logo-bottom-right {
-        width: 45px; /* Aseguramos un tamaño aún más pequeño para no amontonarse */
-        right: 15px; /* Ajustar espacio en pantalla más pequeña */
+        width: 45px;
+        right: 15px;
         bottom: 15px;
     }
     
     h1, h2 {
-        font-size: 1.3rem; /* Reducir tamaño de los encabezados */
-        padding-top: 130px; /* Más espacio entre el logo y el encabezado */
+        font-size: 1.3rem;
+        padding-top: 130px;
     }
 
     /* Sección Conócenos */
     .conocenos {
-        padding-top: 140px; /* Espacio adicional para evitar amontonamiento */
+        padding-top: 140px;
     }
 }
 
 /* Ajuste del tamaño del mapa */
 @media screen and (max-width: 768px) {
     #map {
-        width: 100%; /* Hacer el mapa más grande en pantallas más pequeñas */
-        height: 400px; /* Aumentar la altura del mapa */
+        width: 100%;
+        height: 400px;
     }
 }
 
 @media screen and (max-width: 480px) {
     #map {
         width: 100%;
-        height: 350px; /* Ajustar la altura del mapa para pantallas aún más pequeñas */
+        height: 350px;
     }
 }
