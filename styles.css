@@ -68,6 +68,8 @@ h1, h2 {
     z-index: 100;
     text-align: center;
     padding-top: 80px; /* Ajuste para evitar superposición con el logo */
+    word-wrap: break-word; /* Asegura que los títulos largos se ajusten y no se desborden */
+    overflow-wrap: break-word; /* Propiedad adicional para asegurar el ajuste del texto */
 }
 
 /* Menú lateral */
@@ -146,6 +148,8 @@ header {
     position: relative;
     z-index: 100;
     padding-top: 60px;
+    word-wrap: break-word; /* Asegura que el título en el encabezado no se desborde */
+    overflow-wrap: break-word; /* Propiedad adicional para asegurar el ajuste del texto */
 }
 
 /* Footer */
