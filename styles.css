@@ -71,6 +71,8 @@ h1, h2 {
     word-wrap: break-word; /* Asegura que los títulos largos se ajusten y no se desborden */
     overflow-wrap: break-word; /* Propiedad adicional para asegurar el ajuste del texto */
     word-break: break-word; /* Agregado para asegurar que el texto largo se rompa correctamente */
+    max-width: 90%; /* Limita el ancho máximo del título */
+    margin: 0 auto; /* Centra el texto en el contenedor */
 }
 
 /* Menú lateral */
@@ -152,6 +154,8 @@ header {
     word-wrap: break-word; /* Asegura que el título en el encabezado no se desborde */
     overflow-wrap: break-word; /* Propiedad adicional para asegurar el ajuste del texto */
     word-break: break-word; /* Agregado para asegurar que el texto largo se rompa correctamente */
+    max-width: 90%; /* Limita el ancho máximo del título */
+    margin: 0 auto; /* Centra el texto */
 }
 
 /* Footer */
@@ -178,6 +182,10 @@ footer a:hover {
         width: 40px; /* Reducir aún más el tamaño del logo en pantallas pequeñas */
         right: 20px;
         bottom: 20px;
+    }
+    
+    h1, h2 {
+        font-size: 1.8rem; /* Ajusta el tamaño de fuente en Android */
     }
 }
 
