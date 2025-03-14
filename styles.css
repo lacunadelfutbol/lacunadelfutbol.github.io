@@ -154,13 +154,6 @@ header {
     padding-top: 60px; /* Espaciado para evitar superposición con el logo */
 }
 
-@media screen and (max-width: 768px) {
-    h1, h2 {
-        font-size: 1.4rem; /* Reducir tamaño de texto en pantallas pequeñas */
-        padding-top: 100px; /* Ajuste para que el encabezado empiece más arriba y no se amontone con el logo */
-    }
-}
-
 /* Footer */
 footer {
     background-color: #000;
@@ -234,6 +227,7 @@ button:focus, a:focus, input:focus {
 
     h1, h2 {
         font-size: 1.3rem; /* Reducir tamaño de texto en pantallas pequeñas */
+        padding-top: 120px; /* Aumentar espacio entre el logo y el encabezado */
     }
 }
 
@@ -247,7 +241,7 @@ button:focus, a:focus, input:focus {
     
     h1, h2 {
         font-size: 1.3rem; /* Reducir tamaño de los encabezados */
-        padding-top: 120px; /* Más espacio entre el logo y el encabezado */
+        padding-top: 130px; /* Más espacio entre el logo y el encabezado */
     }
 }
 
