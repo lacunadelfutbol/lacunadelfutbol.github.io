@@ -217,16 +217,26 @@ button:focus, a:focus, input:focus {
         right: 10px; /* Ajustar la posición del logo en móviles */
         bottom: 10px;
     }
+}
 
-    /* Ajuste específico para Android (con viewport más pequeño) */
-    @media screen and (max-width: 600px) {
-        .logo-bottom-right {
-            right: 5px; /* Ajuste de posición en Android */
-            bottom: 5px;
-        }
+/* Ajuste específico para Android */
+@media screen and (max-width: 600px) {
+    .logo-bottom-right {
+        width: 50px; /* Reducir aún más el tamaño del logo en pantallas más pequeñas */
+        right: 20px; /* Asegurarse de que no se amontone */
+        bottom: 20px;
+    }
 
-        h1, h2 {
-            font-size: 1.3rem; /* Reducir más el tamaño del texto en pantallas pequeñas de Android */
-        }
+    h1, h2 {
+        font-size: 1.3rem; /* Reducir tamaño de texto en pantallas pequeñas */
+    }
+}
+
+/* Evitar amontonamiento del logo en cualquier navegador */
+@media screen and (max-width: 480px) {
+    .logo-bottom-right {
+        width: 45px; /* Aseguramos un tamaño aún más pequeño para no amontonarse */
+        right: 15px; /* Ajustar espacio en pantalla más pequeña */
+        bottom: 15px;
     }
 }
