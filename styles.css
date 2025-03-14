@@ -229,6 +229,11 @@ button:focus, a:focus, input:focus {
         font-size: 1.3rem; /* Reducir tamaño de texto en pantallas pequeñas */
         padding-top: 120px; /* Aumentar espacio entre el logo y el encabezado */
     }
+
+    /* Sección Conócenos */
+    .conocenos {
+        padding-top: 130px; /* Espacio extra para evitar que el texto se amontone con el logo */
+    }
 }
 
 /* Evitar amontonamiento del logo en cualquier navegador */
@@ -242,6 +247,11 @@ button:focus, a:focus, input:focus {
     h1, h2 {
         font-size: 1.3rem; /* Reducir tamaño de los encabezados */
         padding-top: 130px; /* Más espacio entre el logo y el encabezado */
+    }
+
+    /* Sección Conócenos */
+    .conocenos {
+        padding-top: 140px; /* Espacio adicional para evitar amontonamiento */
     }
 }
 
