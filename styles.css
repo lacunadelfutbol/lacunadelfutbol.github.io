@@ -24,8 +24,38 @@ body {
 /* Modo claro */
 @media (prefers-color-scheme: light) {
     body {
-        background-color: #f4f4f4;
-        color: #333;
+        background-color: #ffffff; /* Fondo blanco en modo claro */
+        color: #b8860b; /* Texto dorado para modo claro */
+    }
+    
+    h1, h2 {
+        color: #b8860b; /* Encabezados en dorado */
+    }
+    
+    .menu {
+        background-color: #f4f4f4; /* Menú con fondo claro */
+    }
+    
+    .menu ul li a {
+        color: #b8860b; /* Enlaces del menú en dorado */
+    }
+    
+    .menu ul li a:hover {
+        background-color: #e0e0e0;
+    }
+    
+    header {
+        background-color: #ffffff; /* Encabezado en blanco */
+        color: #b8860b; /* Texto dorado */
+    }
+    
+    footer {
+        background-color: #ffffff; /* Fondo del footer */
+        color: #b8860b; /* Texto dorado */
+    }
+    
+    footer a {
+        color: #b8860b; /* Enlaces en dorado */
     }
 }
 
@@ -40,7 +70,7 @@ h1, h2 {
 
 @media (prefers-color-scheme: light) {
     h1, h2 {
-        color: #000;
+        color: #b8860b;
     }
 }
 
@@ -76,6 +106,27 @@ h1, h2 {
 
 .menu ul li a:hover {
     background-color: #222;
+}
+
+/* Estilos del menú hamburguesa */
+.menu-toggle {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    cursor: pointer;
+    z-index: 1001; /* Asegura que el botón esté sobre el contenido */
+}
+
+.menu-toggle .dot {
+    width: 30px;
+    height: 5px;
+    background-color: #f5c518;
+    margin: 5px 0;
+    border-radius: 5px;
+}
+
+.menu-toggle .dot:hover {
+    background-color: #cfae17;
 }
 
 /* Contenido principal */
@@ -118,147 +169,37 @@ footer a:hover {
     text-decoration: underline;
 }
 
-/* Canvas (Gráficos) */
-canvas {
-    width: 100%;
-    max-width: 700px;
-    height: 400px;
-    margin: 20px auto;
-    border-radius: 8px;
+/* Accesibilidad */
+button:focus, a:focus, input:focus {
+    outline: 2px solid #f5c518;
+    outline-offset: 2px;
 }
 
-/* Estilos del menú hamburguesa */
-.menu-toggle {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    cursor: pointer;
-    z-index: 1000;
+/* Animaciones */
+.menu ul li a {
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.menu-toggle .dot {
-    width: 30px;
-    height: 5px;
-    background-color: #f5c518;
-    margin: 5px 0;
-    border-radius: 5px;
+.menu ul li a:hover {
+    transform: scale(1.05);
 }
 
-.menu-toggle .dot:hover {
-    background-color: #cfae17;
-}
-
-/* Estilos para dispositivos pequeños */
-@media (max-width: 768px) {
-    .menu {
-        left: -250px;
-    }
-
-    .menu-toggle {
-        display: block;
-    }
-
-    .content {
-        margin-left: 0;
-    }
-
+/* Adaptabilidad a pantallas */
+@media screen and (max-width: 768px) {
     .menu {
         width: 200px;
     }
-
-    header h1 {
-        font-size: 1.3rem; /* Reducir más el tamaño del texto en pantallas pequeñas */
-        margin-bottom: 50px; /* Asegura que haya espacio para el logo */
+    
+    .menu ul li {
+        font-size: 1rem;
     }
-
-    footer p {
-        font-size: 0.875rem;
+    
+    .menu-toggle {
+        top: 15px;
+        left: 15px;
     }
-
-    /* Ajuste para la imagen en dispositivos pequeños */
-    .logo-bottom-right {
-        width: 50px; /* Aumenta la reducción en pantallas pequeñas */
-        max-width: 50px; /* Limita el tamaño máximo de la imagen */
-        bottom: 15px; /* Ajusta la posición para que no quede muy pegada */
-        right: 15px; /* Mueve el logo más hacia la derecha */
-    }
-}
-
-/* Estilos del mapa (ahora 100% responsivo) */
-.map-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    margin-top: 20px;
-}
-
-.map-container iframe {
-    width: 90vw; /* Usa el 90% del ancho de la pantalla */
-    height: 60vh; /* Usa el 60% del alto de la pantalla */
-    max-width: 1200px; /* Máximo tamaño en pantallas grandes */
-    max-height: 600px;
-    border-radius: 15px;
-    border: 3px solid #f5c518;
-}
-
-/* Ajustes específicos para móviles */
-@media (max-width: 600px) {
-    .map-container iframe {
-        width: 95vw; /* Usa más espacio en móviles */
-        height: 50vh; /* Ajusta el alto para no ocupar toda la pantalla */
-        border-radius: 10px;
-    }
-
-    /* Ajusta la imagen aún más en móviles */
-    .logo-bottom-right {
-        width: 40px; /* Haz la imagen aún más pequeña */
-        max-width: 40px;
-        bottom: 30px; /* Baja más la imagen para que no tape el encabezado */
-        right: 20px; /* Mueve más a la derecha */
-    }
-
-    header h1 {
-        font-size: 1.2rem; /* Reduce aún más el tamaño de la fuente del encabezado */
-        margin-bottom: 60px; /* Da espacio suficiente para el logo */
-    }
-}
-
-/* Carrusel */
-.carousel-inner img {
-    width: 100%;
-    height: 500px;
-    object-fit: cover;
-}
-
-/* Ajustes específicos para pantallas pequeñas */
-@media (max-width: 768px) {
-    .carousel-inner img {
-        height: 300px; /* Ajusta la altura del carrusel en pantallas pequeñas */
-    }
-}
-
-/* Estilo para la imagen del logo */
-.logo-bottom-right {
-    width: 60px;
-    height: auto;
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-    display: block;
-    max-width: 60px;
-    z-index: 1100;
-}
-
-/* Ajuste específico para dispositivos con pantallas grandes como el S23 Ultra */
-@media (min-width: 1000px) {
-    header h1 {
-        font-size: 1.7rem; /* Reduce el tamaño del encabezado en pantallas más grandes */
-        margin-bottom: 30px; /* Reduce el margen inferior para más espacio */
-    }
-
-    /* Ajuste para la imagen del logo en pantallas grandes */
-    .logo-bottom-right {
-        right: 25px; /* Desplaza más el logo a la derecha */
+    
+    .content {
+        padding: 15px;
     }
 }
