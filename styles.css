@@ -208,7 +208,7 @@ button:focus, a:focus, input:focus {
     
     h1, h2 {
         padding-top: 100px; /* Mayor espaciado para evitar superposición en pantallas pequeñas */
-        font-size: 1.6rem; /* Reducir tamaño de fuente en pantallas pequeñas */
+        font-size: 1.4rem; /* Reducir tamaño de fuente en pantallas pequeñas */
         word-wrap: break-word; /* Asegura que las palabras se ajusten a la pantalla */
     }
     
@@ -216,5 +216,17 @@ button:focus, a:focus, input:focus {
         width: 50px; /* Reducir tamaño del logo en pantallas pequeñas */
         right: 10px; /* Ajustar la posición del logo en móviles */
         bottom: 10px;
+    }
+
+    /* Ajuste específico para Android (con viewport más pequeño) */
+    @media screen and (max-width: 600px) {
+        .logo-bottom-right {
+            right: 5px; /* Ajuste de posición en Android */
+            bottom: 5px;
+        }
+
+        h1, h2 {
+            font-size: 1.3rem; /* Reducir más el tamaño del texto en pantallas pequeñas de Android */
+        }
     }
 }
