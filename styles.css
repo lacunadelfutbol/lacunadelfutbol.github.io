@@ -70,6 +70,7 @@ h1, h2 {
     padding-top: 80px; /* Ajuste para evitar superposición con el logo */
     word-wrap: break-word; /* Asegura que los títulos largos se ajusten y no se desborden */
     overflow-wrap: break-word; /* Propiedad adicional para asegurar el ajuste del texto */
+    word-break: break-word; /* Agregado para asegurar que el texto largo se rompa correctamente */
 }
 
 /* Menú lateral */
@@ -150,6 +151,7 @@ header {
     padding-top: 60px;
     word-wrap: break-word; /* Asegura que el título en el encabezado no se desborde */
     overflow-wrap: break-word; /* Propiedad adicional para asegurar el ajuste del texto */
+    word-break: break-word; /* Agregado para asegurar que el texto largo se rompa correctamente */
 }
 
 /* Footer */
