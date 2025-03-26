@@ -8,6 +8,7 @@
     display: block;
     max-width: 45px; /* Limita el tamaño máximo de la imagen */
     z-index: 1100; /* Asegura que el logo quede sobre el contenido */
+    border: 2px solid #f5c518; /* Borde dorado modo oscuro */
 }
 
 /* General */
@@ -15,7 +16,7 @@ body {
     font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #121212; /* Fondo oscuro */
+    background-color: #121212; /* Fondo oscuro por defecto */
     color: #f5c518;
     line-height: 1.6;
     transition: background-color 0.3s ease, color 0.3s ease;
@@ -27,35 +28,40 @@ body {
         background-color: #ffffff;
         color: #b8860b;
     }
-    
+
     h1, h2 {
         color: #b8860b;
     }
-    
+
     .menu {
         background-color: #f4f4f4;
     }
-    
+
     .menu ul li a {
         color: #b8860b;
     }
-    
+
     .menu ul li a:hover {
         background-color: #e0e0e0;
     }
-    
+
     header {
         background-color: #ffffff;
         color: #b8860b;
     }
-    
+
     footer {
         background-color: #ffffff;
         color: #b8860b;
     }
-    
+
     footer a {
         color: #b8860b;
+    }
+
+    /* Logo en modo claro */
+    .logo-bottom-right {
+        border: 2px solid #b8860b; /* Borde dorado en modo claro */
     }
 }
 
@@ -68,11 +74,11 @@ h1, h2 {
     z-index: 100;
     text-align: center;
     padding-top: 80px; /* Ajuste para evitar superposición con el logo */
-    word-wrap: break-word; /* Asegura que los títulos largos se ajusten y no se desborden */
-    overflow-wrap: break-word; /* Propiedad adicional para asegurar el ajuste del texto */
-    word-break: break-word; /* Agregado para asegurar que el texto largo se rompa correctamente */
-    max-width: 90%; /* Limita el ancho máximo del título */
-    margin: 0 auto; /* Centra el texto en el contenedor */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    max-width: 90%;
+    margin: 0 auto;
 }
 
 /* Menú lateral */
@@ -151,11 +157,11 @@ header {
     position: relative;
     z-index: 100;
     padding-top: 60px;
-    word-wrap: break-word; /* Asegura que el título en el encabezado no se desborde */
-    overflow-wrap: break-word; /* Propiedad adicional para asegurar el ajuste del texto */
-    word-break: break-word; /* Agregado para asegurar que el texto largo se rompa correctamente */
-    max-width: 90%; /* Limita el ancho máximo del título */
-    margin: 0 auto; /* Centra el texto */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    max-width: 90%;
+    margin: 0 auto;
 }
 
 /* Footer */
@@ -179,42 +185,122 @@ footer a:hover {
 /* Ajuste específico para Android */
 @media screen and (max-width: 600px) {
     .logo-bottom-right {
-        width: 40px; /* Reducir aún más el tamaño del logo en pantallas pequeñas */
+        width: 40px;
         right: 20px;
         bottom: 20px;
     }
-    
+
     h1, h2 {
-        font-size: 1.8rem; /* Ajusta el tamaño de fuente en Android */
+        font-size: 1.8rem;
     }
 }
 
 /* Ajuste del tamaño del mapa */
 .map-container {
-    width: 100%;  /* Asegura que el contenedor ocupe el 100% del ancho */
-    height: 700px; /* Aumenta la altura para que el mapa se vea más grande */
-    margin: 0 auto; /* Asegura que esté centrado */
+    width: 100%;
+    height: 700px;
+    margin: 0 auto;
     display: block;
-    padding: 0; /* Elimina cualquier padding extra */
+    padding: 0;
     position: relative;
 }
 
 .map-iframe {
-    width: 100%;  /* Asegura que el iframe ocupe todo el ancho disponible */
-    height: 100%; /* Hace que el iframe ocupe toda la altura del contenedor */
-    border: none; /* Elimina los bordes del iframe */
+    width: 100%;
+    height: 100%;
+    border: none;
 }
 
 /* Ajustes para pantallas de tamaño mediano (tablets) */
 @media screen and (max-width: 768px) {
     .map-container {
-        height: 500px; /* Ajusta la altura en tablets */
+        height: 500px;
     }
 }
 
 /* Ajustes para pantallas pequeñas (móviles) */
 @media screen and (max-width: 480px) {
     .map-container {
-        height: 400px; /* Ajusta la altura en móviles */
+        height: 400px;
+    }
+}
+
+/* Sección de patrocinadores */
+.patrocinadores {
+    text-align: center;
+    padding: 40px 20px;
+    background-color: #1a1a1a;
+    border-radius: 15px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* Contenedor de patrocinadores */
+.patrocinador-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+/* Tarjetas de patrocinadores */
+.patrocinador {
+    background-color: #000;
+    border: 1px solid #f5c518;
+    border-radius: 10px;
+    padding: 15px;
+    width: 300px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(245, 197, 24, 0.3);
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Animación al pasar el cursor */
+.patrocinador:hover {
+    transform: scale(1.05);
+}
+
+/* Estilo de los logos */
+.patrocinador-logo {
+    width: 100px;
+    height: auto;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    border: 2px solid #f5c518;
+}
+
+/* Texto dentro de patrocinadores */
+.patrocinador h3 {
+    font-size: 1.3rem;
+    color: #f5c518;
+    margin-top: 10px;
+}
+
+.patrocinador p {
+    font-size: 1rem;
+    color: #ccc;
+}
+
+/* Ajustes para pantallas medianas y móviles */
+@media (max-width: 768px) {
+    .patrocinador {
+        width: 100%;
+        max-width: 300px;
+    }
+}
+
+@media (max-width: 480px) {
+    .patrocinador-logo {
+        width: 80px;
+    }
+
+    .patrocinador h3 {
+        font-size: 1.1rem;
+    }
+
+    .patrocinador p {
+        font-size: 0.9rem;
     }
 }
