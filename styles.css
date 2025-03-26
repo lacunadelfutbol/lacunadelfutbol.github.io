@@ -1,14 +1,14 @@
 /* Estilos para la imagen del logo */
 .logo-bottom-right {
-    width: 45px; /* Tamaño más pequeño del logo */
+    width: 45px;
     height: auto;
     position: absolute;
-    bottom: 20px; /* Asegura que no quede pegada al borde inferior */
-    right: 30px; /* Ajusta la posición de la imagen */
+    bottom: 20px;
+    right: 30px;
     display: block;
-    max-width: 45px; /* Limita el tamaño máximo de la imagen */
-    z-index: 1100; /* Asegura que el logo quede sobre el contenido */
-    border: 2px solid #f5c518; /* Borde dorado modo oscuro */
+    max-width: 45px;
+    z-index: 1100;
+    border: 2px solid #f5c518;
 }
 
 /* General */
@@ -16,7 +16,7 @@ body {
     font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #121212; /* Fondo oscuro por defecto */
+    background-color: #121212;
     color: #f5c518;
     line-height: 1.6;
     transition: background-color 0.3s ease, color 0.3s ease;
@@ -59,9 +59,8 @@ body {
         color: #b8860b;
     }
 
-    /* Logo en modo claro */
     .logo-bottom-right {
-        border: 2px solid #b8860b; /* Borde dorado en modo claro */
+        border: 2px solid #b8860b;
     }
 }
 
@@ -71,9 +70,8 @@ h1, h2 {
     font-weight: 600;
     color: #f5c518;
     margin-bottom: 15px;
-    z-index: 100;
     text-align: center;
-    padding-top: 80px; /* Ajuste para evitar superposición con el logo */
+    padding-top: 80px;
     word-wrap: break-word;
     overflow-wrap: break-word;
     word-break: break-word;
@@ -155,7 +153,6 @@ header {
     font-weight: 700;
     letter-spacing: 2px;
     position: relative;
-    z-index: 100;
     padding-top: 60px;
     word-wrap: break-word;
     overflow-wrap: break-word;
@@ -301,6 +298,114 @@ footer a:hover {
     }
 
     .patrocinador p {
+        font-size: 0.9rem;
+    }
+}
+
+/* -------------------------- */
+/* Estilos para la galería */
+/* -------------------------- */
+.carousel {
+    max-width: 900px;
+    margin: 40px auto;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* Imágenes del carrusel */
+.carousel-inner img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+/* Ajustes para botones del carrusel */
+.carousel-control-prev,
+.carousel-control-next {
+    width: 8%;
+}
+
+/* Íconos de control del carrusel */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+}
+
+/* Indicadores del carrusel */
+.carousel-indicators button {
+    background-color: #f5c518;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin: 5px;
+}
+
+/* Ajuste para el contenido */
+.content {
+    padding: 20px;
+    margin-top: 20px;
+}
+
+/* Ajuste para el footer */
+footer {
+    background-color: #000;
+    color: #f5c518;
+    text-align: center;
+    padding: 15px 10px;
+    font-size: 1rem;
+    margin-top: 20px;
+}
+
+/* Asegura que el footer no se amontone */
+footer p {
+    margin: 5px 0;
+}
+
+/* Ajustes para pantallas medianas (tablets) */
+@media screen and (max-width: 768px) {
+    .carousel {
+        max-width: 100%;
+        margin: 20px auto;
+    }
+
+    .carousel-inner img {
+        height: 300px;
+    }
+
+    .logo-bottom-right {
+        width: 40px;
+        right: 20px;
+        bottom: 20px;
+    }
+
+    footer {
+        padding: 12px 8px;
+        font-size: 0.95rem;
+    }
+}
+
+/* Ajustes para pantallas pequeñas (móviles) */
+@media screen and (max-width: 480px) {
+    .carousel {
+        max-width: 100%;
+        margin: 10px auto;
+    }
+
+    .carousel-inner img {
+        height: 250px;
+    }
+
+    .logo-bottom-right {
+        width: 35px;
+        right: 15px;
+        bottom: 15px;
+    }
+
+    footer {
+        padding: 10px 5px;
         font-size: 0.9rem;
     }
 }
