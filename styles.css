@@ -527,4 +527,67 @@ h1:hover {
         font-size: 2rem;
     }
 }
+.main-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 20px;
+    background: linear-gradient(90deg, #000000, #1a1a1a);
+    color: #f5c518;
+    border-bottom: 4px solid #f5c518;
+    box-shadow: 0 4px 10px rgba(245, 197, 24, 0.3);
+    transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.main-header h1 {
+    flex: 1 1 60%;
+    font-size: clamp(1.8rem, 5vw, 3rem);
+    margin: 0;
+    padding: 10px;
+    text-shadow: 2px 2px 8px rgba(245, 197, 24, 0.5);
+    transition: text-shadow 0.3s ease-in-out;
+}
+
+.logo-right {
+    flex: 0 0 auto;
+    max-width: 120px;
+    height: auto;
+    margin-left: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(245, 197, 24, 0.4);
+}
+
+/* Responsivo: en pantallas pequeñas, poner logo debajo del título */
+@media (max-width: 600px) {
+    .main-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .logo-right {
+        margin: 15px 0 0 0;
+        max-width: 100px;
+    }
+}
+
+/* Modo claro */
+@media (prefers-color-scheme: light) {
+    .main-header {
+        background: linear-gradient(90deg, #ffffff, #f4f4f4);
+        color: #b8860b;
+        border-bottom: 4px solid #b8860b;
+        box-shadow: 0 4px 10px rgba(184, 134, 11, 0.3);
+    }
+
+    .main-header h1 {
+        text-shadow: 2px 2px 8px rgba(184, 134, 11, 0.5);
+    }
+
+    .logo-right {
+        box-shadow: 0 0 10px rgba(184, 134, 11, 0.4);
+    }
+}
 
