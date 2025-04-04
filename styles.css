@@ -590,4 +590,28 @@ h1:hover {
         box-shadow: 0 0 10px rgba(184, 134, 11, 0.4);
     }
 }
+.logo-right {
+    flex: 0 0 auto;
+    max-width: 120px; /* Tamaño máximo en pantallas grandes */
+    height: auto;
+    margin-left: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(245, 197, 24, 0.4);
+}
+
+/* 📱 Ajuste específico para Android */
+@media screen and (max-width: 768px) and (-webkit-device-pixel-ratio: 2),
+       screen and (max-width: 768px) and (-webkit-device-pixel-ratio: 3) {
+    .logo-right {
+        max-width: 90px; /* Reduce el tamaño solo en Android */
+    }
+}
+
+/* 📱 Móviles más pequeños */
+@media (max-width: 480px) {
+    .logo-right {
+        max-width: 80px;
+        margin: 10px 0 0 0;
+    }
+}
 
