@@ -1,32 +1,50 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Asistencias</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 30px;
-        }
-        th, td {
-            border: 1px solid #ccc;
-            padding: 8px;
-            text-align: center;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        section {
-            margin: 20px;
-        }
-        h2 {
-            margin-bottom: 10px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Asistencias</title>
+<link rel="stylesheet" href="styles.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 30px;
+        min-width: 700px; /* fuerza mínimo ancho para móviles */
+    }
+    th, td {
+        border: 1px solid #ccc;
+        padding: 8px;
+        text-align: center;
+        font-size: 14px;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+    section {
+        margin: 20px;
+    }
+    h2 {
+        margin-bottom: 10px;
+    }
+    /* Contenedor para tabla con scroll horizontal */
+    .table-responsive {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch; /* desplazamiento suave iOS */
+        box-shadow: inset 0 -1px 3px rgba(0,0,0,0.1);
+    }
+    footer {
+        text-align: center;
+        margin: 20px 0;
+        font-size: 12px;
+    }
+</style>
 </head>
 <body>
     <!-- Menú Lateral -->
@@ -58,29 +76,31 @@
     <!-- Sección de asistencias -->
     <section>
         <h2>Asistencias por Niño (ordenadas por promedio)</h2>
-        <table id="tabla-asistencias">
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Ene</th>
-                    <th>Feb</th>
-                    <th>Mar</th>
-                    <th>Abr</th>
-                    <th>May</th>
-                    <th>Jun</th>
-                    <th>Jul</th>
-                    <th>Ago</th>
-                    <th>Sep</th>
-                    <th>Oct</th>
-                    <th>Nov</th>
-                    <th>Dic</th>
-                    <th>Promedio</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Se llenará con JavaScript -->
-            </tbody>
-        </table>
+        <div class="table-responsive">
+            <table id="tabla-asistencias">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Ene</th>
+                        <th>Feb</th>
+                        <th>Mar</th>
+                        <th>Abr</th>
+                        <th>May</th>
+                        <th>Jun</th>
+                        <th>Jul</th>
+                        <th>Ago</th>
+                        <th>Sep</th>
+                        <th>Oct</th>
+                        <th>Nov</th>
+                        <th>Dic</th>
+                        <th>Promedio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Se llenará con JavaScript -->
+                </tbody>
+            </table>
+        </div>
 
         <h2>Gráfico de Asistencias Totales por Mes</h2>
         <canvas id="asistenciasChart"></canvas>
@@ -169,6 +189,5 @@
             }
         });
     </script>
-    <script src="script8.js"></script> <!-- Enlace al archivo JavaScript específico -->
 </body>
 </html>
