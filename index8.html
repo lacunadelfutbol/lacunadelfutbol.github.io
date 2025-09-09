@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asistencias</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        section {
+            margin: 20px;
+        }
+        h2 {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Menú Lateral -->
+    <nav id="menu" class="menu">
+        <ul>
+            <li><a href="index.html">Recomendaciones</a></li>
+            <li><a href="index2.html">Entrenamientos Semanales</a></li>
+            <li><a href="index3.html">Conócenos</a></li>
+            <li><a href="index4.html">Conoce nuestros Jugadores</a></li>
+            <li><a href="index5.html">Contáctanos</a></li>
+            <li><a href="index6.html">Galería</a></li>
+            <li><a href="index7.html">Patrocinadores</a></li>
+            <li><a href="index8.html">Asistencias</a></li>
+        </ul>
+    </nav>
+
+    <!-- Ícono de los 3 puntos -->
+    <div id="menu-toggle" class="menu-toggle">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+
+    <header class="main-header">
+        <h1>Asistencias</h1>
+        <img src="lacuna.jpg" alt="Logo La Cuna del Fútbol" class="logo-right">
+    </header>
+
+    <!-- Sección de asistencias -->
+    <section>
+        <h2>Asistencias por Niño (ordenadas por promedio)</h2>
+        <table id="tabla-asistencias">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Ene</th>
+                    <th>Feb</th>
+                    <th>Mar</th>
+                    <th>Abr</th>
+                    <th>May</th>
+                    <th>Jun</th>
+                    <th>Jul</th>
+                    <th>Ago</th>
+                    <th>Sep</th>
+                    <th>Oct</th>
+                    <th>Nov</th>
+                    <th>Dic</th>
+                    <th>Promedio</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Se llenará con JavaScript -->
+            </tbody>
+        </table>
+
+        <h2>Gráfico de Asistencias Totales por Mes</h2>
+        <canvas id="asistenciasChart"></canvas>
+    </section>
+
+    <footer>
+        <p>© 2023 Entrenamiento Deportivo para Niños. Todos los derechos reservados.</p>
+        <p>La información está avalada por la <a href="https://www.fifa.com/" target="_blank">FIFA</a>.</p>
+    </footer>
+
+    <script>
+        // Lista de niños con asistencias iniciales
+        const niños = [
+            { nombre: "YEIK SOLIS", asistencias: [0,0,0,0,0,0,0,0,1,0,0,0] },
+            { nombre: "ALEXANDER SOLIS", asistencias: [0,0,0,0,0,0,0,0,1,0,0,0] },
+            { nombre: "MATEO RODRIGUEZ", asistencias: [0,0,0,0,0,0,0,0,1,0,0,0] },
+            { nombre: "ALAN MELO", asistencias: [0,0,0,0,0,0,0,0,1,0,0,0] },
+            { nombre: "MICHEL MORALES", asistencias: [0,0,0,0,0,0,0,0,1,0,0,0] },
+            { nombre: "ARTURO TREJO", asistencias: [0,0,0,0,0,0,0,0,1,0,0,0] },
+            { nombre: "KARIM VALENCIA", asistencias: [0,0,0,0,0,0,0,0,1,0,0,0] },
+            { nombre: "JOSMAR VALENCIA", asistencias: [0,0,0,0,0,0,0,0,1,0,0,0] },
+            { nombre: "AXEL PELCASTRE", asistencias: [0,0,0,0,0,0,0,0,1,0,0,0] },
+            { nombre: "SANTIAGO PECASTRE", asistencias: [0,0,0,0,0,0,0,0,1,0,0,0] },
+            { nombre: "DYLAN RIVERA", asistencias: [0,0,0,0,0,0,0,0,1,0,0,0] },
+            { nombre: "DIEGO RIVERA", asistencias: [0,0,0,0,0,0,0,0,1,0,0,0] },
+            { nombre: "LEO", asistencias: [0,0,0,0,0,0,0,0,1,0,0,0] },
+            { nombre: "FERNANDO ANGELES", asistencias: [0,0,0,0,0,0,0,0,1,0,0,0] },
+            { nombre: "GABRIEL HERNANDEZ", asistencias: [0,0,0,0,0,0,0,0,1,0,0,0] },
+            { nombre: "BARUSH AMADOR", asistencias: [0,0,0,0,0,0,0,0,1,0,0,0] },
+            { nombre: "ALAIN AMADOR", asistencias: [0,0,0,0,0,0,0,0,1,0,0,0] },
+            { nombre: "ALEXIS HERNANDEZ", asistencias: [0,0,0,0,0,0,0,0,1,0,0,0] },
+            { nombre: "FRANKI AMADOR", asistencias: [0,0,0,0,0,0,0,0,0,0,0,0] },
+            { nombre: "CRISTOPHER ZARCO", asistencias: [0,0,0,0,0,0,0,0,0,0,0,0] },
+            { nombre: "ANGEL PEREZ", asistencias: [0,0,0,0,0,0,0,0,0,0,0,0] },
+            { nombre: "IKER RODRIGUEZ", asistencias: [0,0,0,0,0,0,0,0,0,0,0,0] },
+            { nombre: "EDWIN LARES", asistencias: [0,0,0,0,0,0,0,0,0,0,0,0] },
+            { nombre: "MATI HERNANDEZ", asistencias: [0,0,0,0,0,0,0,0,0,0,0,0] },
+            { nombre: "SANTI HERNANDEZ", asistencias: [0,0,0,0,0,0,0,0,0,0,0,0] },
+            { nombre: "GERARDO GONZALEZ", asistencias: [0,0,0,0,0,0,0,0,0,0,0,0] },
+            { nombre: "IAN CASTILLO", asistencias: [0,0,0,0,0,0,0,0,0,0,0,0] },
+            { nombre: "RICARDO CASTILLO", asistencias: [0,0,0,0,0,0,0,0,0,0,0,0] },
+            { nombre: "ADRIAN SIERRA", asistencias: [0,0,0,0,0,0,0,0,0,0,0,0] },
+            { nombre: "YASID MARTINEZ", asistencias: [0,0,0,0,0,0,0,0,0,0,0,0] }
+        ];
+
+        // Calcular promedio de cada niño
+        niños.forEach(n => n.promedio = n.asistencias.reduce((s,a) => s+a,0) / n.asistencias.length);
+
+        // Ordenar de mayor a menor promedio
+        niños.sort((a,b) => b.promedio - a.promedio);
+
+        // Llenar la tabla ordenada
+        const tbody = document.querySelector("#tabla-asistencias tbody");
+        niños.forEach(nino => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+                <td>${nino.nombre}</td>
+                ${nino.asistencias.map(a => `<td>${a}</td>`).join('')}
+                <td>${nino.promedio.toFixed(2)}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+
+        // Gráfico de asistencias totales por mes
+        const meses = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
+        const totalesPorMes = meses.map((_, i) => niños.reduce((sum, n) => sum + n.asistencias[i], 0));
+
+        const ctx = document.getElementById('asistenciasChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: meses,
+                datasets: [{
+                    label: 'Asistencias Totales',
+                    data: totalesPorMes,
+                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+    </script>
+    <script src="script8.js"></script> <!-- Enlace al archivo JavaScript específico -->
+</body>
+</html>
