@@ -643,35 +643,34 @@ table {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-/* Contenedor scrollable */
 .tabla-container {
-    display: block;           /* bloque para scroll horizontal */
     width: 100%;
-    overflow-x: auto;         /* permite desplazamiento horizontal */
-    -webkit-overflow-scrolling: touch; /* suaviza scroll en iOS/Android */
+    overflow-x: auto;             /* Scroll horizontal si es necesario */
+    -webkit-overflow-scrolling: touch; /* scroll suave iOS/Android */
 }
 
-/* Estilo de la tabla */
 #tabla-asistencias {
-    width: 100%;
+    width: max-content;            /* ancho según contenido */
     border-collapse: collapse;
-    min-width: 700px;        /* para que no se encoja demasiado en Android */
 }
 
-/* Celdas */
 #tabla-asistencias th,
 #tabla-asistencias td {
     padding: 8px 12px;
-    text-align: center;
     border: 1px solid #ccc;
-    word-wrap: break-word;    /* fuerza saltos de línea */
-    white-space: normal;      /* importante para Android */
+    text-align: center;
+    white-space: nowrap;           /* evita que se corte horizontalmente */
 }
 
-/* Primera columna: nombres */
 #tabla-asistencias th:first-child,
 #tabla-asistencias td:first-child {
     text-align: left;
-    max-width: 200px;       /* ancho máximo de los nombres */
-    word-break: break-word;
+    min-width: 180px;             /* columna de nombres más ancha */
+}
+#tabla-asistencias th {
+    background-color: #f5c518;
+    color: #000;
+    position: sticky;
+    top: 0;                        /* fija la fila de encabezado al hacer scroll */
+    z-index: 2;                    /* asegura que esté por encima de las celdas */
 }
