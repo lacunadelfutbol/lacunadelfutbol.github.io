@@ -643,22 +643,35 @@ table {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-/* Solo Android */
-@media screen and (max-width: 768px) and (-webkit-device-pixel-ratio: 2), 
-       screen and (max-width: 768px) and (-webkit-device-pixel-ratio: 3) {
+/* Contenedor scrollable */
+.tabla-container {
+    display: block;           /* bloque para scroll horizontal */
+    width: 100%;
+    overflow-x: auto;         /* permite desplazamiento horizontal */
+    -webkit-overflow-scrolling: touch; /* suaviza scroll en iOS/Android */
+}
 
-    /* Primera columna de la tabla (nombres) */
-    #tabla-asistencias th:first-child,
-    #tabla-asistencias td:first-child {
-        min-width: 150px;
-        white-space: normal;
-        word-break: break-word;
-        text-align: left;
-    }
+/* Estilo de la tabla */
+#tabla-asistencias {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 700px;        /* para que no se encoja demasiado en Android */
+}
 
-    /* Tabla scrollable */
-    .tabla-container {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch; /* suaviza scroll en Android/iOS */
-    }
+/* Celdas */
+#tabla-asistencias th,
+#tabla-asistencias td {
+    padding: 8px 12px;
+    text-align: center;
+    border: 1px solid #ccc;
+    word-wrap: break-word;    /* fuerza saltos de línea */
+    white-space: normal;      /* importante para Android */
+}
+
+/* Primera columna: nombres */
+#tabla-asistencias th:first-child,
+#tabla-asistencias td:first-child {
+    text-align: left;
+    max-width: 200px;       /* ancho máximo de los nombres */
+    word-break: break-word;
 }
