@@ -627,5 +627,49 @@ h1:hover {
         padding: 6px;
     }
 }
+.tabla-container {
+    display: flex;
+    justify-content: center;
+    margin: 20px auto;
+    width: 100%;
+    overflow-x: auto; /* Scroll horizontal SOLO si es necesario */
+}
+
+table {
+    border-collapse: collapse;
+    width: 90%;
+    max-width: 900px;
+    min-width: 600px; /* Para que no se encoja demasiado */
+    text-align: center;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    font-size: 14px;
+}
+
+th {
+    background-color: #004aad;
+    color: white;
+    text-transform: uppercase;
+}
+
+/* 📱 En pantallas pequeñas (móviles) */
+@media (max-width: 768px) {
+    table {
+        width: 100%;      /* Ocupar todo el ancho disponible */
+        min-width: unset; /* Quitar el límite mínimo */
+        font-size: 12px;  /* Texto un poco más pequeño */
+    }
+
+    th, td {
+        padding: 8px;
+    }
+}
 
 
