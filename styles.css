@@ -633,43 +633,13 @@ h1:hover {
     margin: 20px auto;
     width: 100%;
     overflow-x: auto; /* Scroll horizontal SOLO si es necesario */
+    -webkit-overflow-scrolling: touch; /* scroll suave en iOS */
 }
-
 table {
     border-collapse: collapse;
-    width: 90%;
-    max-width: 900px;
-    min-width: 600px; /* Para que no se encoja demasiado */
-    text-align: center;
-    background: #fff;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 1200px; /* Ancho máximo para pantallas grandes */
+    min-width: 600px; /* Ancho mínimo para evitar que se vea muy comprimido */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
-
-th, td {
-    border: 1px solid #ddd;
-    padding: 10px;
-    font-size: 14px;
-}
-
-th {
-    background-color: #004aad;
-    color: white;
-    text-transform: uppercase;
-}
-
-/* 📱 En pantallas pequeñas (móviles) */
-@media (max-width: 768px) {
-    table {
-        width: 100%;      /* Ocupar todo el ancho disponible */
-        min-width: unset; /* Quitar el límite mínimo */
-        font-size: 12px;  /* Texto un poco más pequeño */
-    }
-
-    th, td {
-        padding: 8px;
-    }
-}
-
 
