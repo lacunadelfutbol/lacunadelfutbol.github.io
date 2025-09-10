@@ -1,30 +1,62 @@
-    // Función para alternar el estado del menú (mostrar u ocultar)
-    document.getElementById("menu-toggle").addEventListener("click", function() {
-        var menu = document.getElementById("menu");
-        if (menu.style.left === "-250px") {
-            menu.style.left = "0";  // Mostrar el menú
-        } else {
-            menu.style.left = "-250px";  // Ocultar el menú
-        }
-    });
-    const themeToggle = document.getElementById("theme-toggle");
-const body = document.body;
-
-// Verifica si hay una preferencia guardada
-if (localStorage.getItem("theme") === "dark") {
-    body.classList.add("dark-mode");
-    themeToggle.textContent = "☀️ Modo Claro";
-}
-
-// Función para cambiar de tema
-themeToggle.addEventListener("click", () => {
-    body.classList.toggle("dark-mode");
-
-    if (body.classList.contains("dark-mode")) {
-        localStorage.setItem("theme", "dark");
-        themeToggle.textContent = "☀️ Modo Claro";
+// Función para alternar el estado del menú (mostrar u ocultar)
+document.getElementById("menu-toggle").addEventListener("click", function() {
+    var menu = document.getElementById("menu");
+    if (menu.style.left === "-250px") {
+        menu.style.left = "0";  // Mostrar el menú
     } else {
-        localStorage.setItem("theme", "light");
-        themeToggle.textContent = "🌙 Modo Noche";
+        menu.style.left = "-250px";  // Ocultar el menú
     }
+});
+
+// ----- Datos de ejemplo -----
+const jugadores = [
+    { nombre: "YEIK SOLIS", asistencias: [1,0,0,0,0,0,0,0,0,0,0,0] },
+    { nombre: "ALEXANDER SOLIS", asistencias: [1,0,0,0,0,0,0,0,0,0,0,0] },
+    { nombre: "MATEO RODRIGUEZ", asistencias: [1,0,0,0,0,0,0,0,0,0,0,0] },
+    { nombre: "ALAN MELO", asistencias: [1,0,0,0,0,0,0,0,0,0,0,0] },
+    { nombre: "MICHEL MORALES", asistencias: [1,0,0,0,0,0,0,0,0,0,0,0] },
+    { nombre: "ARTURO TREJO", asistencias: [1,0,0,0,0,0,0,0,0,0,0,0] },
+    { nombre: "KARIM VALENCIA", asistencias: [1,0,0,0,0,0,0,0,0,0,0,0] },
+    { nombre: "JOSMAR VALENCIA", asistencias: [1,0,0,0,0,0,0,0,0,0,0,0] },
+    { nombre: "AXEL PELCASTRE", asistencias: [1,0,0,0,0,0,0,0,0,0,0,0] },
+    { nombre: "SANTIAGO PECASTRE", asistencias: [1,0,0,0,0,0,0,0,0,0,0,0] },
+    { nombre: "DYLAN RIVERA", asistencias: [1,0,0,0,0,0,0,0,0,0,0,0] },
+    { nombre: "DIEGO RIVERA", asistencias: [1,0,0,0,0,0,0,0,0,0,0,0] },
+    { nombre: "LEO", asistencias: [1,0,0,0,0,0,0,0,0,0,0,0] },
+    { nombre: "FERNANDO ANGELES", asistencias: [1,0,0,0,0,0,0,0,0,0,0,0] },
+    { nombre: "GABRIEL HERNANDEZ", asistencias: [1,0,0,0,0,0,0,0,0,0,0,0] },
+    { nombre: "BARUSH AMADOR", asistencias: [1,0,0,0,0,0,0,0,0,0,0,0] },
+    { nombre: "ALAIN AMADOR", asistencias: [1,0,0,0,0,0,0,0,0,0,0,0] },
+    { nombre: "ALEXIS HERNANDEZ", asistencias: [1,0,0,0,0,0,0,0,0,0,0,0] },
+    // Los que no asistieron
+    { nombre: "FRANKI AMADOR", asistencias: [0,0,0,0,0,0,0,0,0,0,0,0] },
+    { nombre: "CRISTOPHER ZARCO", asistencias: [0,0,0,0,0,0,0,0,0,0,0,0] },
+    { nombre: "ANGEL PEREZ", asistencias: [0,0,0,0,0,0,0,0,0,0,0,0] },
+    { nombre: "IKER RODRIGUEZ", asistencias: [0,0,0,0,0,0,0,0,0,0,0,0] },
+    { nombre: "EDWIN LARES", asistencias: [0,0,0,0,0,0,0,0,0,0,0,0] },
+    { nombre: "MATI HERNANDEZ", asistencias: [0,0,0,0,0,0,0,0,0,0,0,0] },
+    { nombre: "SANTI HERNANDEZ", asistencias: [0,0,0,0,0,0,0,0,0,0,0,0] },
+    { nombre: "GERARDO GONZALEZ", asistencias: [0,0,0,0,0,0,0,0,0,0,0,0] },
+    { nombre: "IAN CASTILLO", asistencias: [0,0,0,0,0,0,0,0,0,0,0,0] },
+    { nombre: "RICARDO CASTILLO", asistencias: [0,0,0,0,0,0,0,0,0,0,0,0] },
+    { nombre: "ADRIAN SIERRA", asistencias: [0,0,0,0,0,0,0,0,0,0,0,0] },
+    { nombre: "YASID MARTINEZ", asistencias: [0,0,0,0,0,0,0,0,0,0,0,0] }
+];
+
+// ----- Llenar tabla -----
+const tbody = document.querySelector("#tabla-asistencias tbody");
+jugadores.forEach(nino => {
+    const totalMeses = nino.asistencias.length;
+    const totalAsistencias = nino.asistencias.reduce((a,b) => a+b, 0);
+    const porcentaje = (totalAsistencias / totalMeses) * 100;
+
+    let color = porcentaje >= 80 ? "green" : porcentaje >= 50 ? "orange" : "red";
+
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+        <td>${nino.nombre}</td>
+        ${nino.asistencias.map(a => `<td>${a}</td>`).join('')}
+        <td style="color:${color}; font-weight:bold;">${porcentaje.toFixed(0)}%</td>
+    `;
+    tbody.appendChild(tr);
 });
