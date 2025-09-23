@@ -12,20 +12,56 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            padding: 10px;
         }
+
+        .tabla-container {
+            width: 100%;
+            overflow-x: auto; /* scroll horizontal en móviles */
+        }
+
         table {
             border-collapse: collapse;
             margin: 20px auto;
-            width: auto; /* ajusta al contenido */
-            max-width: 95%; /* para móviles */
+            width: 100%;
+            min-width: 700px; /* evita que se amontone demasiado */
         }
+
         th, td {
             border: 1px solid #ccc;
             padding: 8px 12px;
             text-align: center;
+            font-size: 14px;
+            word-wrap: break-word;       /* Safari/IE */
+            overflow-wrap: break-word;   /* Chrome/Firefox */
+            white-space: normal;         /* permite salto de línea */
         }
+
         th {
             background-color: #f2f2f2;
+        }
+
+        /* Ajustes responsivos */
+        @media (max-width: 768px) {
+            th, td {
+                font-size: 12px;
+                padding: 6px 8px;
+            }
+
+            th:first-child, td:first-child {
+                min-width: 120px; /* ancho mínimo para nombres */
+            }
+        }
+
+        @media (max-width: 480px) {
+            th, td {
+                font-size: 11px;
+                padding: 5px 6px;
+            }
+
+            th:first-child, td:first-child {
+                min-width: 100px;
+            }
         }
     </style>
 </head>
@@ -56,36 +92,34 @@
         <img src="lacuna.jpg" alt="Logo La Cuna del Fútbol" class="logo-right">
     </header>
 
-<section>
-    <h2>Registro de Asistencias</h2>
-    <div class="tabla-container">
-        <table id="tabla-asistencias">
-            <thead>
-                <tr>
-                    <th style="min-width: 180px;">Nombre</th>
-                    <th>Sept</th>
-                    <th>Oct</th>
-                    <th>Nov</th>
-                    <th>Dic</th>
-                    <th>Ene</th>
-                    <th>Feb</th>
-                    <th>Mar</th>
-                    <th>Abr</th>
-                    <th>May</th>
-                    <th>Jun</th>
-                    <th>Jul</th>
-                    <th>Ago</th>
-                    <th>Porcentaje</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Se llena con JavaScript -->
-            </tbody>
-        </table>
-    </div>
-</section>
-
-
+    <section>
+        <h2>Registro de Asistencias</h2>
+        <div class="tabla-container">
+            <table id="tabla-asistencias">
+                <thead>
+                    <tr>
+                        <th style="min-width: 180px;">Nombre</th>
+                        <th>Sept</th>
+                        <th>Oct</th>
+                        <th>Nov</th>
+                        <th>Dic</th>
+                        <th>Ene</th>
+                        <th>Feb</th>
+                        <th>Mar</th>
+                        <th>Abr</th>
+                        <th>May</th>
+                        <th>Jun</th>
+                        <th>Jul</th>
+                        <th>Ago</th>
+                        <th>Porcentaje</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Se llena con JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </section>
 
     <footer>
         <p>© 2023 Entrenamiento Deportivo para Niños. Todos los derechos reservados.</p>
