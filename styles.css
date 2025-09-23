@@ -590,124 +590,41 @@ h1:hover {
         box-shadow: 0 0 10px rgba(184, 134, 11, 0.4);
     }
 }
-.logo-right {
-    flex: 0 0 auto;
-    max-width: 120px; /* Tamaño máximo en pantallas grandes */
-    height: auto;
-    margin-left: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(245, 197, 24, 0.4);
-}
-
-/* 📱 Ajuste específico para Android */
-@media screen and (max-width: 768px) and (-webkit-device-pixel-ratio: 2),
-       screen and (max-width: 768px) and (-webkit-device-pixel-ratio: 3) {
-    .logo-right {
-        max-width: 90px; /* Reduce el tamaño solo en Android */
-    }
-}
-
-/* 📱 Móviles más pequeños */
-@media (max-width: 480px) {
-    .logo-right {
-        max-width: 80px;
-        margin: 10px 0 0 0;
-    }
-}
-.table-responsive {
-    overflow-x: auto; /* permite desplazamiento horizontal */
-    -webkit-overflow-scrolling: touch; /* hace que el scroll sea suave en iOS */
-    box-shadow: inset 0 -1px 3px rgba(0,0,0,0.1); /* opcional: da un efecto de borde */
-}
-
-/* Ajuste de tamaño de fuente para móviles */
-@media (max-width: 600px) {
-    table th, table td {
-        font-size: 12px; /* columnas más pequeñas para que quepan mejor */
-        padding: 6px;
-    }
-}
-.tabla-container {
-    display: flex;
-    justify-content: center;
-    margin: 20px auto;
-    width: 100%;
-    overflow-x: auto; /* Scroll horizontal SOLO si es necesario */
-    -webkit-overflow-scrolling: touch; /* scroll suave en iOS */
-}
-table {
-    border-collapse: collapse;
-    width: 100%;
-    max-width: 1200px; /* Ancho máximo para pantallas grandes */
-    min-width: 600px; /* Ancho mínimo para evitar que se vea muy comprimido */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-}
-
 .tabla-container {
     width: 100%;
-    overflow-x: auto;             /* Scroll horizontal si es necesario */
-    -webkit-overflow-scrolling: touch; /* scroll suave iOS/Android */
+    overflow-x: auto;               /* Scroll horizontal */
+    -webkit-overflow-scrolling: touch;
+    padding-left: 5px;              /* espacio para primera columna */
+    box-sizing: border-box;
 }
 
 #tabla-asistencias {
-    width: max-content;            /* ancho según contenido */
     border-collapse: collapse;
+    width: max-content;             /* ancho según contenido */
+    min-width: 100%;                /* se adapta al contenedor */
 }
+
 
 #tabla-asistencias th,
 #tabla-asistencias td {
-    padding: 8px 12px;
     border: 1px solid #ccc;
-    text-align: center;
-    white-space: nowrap;           /* evita que se corte horizontalmente */
-}
-
-#tabla-asistencias th:first-child,
-#tabla-asistencias td:first-child {
-    text-align: left;
-    min-width: 180px;             /* columna de nombres más ancha */
-}
-#tabla-asistencias th {
-    background-color: #f5c518;
-    color: #000;
-    position: sticky;
-    top: 0;                        /* fija la fila de encabezado al hacer scroll */
-    z-index: 2;                    /* asegura que esté por encima de las celdas */
-}
-.tabla-container {
-    width: 100%;
-    overflow-x: auto;              /* Scroll horizontal si es necesario */
-    -webkit-overflow-scrolling: touch; /* Scroll suave en iOS/Android */
-}
-
-#tabla-asistencias {
-    width: 100%;
-    border-collapse: collapse;
-    table-layout: auto;            /* Deja que las columnas se ajusten */
-}
-
-#tabla-asistencias th,
-#tabla-asistencias td {
-    padding: 8px 12px;
-    border: 1px solid #ccc;
+    padding: 6px 8px;
     text-align: center;
     font-size: 14px;
-    white-space: normal;           /* ✅ permite salto de línea */
-    word-break: break-word;        /* ✅ rompe palabras largas si es necesario */
-    overflow-wrap: break-word;
+    white-space: nowrap;            /* 🔑 columnas en una sola línea */
 }
 
 #tabla-asistencias th:first-child,
 #tabla-asistencias td:first-child {
     text-align: left;
-    min-width: 140px;              /* ✅ ancho flexible para nombres */
+    min-width: 200px;               /* más espacio para nombres */
 }
 
 #tabla-asistencias th {
     background-color: #f5c518;
     color: #000;
     position: sticky;
-    top: 0;                        /* fija la fila de encabezado al hacer scroll */
+    top: 0;
     z-index: 2;
 }
 
@@ -716,12 +633,7 @@ table {
     #tabla-asistencias th,
     #tabla-asistencias td {
         font-size: 12px;
-        padding: 6px 8px;
-    }
-
-    #tabla-asistencias th:first-child,
-    #tabla-asistencias td:first-child {
-        min-width: 100px;          /* más chico en móviles */
+        padding: 5px 6px;
     }
 }
 
@@ -729,17 +641,6 @@ table {
     #tabla-asistencias th,
     #tabla-asistencias td {
         font-size: 11px;
-        padding: 5px 6px;
+        padding: 4px 5px;
     }
-
-    #tabla-asistencias th:first-child,
-    #tabla-asistencias td:first-child {
-        min-width: 90px;
-    }
-}
-/* Estilos para la sección de noticias */
-.noticias {
-    max-width: 1200px;
-    margin: 40px auto;
-    padding: 0 20px;
 }
