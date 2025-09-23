@@ -674,3 +674,72 @@ table {
     top: 0;                        /* fija la fila de encabezado al hacer scroll */
     z-index: 2;                    /* asegura que esté por encima de las celdas */
 }
+.tabla-container {
+    width: 100%;
+    overflow-x: auto;              /* Scroll horizontal si es necesario */
+    -webkit-overflow-scrolling: touch; /* Scroll suave en iOS/Android */
+}
+
+#tabla-asistencias {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: auto;            /* Deja que las columnas se ajusten */
+}
+
+#tabla-asistencias th,
+#tabla-asistencias td {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    text-align: center;
+    font-size: 14px;
+    white-space: normal;           /* ✅ permite salto de línea */
+    word-break: break-word;        /* ✅ rompe palabras largas si es necesario */
+    overflow-wrap: break-word;
+}
+
+#tabla-asistencias th:first-child,
+#tabla-asistencias td:first-child {
+    text-align: left;
+    min-width: 140px;              /* ✅ ancho flexible para nombres */
+}
+
+#tabla-asistencias th {
+    background-color: #f5c518;
+    color: #000;
+    position: sticky;
+    top: 0;                        /* fija la fila de encabezado al hacer scroll */
+    z-index: 2;
+}
+
+/* 📱 Ajustes móviles */
+@media (max-width: 768px) {
+    #tabla-asistencias th,
+    #tabla-asistencias td {
+        font-size: 12px;
+        padding: 6px 8px;
+    }
+
+    #tabla-asistencias th:first-child,
+    #tabla-asistencias td:first-child {
+        min-width: 100px;          /* más chico en móviles */
+    }
+}
+
+@media (max-width: 480px) {
+    #tabla-asistencias th,
+    #tabla-asistencias td {
+        font-size: 11px;
+        padding: 5px 6px;
+    }
+
+    #tabla-asistencias th:first-child,
+    #tabla-asistencias td:first-child {
+        min-width: 90px;
+    }
+}
+/* Estilos para la sección de noticias */
+.noticias {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
