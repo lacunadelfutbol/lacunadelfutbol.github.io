@@ -644,3 +644,18 @@ h1:hover {
         padding: 4px 5px;
     }
 }
+#descargarPDF {
+    margin: 15px 0;
+    padding: 10px 15px;
+    background-color: #2980b9; /* Azul FIFA */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+#descargarPDF:hover {
+    background-color: #1f5c85;
+}

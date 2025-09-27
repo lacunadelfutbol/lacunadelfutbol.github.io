@@ -60,3 +60,23 @@ jugadores.forEach(nino => {
     `;
     tbody.appendChild(tr);
 });
+// --- Descargar tabla como PDF ---
+document.getElementById("descargarPDF").addEventListener("click", () => {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    // Título
+    doc.setFontSize(18);
+    doc.text("Registro de Asistencias", 14, 20);
+
+    // Convertir la tabla HTML a PDF
+    doc.autoTable({
+        html: "#tabla-asistencias",
+        startY: 30,
+        styles: { fontSize: 10, halign: "center" },
+        headStyles: { fillColor: [41, 128, 185] }, // Azul FIFA
+    });
+
+    // Guardar
+    doc.save("Asistencias.pdf");
+});
