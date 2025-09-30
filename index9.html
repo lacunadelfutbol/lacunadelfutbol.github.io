@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscripciones - La Cuna del Fútbol</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Enlace al archivo CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Agregar Chart.js -->
+    <style>
+        /* Estilos específicos para el formulario */
+        .inscripcion-form {
+            background-color: #fffaf0;
+            padding: 25px;
+            border-radius: 12px;
+            max-width: 600px;
+            margin: 30px auto;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .inscripcion-form h2 {
+            text-align: center;
+            color: #111;
+            margin-bottom: 20px;
+        }
+
+        .inscripcion-form label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: 600;
+        }
+
+        .inscripcion-form input,
+        .inscripcion-form select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+
+        .inscripcion-form button {
+            background-color: #fcbf49;
+            color: #111;
+            font-weight: bold;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1.1rem;
+            transition: background-color 0.3s;
+        }
+
+        .inscripcion-form button:hover {
+            background-color: #faa307;
+        }
+    </style>
+</head>
+<body>
+    <nav id="menu" class="menu">
+        <ul>
+            <li><a href="index.html">Recomendaciones</a></li>
+            <li><a href="index2.html">Entrenamientos Semanales</a></li>
+            <li><a href="index3.html">Conócenos</a></li>
+            <li><a href="index4.html">Conoce nuestros Jugadores</a></li>
+            <li><a href="index5.html">Contáctanos</a></li>
+            <li><a href="index6.html">Galería</a></li>
+            <li><a href="index7.html">Patrocinaodres</a></li>
+            <li><a href="index8.html">Asistencias</a></li>
+            <li><a href="index9.html" class="active">Inscripciones</a></li>
+        </ul>
+    </nav>
+
+    <!-- Ícono de los 3 puntos -->
+    <div id="menu-toggle" class="menu-toggle">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+
+    <!-- Contenido principal -->
+    <div class="content">
+        <header>
+            <h1>Inscripciones - La Cuna del Fútbol</h1>
+            <!-- Imagen Lacuna abajo a la derecha -->
+            <img src="lacuna.jpg" alt="Logo La Cuna del Fútbol" class="logo-bottom-right">
+        </header>
+
+        <!-- Sección de formulario de inscripciones -->
+        <center><section class="inscripcion-form">
+            <h2>Formulario de Inscripción</h2>
+            <p>¡Registra a tu hijo y forma parte de nuestra familia futbolística!</p>
+
+           <form action="https://formspree.io/f/movkdzqg" method="POST">
+                <label for="nombre">Nombre del niño:</label>
+                <input type="text" id="nombre" name="nombre" required>
+
+                <label for="edad">Edad:</label>
+                <input type="number" id="edad" name="edad" min="4" max="18" required>
+
+                <label for="grupo">Grupo / Categoría:</label>
+                <select id="grupo" name="grupo" required>
+                    <option value="">Selecciona un grupo</option>
+                    <option value="4-6">4-6 años</option>
+                    <option value="7-9">7-9 años</option>
+                    <option value="10-12">10-12 años</option>
+                    <option value="13-15">13-15 años</option>
+                    <option value="16-18">16-18 años</option>
+                </select>
+
+                <label for="padre">Nombre del padre/madre:</label>
+                <input type="text" id="padre" name="padre" required>
+
+                <label for="contacto">Teléfono o WhatsApp:</label>
+                <input type="tel" id="contacto" name="contacto" required>
+
+                <label for="autorizacion">Autorización médica (opcional):</label>
+                <input type="file" id="autorizacion" name="autorizacion">
+
+                <button type="submit">Enviar inscripción</button>
+            </form>
+        </section></center> 
+
+        <footer>
+            <p>© 2023 Entrenamiento Deportivo para Niños. Todos los derechos reservados.</p>
+            <p>La información está avalada por la <a href="https://www.fifa.com/" target="_blank">FIFA</a>.</p>
+        </footer>
+    </div>
+
+    <script src="script9.js"></script> <!-- Enlace al archivo JavaScript específico -->
+</body>
+</html>
