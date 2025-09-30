@@ -10,12 +10,12 @@ document.getElementById("menu-toggle").addEventListener("click", function() {
 
 // ----- Datos de ejemplo -----
 const jugadores = [
-    { nombre: "YEIK SOLIS", asistencias: [4,0,0,0,0,0,0,0,0,0,0,0] },
-    { nombre: "ALEXANDER SOLIS", asistencias: [4,0,0,0,0,0,0,0,0,0,0,0] },
+    { nombre: "YEIK SOLIS", asistencias: [5,0,0,0,0,0,0,0,0,0,0,0] },
+    { nombre: "ALEXANDER SOLIS", asistencias: [5,0,0,0,0,0,0,0,0,0,0,0] },
     { nombre: "MATEO RODRIGUEZ", asistencias: [2,0,0,0,0,0,0,0,0,0,0,0] },
-    { nombre: "ALAN MELO", asistencias: [3,0,0,0,0,0,0,0,0,0,0,0] },
-    { nombre: "MICHEL MORALES", asistencias: [2,0,0,0,0,0,0,0,0,0,0,0] },
-    { nombre: "ARTURO TREJO", asistencias: [3,0,0,0,0,0,0,0,0,0,0,0] },
+    { nombre: "ALAN MELO", asistencias: [4,0,0,0,0,0,0,0,0,0,0,0] },
+    { nombre: "MICHEL MORALES", asistencias: [3,0,0,0,0,0,0,0,0,0,0,0] },
+    { nombre: "ARTURO TREJO", asistencias: [4,0,0,0,0,0,0,0,0,0,0,0] },
     { nombre: "KARIM VALENCIA", asistencias: [2,0,0,0,0,0,0,0,0,0,0,0] },
     { nombre: "JOSMAR VALENCIA", asistencias: [2,0,0,0,0,0,0,0,0,0,0,0] },
     { nombre: "AXEL PELCASTRE", asistencias: [3,0,0,0,0,0,0,0,0,0,0,0] },
@@ -23,11 +23,11 @@ const jugadores = [
     { nombre: "DYLAN RIVERA", asistencias: [2,0,0,0,0,0,0,0,0,0,0,0] },
     { nombre: "DIEGO RIVERA", asistencias: [2,0,0,0,0,0,0,0,0,0,0,0] },
     { nombre: "LEO", asistencias: [1,0,0,0,0,0,0,0,0,0,0,0] },
-    { nombre: "FERNANDO ANGELES", asistencias: [2,0,0,0,0,0,0,0,0,0,0,0] },
+    { nombre: "FERNANDO ANGELES", asistencias: [3,0,0,0,0,0,0,0,0,0,0,0] },
     { nombre: "GABRIEL HERNANDEZ", asistencias: [3,0,0,0,0,0,0,0,0,0,0,0] },
     { nombre: "BARUSH AMADOR", asistencias: [1,0,0,0,0,0,0,0,0,0,0,0] },
-    { nombre: "ALAIN AMADOR", asistencias: [2,0,0,0,0,0,0,0,0,0,0,0] },
-    { nombre: "ALEXIS HERNANDEZ", asistencias: [3,0,0,0,0,0,0,0,0,0,0,0] },
+    { nombre: "ALAIN AMADOR", asistencias: [3,0,0,0,0,0,0,0,0,0,0,0] },
+    { nombre: "ALEXIS HERNANDEZ", asistencias: [4,0,0,0,0,0,0,0,0,0,0,0] },
     // Los que no asistieron
     { nombre: "FRANKI AMADOR", asistencias: [2,0,0,0,0,0,0,0,0,0,0,0] },
     { nombre: "CRISTOPHER ZARCO", asistencias: [3,0,0,0,0,0,0,0,0,0,0,0] },
