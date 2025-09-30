@@ -660,78 +660,50 @@ h1:hover {
 #descargarPDF:hover {
     background-color: #1f5c85;
 }
-/* ===== Botón flotante Facebook ===== */
-.fb-float {
+/* Botón flotante de Facebook */
+#fb-float.fb-float {
   position: fixed;
-  right: 18px;             /* distancia desde la derecha */
-  bottom: 18px;            /* distancia desde abajo */
-  width: 56px;
-  height: 56px;
-  display: inline-flex;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  background: #1877f2; /* Azul oficial Facebook */
+  border-radius: 50%;
+  display: flex;
   align-items: center;
   justify-content: center;
-  background: #1877F2;     /* color oficial Facebook */
-  color: #fff;
-  border-radius: 50%;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+  box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
+  z-index: 1000;
+  color: white;
   text-decoration: none;
-  z-index: 2000;
-  transition: transform 180ms ease, box-shadow 180ms ease;
-  will-change: transform;
+  overflow: hidden;
 }
 
-/* efecto hover / focus */
-.fb-float:hover,
-.fb-float:focus {
-  transform: translateY(-6px);
-  box-shadow: 0 12px 30px rgba(0,0,0,0.35);
-  outline: none;
+/* Ícono SVG blanco dentro */
+#fb-float svg {
+  width: 28px;
+  height: 28px;
+  fill: white;
 }
 
-/* focus visible (accesibilidad teclado) */
-.fb-float:focus-visible {
-  box-shadow: 0 12px 30px rgba(0,0,0,0.35), 0 0 0 4px rgba(24,119,242,0.15);
-}
-
-/* SVG icono */
-.fb-float svg {
-  width: 20px;
-  height: 20px;
-  display: block;
-}
-
-/* tooltip pequeño al pasar el ratón */
+/* Tooltip */
 .fb-tooltip {
   position: absolute;
   right: 70px;
   bottom: 50%;
   transform: translateY(50%);
-  background: rgba(0,0,0,0.8);
+  background: #333;
   color: #fff;
   padding: 6px 10px;
-  border-radius: 6px;
-  font-size: 13px;
+  border-radius: 5px;
   white-space: nowrap;
+  font-size: 14px;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 120ms ease, transform 120ms ease;
-  transform-origin: right center;
+  transition: opacity 0.3s ease-in-out;
 }
 
-/* mostrar tooltip en hover */
-.fb-float:hover .fb-tooltip,
-.fb-float:focus .fb-tooltip {
+/* Mostrar tooltip al pasar mouse (en PC) */
+#fb-float:hover .fb-tooltip {
   opacity: 1;
-  transform: translateY(50%) translateX(-6px);
-}
-
-/* adaptación móvil (si quieres reducir tamaño) */
-@media (max-width: 420px) {
-  .fb-float {
-    width: 48px;
-    height: 48px;
-    right: 14px;
-    bottom: 14px;
-  }
-  .fb-tooltip { display: none; } /* ocultar tooltip en pantallas muy pequeñas */
 }
