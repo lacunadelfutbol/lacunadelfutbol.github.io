@@ -707,3 +707,32 @@ h1:hover {
 #fb-float:hover .fb-tooltip {
   opacity: 1;
 }
+.content section p {
+  background-color: #fdf6e3; /* color suave de fondo */
+  border-left: 4px solid #fcbf49; /* barra dorada a la izquierda */
+  padding: 15px 20px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+  line-height: 1.6;
+  font-size: 1rem;
+}
+.content section h2 {
+  color: #ffe600; /* título más oscuro */
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+.content section p strong {
+  color: #fcbf49; /* dorado */
+  font-weight: 700;
+  background-color: rgba(236, 180, 11, 0.2);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+.content section {
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.05rem;
+  color: #222;
+  line-height: 1.7;
+  margin: 0 10px;
+}
