@@ -5,28 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jugador del Mes</title>
     <link rel="stylesheet" href="styles.css">
-     <!-- Menú Lateral -->
-   <nav id="menu" class="menu">
-        <ul>
-            <li><a href="index.html">Recomendaciones</a></li>
-            <li><a href="index2.html">Entrenamientos Semanales</a></li>
-            <li><a href="index3.html">Conócenos</a></li>
-            <li><a href="index4.html">Conoce nuestros Jugadores</a></li>
-            <li><a href="index5.html">Contáctanos</a></li>
-            <li><a href="index6.html">Galería</a></li>
-            <li><a href="index7.html">Patrocinaodres</a></li>
-            <li><a href="index8.html">Asistencias</a></li>
-            <li><a href="index9.html" class="active">Inscripciones</a></li>
-            <li><a href="index10.html" class="active">Jugador del Mes</a></li>   
-        </ul>
-    </nav>
-
-    <!-- Ícono de los 3 puntos -->
-    <div id="menu-toggle" class="menu-toggle">
-        <div class="dot"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
-    </div>
     <style>
         .candidatos {
             display: flex;
@@ -69,8 +47,35 @@
             font-weight: bold;
         }
     </style>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 </head>
 <body>
+
+    <!-- Menú Lateral -->
+    <nav id="menu" class="menu">
+        <ul>
+            <li><a href="index.html">Recomendaciones</a></li>
+            <li><a href="index2.html">Entrenamientos Semanales</a></li>
+            <li><a href="index3.html">Conócenos</a></li>
+            <li><a href="index4.html">Conoce nuestros Jugadores</a></li>
+            <li><a href="index5.html">Contáctanos</a></li>
+            <li><a href="index6.html">Galería</a></li>
+            <li><a href="index7.html">Patrocinaodres</a></li>
+            <li><a href="index8.html">Asistencias</a></li>
+            <li><a href="index9.html" class="active">Inscripciones</a></li>
+            <li><a href="index10.html" class="active">Jugador del Mes</a></li>   
+        </ul>
+    </nav>
+
+    <!-- Ícono de los 3 puntos -->
+    <div id="menu-toggle" class="menu-toggle">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
 
     <header class="main-header">
         <h1>Jugador del Mes</h1>
@@ -101,52 +106,52 @@
         </div>
     </section>
 
+    <footer>
+        <p>© 2023 Entrenamiento Deportivo para Niños. Todos los derechos reservados.</p>
+        <p>La información está avalada por la <a href="https://www.fifa.com/" target="_blank">FIFA</a>.</p>
+    </footer>
+
     <script>
-        // Inicializar votos en localStorage si no existen
+const firebaseConfig = {
+  apiKey: "AIzaSyCwPFCESsJLFfKfPa9QWZCxDZkZbK_kKkM",
+  authDomain: "jugador-del-mes.firebaseapp.com",
+  databaseURL: "https://jugador-del-mes-default-rtdb.firebaseio.com",
+  projectId: "jugador-del-mes",
+  storageBucket: "jugador-del-mes.firebasestorage.app",
+  messagingSenderId: "390486914363",
+  appId: "1:390486914363:web:b63ffcba62d286a754331e",
+  measurementId: "G-CZG5XT54Z1"
+};
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
         const candidatos = document.querySelectorAll('.card');
+
         candidatos.forEach(card => {
             const nombre = card.dataset.nombre;
-            if (!localStorage.getItem(nombre)) {
-                localStorage.setItem(nombre, '0');
-            }
-            // Mostrar votos actuales
-            card.querySelector('.votos span').textContent = localStorage.getItem(nombre);
-        });
+            const votoRef = db.ref('votos/' + nombre);
 
-        // Evitar votar más de una vez
-        if (localStorage.getItem('yaVoto')) {
-            document.querySelectorAll('.btn-votar').forEach(btn => btn.disabled = true);
-        }
-
-        // Manejar votación
-        document.querySelectorAll('.btn-votar').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const card = btn.parentElement;
-                const nombre = card.dataset.nombre;
-
-                // Aumentar contador
-                let votos = parseInt(localStorage.getItem(nombre));
-                votos++;
-                localStorage.setItem(nombre, votos);
-
-                // Marcar que ya votó
-                localStorage.setItem('yaVoto', 'true');
-
-                // Deshabilitar todos los botones
-                document.querySelectorAll('.btn-votar').forEach(b => b.disabled = true);
-
-                // Actualizar la página
+            // Mostrar votos en tiempo real
+            votoRef.on('value', snapshot => {
+                const votos = snapshot.val() || 0;
                 card.querySelector('.votos span').textContent = votos;
+            });
+
+            // Votación
+            const btn = card.querySelector('.btn-votar');
+            btn.addEventListener('click', () => {
+                if (localStorage.getItem('yaVoto')) {
+                    alert("Solo puedes votar una vez por dispositivo.");
+                    return;
+                }
+
+                votoRef.transaction(votos => (votos || 0) + 1);
+                localStorage.setItem('yaVoto', 'true');
+                btn.disabled = true;
                 alert(`¡Gracias por votar por ${nombre}!`);
             });
         });
     </script>
- <footer>
-            <p>© 2023 Entrenamiento Deportivo para Niños. Todos los derechos reservados.</p>
-            <p>La información está avalada por la <a href="https://www.fifa.com/" target="_blank">FIFA</a>.</p>
-        </footer>
-    </div>
-
-    <script src="scripts.js"></script>
+<script src="script10.js"></script>
 </body>
 </html>
