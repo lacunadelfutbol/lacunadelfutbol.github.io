@@ -5,6 +5,74 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Torneos - La Cuna del Fútbol</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Solo para esta página */
+        .torneos-page {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+
+        .torneos-page header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .torneos-page header img {
+            max-width: 120px;
+            margin-top: 10px;
+        }
+
+        .torneos h2, .historial h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #1877f2;
+        }
+
+        .torneo-card {
+            background-color: #f8f8f8;
+            padding: 15px 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .historial ul {
+            list-style: none;
+            padding: 0;
+            text-align: center;
+        }
+
+        .historial li {
+            background-color: #f0f0f0;
+            margin: 5px auto;
+            padding: 10px 15px;
+            border-radius: 10px;
+            max-width: 400px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 0.9em;
+            color: #555;
+        }
+
+        @media (max-width: 600px) {
+            .torneos-page {
+                padding: 10px;
+            }
+            .torneo-card, .historial li {
+                width: 95%;
+            }
+            .torneos-page header img {
+                max-width: 80px;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Menú Lateral -->
@@ -30,7 +98,7 @@
         <div class="dot"></div>
     </div>
 
-    <!-- Contenedor principal para estilos específicos -->
+    <!-- Contenedor principal -->
     <div class="torneos-page">
         <header class="main-header">
             <h1>Torneos</h1>
@@ -68,7 +136,7 @@
             <p>La información está avalada por la <a href="https://www.fifa.com/" target="_blank">FIFA</a>.</p>
         </footer>
     </div>
-        <script src="script9.js"></script> <!-- Enlace al archivo JavaScript específico -->
 
+    <script src="script9.js"></script>
 </body>
 </html>
