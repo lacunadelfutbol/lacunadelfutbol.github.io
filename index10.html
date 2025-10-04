@@ -3,57 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jugador del Mes</title>
+    <title>Torneos - La Cuna del Fútbol</title>
     <link rel="stylesheet" href="styles.css">
-    <style>
-        .candidatos {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-            margin: 20px 0;
-        }
-        .card {
-            border: 2px solid #ccc;
-            border-radius: 15px;
-            padding: 15px;
-            width: 220px;
-            text-align: center;
-            transition: transform 0.3s;
-        }
-        .card:hover { transform: scale(1.05); }
-        .card img {
-            border-radius: 50%;
-            width: 100px;
-            height: 100px;
-            object-fit: cover;
-            margin-bottom: 10px;
-        }
-        .btn-votar {
-            margin-top: 10px;
-            padding: 8px 12px;
-            background-color: #1877f2;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-        }
-        .btn-votar:disabled {
-            background-color: #888;
-            cursor: not-allowed;
-        }
-        .votos {
-            margin-top: 8px;
-            font-weight: bold;
-        }
-    </style>
-
-    <!-- Firebase -->
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 </head>
 <body>
-
     <!-- Menú Lateral -->
     <nav id="menu" class="menu">
         <ul>
@@ -65,8 +18,8 @@
             <li><a href="index6.html">Galería</a></li>
             <li><a href="index7.html">Patrocinaodres</a></li>
             <li><a href="index8.html">Asistencias</a></li>
-            <li><a href="index9.html" class="active">Inscripciones</a></li>
-            <li><a href="index10.html" class="active">Jugador del Mes</a></li>   
+            <li><a href="index9.html">Inscripciones</a></li>
+            <li><a href="index10.html" class="active">Torneos</a></li>
         </ul>
     </nav>
 
@@ -77,81 +30,45 @@
         <div class="dot"></div>
     </div>
 
-    <header class="main-header">
-        <h1>Jugador del Mes</h1>
-        <img src="lacuna.jpg" alt="Logo La Cuna del Fútbol" class="logo-right">
-    </header>
+    <!-- Contenedor principal para estilos específicos -->
+    <div class="torneos-page">
+        <header class="main-header">
+            <h1>Torneos</h1>
+            <img src="lacuna.jpg" alt="Logo La Cuna del Fútbol" class="logo-right">
+        </header>
 
-    <section class="candidatos">
-        <div class="card" data-nombre="Yeik">
-            <img src="jugador1.jpg" alt="Yeik">
-            <h3>Yeik</h3>
-            <p>Edad: 11 años</p>
-            <button class="btn-votar">Votar</button>
-            <div class="votos">Votos: <span>0</span></div>
-        </div>
-        <div class="card" data-nombre="Alexis">
-            <img src="jugador2.jpg" alt="Alexis">
-            <h3>Alexis</h3>
-            <p>Edad: 10 años</p>
-            <button class="btn-votar">Votar</button>
-            <div class="votos">Votos: <span>0</span></div>
-        </div>
-        <div class="card" data-nombre="Alex">
-            <img src="jugador3.jpg" alt="Alex">
-            <h3>Alex</h3>
-            <p>Edad: 8 años</p>
-            <button class="btn-votar">Votar</button>
-            <div class="votos">Votos: <span>0</span></div>
-        </div>
-    </section>
+        <!-- Sección de torneos actuales -->
+        <section class="torneos">
+            <h2>Torneos en los que participamos</h2>
+            <div class="torneo-card">
+                <h3>Torneo Canchitas Real del Monte</h3>
+                <p>Categoría: 8 a 11 años</p>
+            </div>
+            <div class="torneo-card">
+                <h3>Torneo Omitlán La Alameda</h3>
+                <p>Categorías: Sub 8, Sub 10, Sub 12 Cuna Jrs y Sub 12</p>
+            </div>
+            <div class="torneo-card">
+                <h3>Mini Torneo Feria del Paste</h3>
+                <p>Fecha: Domingo 12 de Octubre - Cancha San Luis</p>
+            </div>
+        </section>
 
-    <footer>
-        <p>© 2023 Entrenamiento Deportivo para Niños. Todos los derechos reservados.</p>
-        <p>La información está avalada por la <a href="https://www.fifa.com/" target="_blank">FIFA</a>.</p>
-    </footer>
+        <!-- Historial de torneos -->
+        <section class="historial">
+            <h2>Historial de torneos</h2>
+            <ul>
+                <li>Primaria Alta Omitlán - Segundo lugar</li>
+                <li>Primaria Baja - Tercer lugar</li>
+            </ul>
+        </section>
 
-    <script>
-const firebaseConfig = {
-  apiKey: "AIzaSyCwPFCESsJLFfKfPa9QWZCxDZkZbK_kKkM",
-  authDomain: "jugador-del-mes.firebaseapp.com",
-  databaseURL: "https://jugador-del-mes-default-rtdb.firebaseio.com",
-  projectId: "jugador-del-mes",
-  storageBucket: "jugador-del-mes.firebasestorage.app",
-  messagingSenderId: "390486914363",
-  appId: "1:390486914363:web:b63ffcba62d286a754331e",
-  measurementId: "G-CZG5XT54Z1"
-};
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
+        <footer>
+            <p>© 2023 Entrenamiento Deportivo para Niños. Todos los derechos reservados.</p>
+            <p>La información está avalada por la <a href="https://www.fifa.com/" target="_blank">FIFA</a>.</p>
+        </footer>
+    </div>
+        <script src="script9.js"></script> <!-- Enlace al archivo JavaScript específico -->
 
-        const candidatos = document.querySelectorAll('.card');
-
-        candidatos.forEach(card => {
-            const nombre = card.dataset.nombre;
-            const votoRef = db.ref('votos/' + nombre);
-
-            // Mostrar votos en tiempo real
-            votoRef.on('value', snapshot => {
-                const votos = snapshot.val() || 0;
-                card.querySelector('.votos span').textContent = votos;
-            });
-
-            // Votación
-            const btn = card.querySelector('.btn-votar');
-            btn.addEventListener('click', () => {
-                if (localStorage.getItem('yaVoto')) {
-                    alert("Solo puedes votar una vez por dispositivo.");
-                    return;
-                }
-
-                votoRef.transaction(votos => (votos || 0) + 1);
-                localStorage.setItem('yaVoto', 'true');
-                btn.disabled = true;
-                alert(`¡Gracias por votar por ${nombre}!`);
-            });
-        });
-    </script>
-<script src="script10.js"></script>
 </body>
 </html>
