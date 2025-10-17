@@ -43,8 +43,18 @@ const jugadores = [
     { nombre: "YASID MARTINEZ", asistencias: [1,2,0,0,0,0,0,0,0,0,0,0] }
 ];
 
+// ----- Ordenar jugadores por porcentaje de asistencia (mayor a menor) -----
+jugadores.sort((a, b) => {
+    const totalA = a.asistencias.reduce((sum, asistencia) => sum + asistencia, 0);
+    const totalB = b.asistencias.reduce((sum, asistencia) => sum + asistencia, 0);
+    const porcentajeA = (totalA / a.asistencias.length) * 100;
+    const porcentajeB = (totalB / b.asistencias.length) * 100;
+    return porcentajeB - porcentajeA; // Orden descendente
+});
+
 // ----- Llenar tabla -----
 const tbody = document.querySelector("#tabla-asistencias tbody");
+
 jugadores.forEach(nino => {
     const totalMeses = nino.asistencias.length;
     const totalAsistencias = nino.asistencias.reduce((a,b) => a+b, 0);
@@ -58,8 +68,19 @@ jugadores.forEach(nino => {
         ${nino.asistencias.map(a => `<td>${a}</td>`).join('')}
         <td style="color:${color}; font-weight:bold;">${porcentaje.toFixed(0)}%</td>
     `;
+    
+    // Añadir efecto hover para resaltar toda la fila
+    tr.addEventListener('mouseover', function() {
+        this.style.backgroundColor = '#f0f8ff'; // Color azul claro
+    });
+    
+    tr.addEventListener('mouseout', function() {
+        this.style.backgroundColor = ''; // Volver al color original
+    });
+    
     tbody.appendChild(tr);
 });
+
 // --- Descargar tabla como PDF ---
 document.getElementById("descargarPDF").addEventListener("click", () => {
     const { jsPDF } = window.jspdf;
