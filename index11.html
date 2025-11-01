@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuestros Héroes - La Cuna del Fútbol</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Estilos adicionales para centrar el contenido */
+        .centered-content {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .heroes-grid {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin: 40px 0;
+        }
+        
+        .hero-card {
+            text-align: center;
+            max-width: 350px;
+        }
+        
+        .philosophy-items {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .philo-item {
+            text-align: center;
+            max-width: 250px;
+        }
+        
+        .team-message {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .signature {
+            text-align: center;
+            font-style: italic;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        
+        .hero-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 20px;
+            display: block;
+            border: 4px solid #2a5298;
+        }
+    </style>
+</head>
+<body>
+    <nav id="menu" class="menu">
+        <ul>
+            <li><a href="index.html">Recomendaciones</a></li>
+            <li><a href="index2.html">Entrenamientos</a></li>
+            <li><a href="index3.html">Conócenos</a></li>
+            <li><a href="index4.html">Jugadores</a></li>
+            <li><a href="index5.html">Contáctanos</a></li>
+            <li><a href="index6.html">Galería</a></li>
+            <li><a href="index7.html">Patrocinadores</a></li>
+            <li><a href="index8.html">Asistencias</a></li>
+            <li><a href="index9.html">Inscripciones</a></li>
+            <li><a href="index10.html">Torneos</a></li>
+            <li><a href="index11.html" class="active">Nuestros Héroes</a></li>
+        </ul>
+    </nav>
+
+    <div id="menu-toggle" class="menu-toggle">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+
+    <header class="main-header">
+        <h1>Nuestros Héroes</h1>
+        <p>Los entrenadores que guían a nuestros pequeños campeones</p>
+        <img src="lacuna.jpg" alt="Logo La Cuna del Fútbol" class="logo-right">
+    </header>
+
+    <main class="container">
+        <section class="heroes-intro centered-content">
+            <h2>Nuestro Equipo Técnico</h2>
+            <p>Dillan y Allan Solis trabajan juntos para formar no solo futbolistas, sino personas íntegras con valores como respeto, trabajo en equipo y superación personal.</p>
+        </section>
+
+        <section class="heroes-grid">
+            <div class="hero-card">
+                <img src="imagen6.jpg" alt="Dillan Solis" class="hero-image">
+                <div class="hero-content centered-content">
+                    <h3>Dillan Solis</h3>
+                    <p class="hero-role">Entrenador</p>
+                    <p class="hero-quote">"Mi misión es que cada niño descubra su pasión por el fútbol mientras aprende valores para la vida."</p>
+                    <div class="hero-specialties">
+                        <h4>Especialidades</h4>
+                        <ul>
+                            <li>Desarrollo técnico individual</li>
+                            <li>Estrategia de juego</li>
+                            <li>Motivación infantil</li>
+                            <li>Formación en valores</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-card">
+                <img src="imagen7.jpg" alt="Allan Solis" class="hero-image">
+                <div class="hero-content centered-content">
+                    <h3>Allan Solis</h3>
+                    <p class="hero-role">Entrenador</p>
+                    <p class="hero-quote">"Cada niño tiene un talento único. Ayudarlos a descubrirlo es mi mayor satisfacción."</p>
+                    <div class="hero-specialties">
+                        <h4>Especialidades</h4>
+                        <ul>
+                            <li>Coordinación motriz</li>
+                            <li>Ejercicios lúdicos</li>
+                            <li>Trabajo en equipo</li>
+                            <li>Preparación física infantil</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="philosophy centered-content">
+            <h2>Nuestra Filosofía</h2>
+            <div class="philosophy-items">
+                <div class="philo-item">
+                    <h3>Diversión</h3>
+                    <p>Aprendizaje a través del juego y la diversión</p>
+                </div>
+                <div class="philo-item">
+                    <h3>Respeto</h3>
+                    <p>Valor fundamental en el deporte y la vida</p>
+                </div>
+                <div class="philo-item">
+                    <h3>Compañerismo</h3>
+                    <p>Trabajo en equipo como base del éxito</p>
+                </div>
+                <div class="philo-item">
+                    <h3>Superación</h3>
+                    <p>Mejora continua y perseverancia</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="team-message">
+            <h2>Mensaje de los Entrenadores</h2>
+            <p>"Estamos comprometidos con el desarrollo integral de cada niño. Creemos en el fútbol como herramienta para formar buenas personas, con valores sólidos y espíritu de superación. Nuestro objetivo es crear un ambiente seguro donde los niños disfruten mientras aprenden."</p>
+            <p class="signature">- Dillan y Allan Solis</p>
+        </section>
+    </main>
+
+    <footer class="main-footer centered-content">
+        <p>&copy; 2024 La Cuna del Fútbol</p>
+    </footer>
+
+    <script>
+        document.getElementById('menu-toggle').addEventListener('click', function() {
+            document.getElementById('menu').classList.toggle('active');
+        });
+
+        document.addEventListener('click', function(event) {
+            const menu = document.getElementById('menu');
+            const menuToggle = document.getElementById('menu-toggle');
+            
+            if (!menu.contains(event.target) && !menuToggle.contains(event.target) && menu.classList.contains('active')) {
+                menu.classList.remove('active');
+            }
+        });
+    </script>
+     <script src="script11.js"></script>
+</body>
+</html>
