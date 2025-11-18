@@ -8,6 +8,10 @@ document.getElementById("menu-toggle").addEventListener("click", function() {
     }
 });
 
+// ----- CONFIGURACIÓN -----
+// CAMBIA ESTE NÚMERO SEGÚN CUÁNTAS ASISTENCIAS SON POSIBLES EN TOTAL
+const TOTAL_ASISTENCIAS_POSIBLES = 16;
+
 // ----- Datos de ejemplo -----
 const jugadores = [
     { nombre: "YEIK SOLIS", asistencias: [5,7,4,0,0,0,0,0,0,0,0,0] },
@@ -47,8 +51,8 @@ const jugadores = [
 jugadores.sort((a, b) => {
     const totalA = a.asistencias.reduce((sum, asistencia) => sum + asistencia, 0);
     const totalB = b.asistencias.reduce((sum, asistencia) => sum + asistencia, 0);
-    const porcentajeA = (totalA / a.asistencias.length) * 100;
-    const porcentajeB = (totalB / b.asistencias.length) * 100;
+    const porcentajeA = (totalA / TOTAL_ASISTENCIAS_POSIBLES) * 100;
+    const porcentajeB = (totalB / TOTAL_ASISTENCIAS_POSIBLES) * 100;
     return porcentajeB - porcentajeA; // Orden descendente
 });
 
@@ -56,9 +60,8 @@ jugadores.sort((a, b) => {
 const tbody = document.querySelector("#tabla-asistencias tbody");
 
 jugadores.forEach(nino => {
-    const totalMeses = nino.asistencias.length;
     const totalAsistencias = nino.asistencias.reduce((a,b) => a+b, 0);
-    const porcentaje = (totalAsistencias / totalMeses) * 100;
+    const porcentaje = (totalAsistencias / TOTAL_ASISTENCIAS_POSIBLES) * 100;
 
     let color = porcentaje >= 80 ? "green" : porcentaje >= 50 ? "orange" : "red";
 
@@ -89,6 +92,8 @@ document.getElementById("descargarPDF").addEventListener("click", () => {
     // Título
     doc.setFontSize(18);
     doc.text("Registro de Asistencias", 14, 20);
+    doc.setFontSize(10);
+    doc.text(`Total de asistencias posibles: ${TOTAL_ASISTENCIAS_POSIBLES}`, 14, 28);
 
     // Convertir la tabla HTML a PDF
     doc.autoTable({
