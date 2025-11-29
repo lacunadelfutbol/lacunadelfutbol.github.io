@@ -61,6 +61,38 @@
             color: #555;
         }
 
+        /* Estilos para el botón y la información del campeón */
+        .campeon-btn {
+            background-color: #1877f2;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .campeon-btn:hover {
+            background-color: #0e5db7;
+        }
+
+        .campeon-info {
+            background-color: #e8f4fd;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 10px;
+            text-align: center;
+            display: none;
+            border-left: 4px solid #1877f2;
+        }
+
+        .campeon-info h4 {
+            margin-top: 0;
+            color: #1877f2;
+        }
+
         @media (max-width: 600px) {
             .torneos-page {
                 padding: 10px;
@@ -112,6 +144,15 @@
             <div class="torneo-card">
                 <h3>Torneo Canchitas Real del Monte</h3>
                 <p>Categoría: 8 a 11 años</p>
+                <button class="campeon-btn" onclick="mostrarCampeon()">Ver Campeón del Torneo</button>
+                <div id="info-campeon" class="campeon-info">
+                    <h4>¡Campeón del Torneo Canchitas!</h4>
+                    <p><strong>Equipo:</strong> La Cuna del Fútbol</p>
+                    <p><strong>Categoría:</strong> 8-11 años</p>
+                    <p><strong>Fecha del triunfo:</strong> 24 de Noviembre, 2025</p>
+                    <p><strong>Resultado final:</strong> 6-1 vs. Dep.Pio</p>
+                    <p>¡Felicidades a nuestros pequeños campeones por su excelente desempeño!</p>
+                </div>
             </div>
             <div class="torneo-card">
                 <h3>Torneo Omitlán La Alameda</h3>
@@ -129,6 +170,7 @@
             <ul>
                 <li>Primaria Alta Omitlán - Segundo lugar</li>
                 <li>Primaria Baja - Tercer lugar</li>
+                <li>Torneo Canchitas Real del Monte (8-11 años) - Campeones</li>
             </ul>
         </section>
 
@@ -138,6 +180,25 @@
         </footer>
     </div>
 
-    <script src="script9.js"></script>
+    <script>
+        // Función para mostrar/ocultar información del campeón
+        function mostrarCampeon() {
+            const infoCampeon = document.getElementById('info-campeon');
+            const boton = document.querySelector('.campeon-btn');
+            
+            if (infoCampeon.style.display === 'none' || infoCampeon.style.display === '') {
+                infoCampeon.style.display = 'block';
+                boton.textContent = 'Ocultar Información';
+            } else {
+                infoCampeon.style.display = 'none';
+                boton.textContent = 'Ver Campeón del Torneo';
+            }
+        }
+
+        // Código para el menú lateral (si existe en script9.js)
+        document.getElementById('menu-toggle').addEventListener('click', function() {
+            document.getElementById('menu').classList.toggle('active');
+        });
+    </script>
 </body>
 </html>
