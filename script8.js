@@ -36,7 +36,6 @@ const jugadores = [
     { nombre: "FRANKI AMADOR", asistencias: [2,7,4,1,0,0,0,0,0,0,0,0] },
     { nombre: "CRISTOPHER ZARCO", asistencias: [3,4,3,0,0,0,0,0,0,0,0,0] },
     { nombre: "ANGEL PEREZ", asistencias: [3,4,3,0,0,0,0,0,0,0,0,0] },
-    { nombre: "IKER RODRIGUEZ", asistencias: [0,0,0,0,0,0,0,0,0,0,0,0] },
     { nombre: "EDWIN LARES", asistencias: [0,2,0,0,0,0,0,0,0,0,0,0] },
     { nombre: "MATI HERNANDEZ", asistencias: [1,2,2,0,0,0,0,0,0,0,0,0] },
     { nombre: "SANTI HERNANDEZ", asistencias: [1,2,2,0,0,0,0,0,0,0,0,0] },
