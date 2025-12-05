@@ -10,30 +10,30 @@ document.getElementById("menu-toggle").addEventListener("click", function() {
 
 // ----- CONFIGURACIÓN -----
 // CAMBIA ESTE NÚMERO SEGÚN CUÁNTAS ASISTENCIAS SON POSIBLES EN TOTAL
-const TOTAL_ASISTENCIAS_POSIBLES = 19;
+const TOTAL_ASISTENCIAS_POSIBLES = 20;
 
 // ----- Datos de ejemplo -----
 const jugadores = [
-    { nombre: "YEIK SOLIS", asistencias: [5,7,6,1,0,0,0,0,0,0,0,0] },
-    { nombre: "ALEXANDER SOLIS", asistencias: [5,6,6,1,0,0,0,0,0,0,0,0] },
-    { nombre: "MATEO RODRIGUEZ", asistencias: [2,5,4,1,0,0,0,0,0,0,0,0] },
-    { nombre: "ALAN MELO", asistencias: [4,7,3,1,0,0,0,0,0,0,0,0] },
-    { nombre: "MICHEL MORALES", asistencias: [3,6,2,1,0,0,0,0,0,0,0,0] },
+    { nombre: "YEIK SOLIS", asistencias: [5,7,6,2,0,0,0,0,0,0,0,0] },
+    { nombre: "ALEXANDER SOLIS", asistencias: [5,6,6,2,0,0,0,0,0,0,0,0] },
+    { nombre: "MATEO RODRIGUEZ", asistencias: [2,5,4,2,0,0,0,0,0,0,0,0] },
+    { nombre: "ALAN MELO", asistencias: [4,7,3,2,0,0,0,0,0,0,0,0] },
+    { nombre: "MICHEL MORALES", asistencias: [3,6,2,2,0,0,0,0,0,0,0,0] },
     { nombre: "ARTURO TREJO", asistencias: [4,2,2,1,0,0,0,0,0,0,0,0] },
     { nombre: "KARIM VALENCIA", asistencias: [2,6,4,0,0,0,0,0,0,0,0,0] },
     { nombre: "JOSMAR VALENCIA", asistencias: [2,6,4,0,0,0,0,0,0,0,0,0] },
-    { nombre: "AXEL PELCASTRE", asistencias: [3,4,3,1,0,0,0,0,0,0,0,0] },
-    { nombre: "SANTIAGO PECASTRE", asistencias: [3,4,3,1,0,0,0,0,0,0,0,0] },
-    { nombre: "DYLAN RIVERA", asistencias: [2,5,3,1,0,0,0,0,0,0,0,0] },
-    { nombre: "DIEGO RIVERA", asistencias: [2,5,2,1,0,0,0,0,0,0,0,0] },
+    { nombre: "AXEL PELCASTRE", asistencias: [3,4,3,2,0,0,0,0,0,0,0,0] },
+    { nombre: "SANTIAGO PECASTRE", asistencias: [3,4,3,2,0,0,0,0,0,0,0,0] },
+    { nombre: "DYLAN RIVERA", asistencias: [2,5,3,2,0,0,0,0,0,0,0,0] },
+    { nombre: "DIEGO RIVERA", asistencias: [2,5,2,2,0,0,0,0,0,0,0,0] },
     { nombre: "LEO", asistencias: [1,0,1,0,0,0,0,0,0,0,0,0] },
-    { nombre: "FERNANDO ANGELES", asistencias: [3,7,3,1,0,0,0,0,0,0,0,0] },
+    { nombre: "FERNANDO ANGELES", asistencias: [3,7,3,2,0,0,0,0,0,0,0,0] },
     { nombre: "GABRIEL HERNANDEZ", asistencias: [3,2,2,0,0,0,0,0,0,0,0,0] },
-    { nombre: "BARUSH AMADOR", asistencias: [1,2,4,0,0,0,0,0,0,0,0,0] },
-    { nombre: "ALAIN AMADOR", asistencias: [3,6,4,1,0,0,0,0,0,0,0,0] },
+    { nombre: "BARUSH AMADOR", asistencias: [1,2,4,1,0,0,0,0,0,0,0,0] },
+    { nombre: "ALAIN AMADOR", asistencias: [3,6,4,2,0,0,0,0,0,0,0,0] },
     { nombre: "ALEXIS HERNANDEZ", asistencias: [4,5,3,0,0,0,0,0,0,0,0,0] },
     // Los que no asistieron
-    { nombre: "FRANKI AMADOR", asistencias: [2,7,4,1,0,0,0,0,0,0,0,0] },
+    { nombre: "FRANKI AMADOR", asistencias: [2,7,4,2,0,0,0,0,0,0,0,0] },
     { nombre: "CRISTOPHER ZARCO", asistencias: [3,4,3,0,0,0,0,0,0,0,0,0] },
     { nombre: "ANGEL PEREZ", asistencias: [3,4,3,0,0,0,0,0,0,0,0,0] },
     { nombre: "EDWIN LARES", asistencias: [0,2,0,0,0,0,0,0,0,0,0,0] },
@@ -42,8 +42,9 @@ const jugadores = [
     { nombre: "GERARDO GONZALEZ", asistencias: [0,0,2,0,0,0,0,0,0,0,0,0] },
     { nombre: "IAN CASTILLO", asistencias: [1,5,2,1,0,0,0,0,0,0,0,0] },
     { nombre: "RICARDO CASTILLO", asistencias: [1,5,2,1,0,0,0,0,0,0,0,0] },
-    { nombre: "ADRIAN SIERRA", asistencias: [1,7,2,1,0,0,0,0,0,0,0,0] },
-    { nombre: "YASID MARTINEZ", asistencias: [1,2,3,0,0,0,0,0,0,0,0,0] }
+    { nombre: "ADRIAN SIERRA", asistencias: [1,7,2,2,0,0,0,0,0,0,0,0] },
+    { nombre: "YASID MARTINEZ", asistencias: [1,2,3,0,0,0,0,0,0,0,0,0] },
+    { nombre: "EDGAR ROBERTO", asistencias: [0,0,3,2,0,0,0,0,0,0,0,0] }
 ];
 
 // ----- Ordenar jugadores por porcentaje de asistencia (mayor a menor) -----
