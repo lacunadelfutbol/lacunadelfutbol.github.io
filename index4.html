@@ -5,14 +5,472 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Conócenos - La Cuna del Fútbol</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Estilos específicos para la página Conócenos - Tema Negro/Dorado */
+        :root {
+            --primary-color: #000000;      /* Negro */
+            --secondary-color: #FFD700;    /* Dorado */
+            --accent-color: #B8860B;       /* Dorado oscuro */
+            --light-color: #1a1a1a;        /* Negro claro */
+            --text-color: #ffffff;         /* Texto blanco */
+            --text-secondary: #cccccc;     /* Texto gris claro */
+        }
+        
+        body {
+            background-color: #000000;
+            color: var(--text-color);
+        }
+        
+        .content {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #000000;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, #000000, #1a1a1a);
+            color: var(--secondary-color);
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.1);
+            border: 2px solid var(--secondary-color);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--secondary-color), transparent);
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+            letter-spacing: 1px;
+        }
+        
+        header p {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+        
+        .logo-bottom-right {
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
+            border-radius: 50%;
+            border: 3px solid var(--secondary-color);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+            background-color: #000000;
+            padding: 5px;
+        }
+        
+        .page-intro {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 40px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            padding: 20px;
+            background-color: #1a1a1a;
+            border-radius: 8px;
+            border-left: 4px solid var(--secondary-color);
+        }
+        
+        .page-intro strong {
+            color: var(--secondary-color);
+        }
+        
+        /* Filtros de búsqueda */
+        .filtros-container {
+            background: #1a1a1a;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(255, 215, 0, 0.1);
+            margin-bottom: 30px;
+            border: 1px solid #333;
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        #searchInput {
+            flex: 1;
+            padding: 14px 20px;
+            background-color: #000000;
+            border: 2px solid #333;
+            border-radius: 8px;
+            font-size: 16px;
+            color: var(--text-color);
+            transition: all 0.3s;
+        }
+        
+        #searchInput:focus {
+            border-color: var(--secondary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.1);
+        }
+        
+        #searchInput::placeholder {
+            color: #666;
+        }
+        
+        .filtros-rapidos {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+        }
+        
+        .filtro-btn {
+            padding: 10px 20px;
+            background: #000000;
+            border: 1px solid #333;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            color: var(--text-secondary);
+            min-width: 120px;
+        }
+        
+        .filtro-btn:hover {
+            background: var(--secondary-color);
+            color: #000000;
+            border-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(255, 215, 0, 0.2);
+        }
+        
+        .filtro-btn.active {
+            background: var(--secondary-color);
+            color: #000000;
+            border-color: var(--secondary-color);
+            font-weight: bold;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+        }
+        
+        /* Contenedor de jugadores */
+        .jugadores-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .jugador-card {
+            background: linear-gradient(145deg, #1a1a1a, #000000);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+            position: relative;
+            border: 1px solid #333;
+        }
+        
+        .jugador-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(255, 215, 0, 0.2);
+            border-color: var(--secondary-color);
+        }
+        
+        .jugador-header {
+            background: linear-gradient(135deg, #000000, #1a1a1a);
+            color: var(--secondary-color);
+            padding: 25px;
+            position: relative;
+            border-bottom: 1px solid #333;
+        }
+        
+        .jugador-card:hover .jugador-header {
+            background: linear-gradient(135deg, #1a1a1a, #000000);
+        }
+        
+        .jugador-numero {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #000000;
+            color: var(--secondary-color);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.3rem;
+            border: 2px solid var(--secondary-color);
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+        }
+        
+        .jugador-header h3 {
+            margin: 0;
+            font-size: 1.5rem;
+            text-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
+        }
+        
+        .jugador-info {
+            padding: 25px;
+        }
+        
+        .posiciones {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .posicion-badge {
+            padding: 8px 15px;
+            background: #000000;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--secondary-color);
+            border: 1px solid var(--secondary-color);
+            transition: all 0.3s;
+        }
+        
+        .posicion-badge:hover {
+            background: var(--secondary-color);
+            color: #000000;
+            transform: scale(1.05);
+        }
+        
+        .posicion-badge.portero {
+            background: #1a0000;
+            border-color: #ff4444;
+            color: #ff4444;
+        }
+        
+        .posicion-badge.defensa {
+            background: #001a00;
+            border-color: #44ff44;
+            color: #44ff44;
+        }
+        
+        .posicion-badge.mediocampista {
+            background: #1a1a00;
+            border-color: #ffff44;
+            color: #ffff44;
+        }
+        
+        .posicion-badge.delantero {
+            background: #1a001a;
+            border-color: #ff44ff;
+            color: #ff44ff;
+        }
+        
+        .jugador-descripcion {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-top: 20px;
+            font-size: 0.95rem;
+            text-align: justify;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-valor {
+            font-weight: bold;
+            font-size: 1.4rem;
+            color: var(--secondary-color);
+            text-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
+        }
+        
+        .stat-label {
+            font-size: 0.85rem;
+            color: #888;
+            margin-top: 5px;
+        }
+        
+        /* Contador de resultados */
+        .resultados-info {
+            text-align: center;
+            margin: 25px 0;
+            padding: 20px;
+            background: #1a1a1a;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            border: 1px solid #333;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .resultados-info span {
+            font-weight: bold;
+            color: var(--secondary-color);
+            font-size: 1.3rem;
+        }
+        
+        /* Botones */
+        button {
+            padding: 12px 25px;
+            background: #000000;
+            color: var(--secondary-color);
+            border: 2px solid var(--secondary-color);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            font-size: 16px;
+        }
+        
+        button:hover {
+            background: var(--secondary-color);
+            color: #000000;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
+        }
+        
+        #clearSearch {
+            background: #1a1a1a;
+            border-color: #666;
+            color: #ccc;
+        }
+        
+        #clearSearch:hover {
+            background: #333;
+            border-color: #888;
+            color: #fff;
+        }
+        
+        /* Sin resultados */
+        .no-resultados {
+            text-align: center;
+            padding: 60px 20px;
+            grid-column: 1 / -1;
+            background: #1a1a1a;
+            border-radius: 10px;
+            border: 2px dashed #333;
+        }
+        
+        .no-resultados i {
+            font-size: 4rem;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .no-resultados h3 {
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+        
+        .no-resultados p {
+            color: #666;
+        }
+        
+        /* Footer */
+        footer {
+            margin-top: 50px;
+            padding: 30px 20px;
+            background: #1a1a1a;
+            text-align: center;
+            border-top: 2px solid var(--secondary-color);
+            border-radius: 10px 10px 0 0;
+        }
+        
+        footer p {
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+        
+        footer a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        footer a:hover {
+            text-decoration: underline;
+            text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .jugadores-container {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+            
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            .search-box {
+                flex-direction: column;
+            }
+            
+            .filtros-rapidos {
+                justify-content: flex-start;
+            }
+            
+            .filtro-btn {
+                min-width: 100px;
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .jugadores-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .content {
+                padding: 10px;
+            }
+            
+            header {
+                padding: 20px 15px;
+            }
+            
+            .jugador-card {
+                margin: 0 5px;
+            }
+        }
+        
+        /* Animaciones */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .jugador-card {
+            animation: fadeIn 0.5s ease-out;
+        }
+    </style>
 </head>
 <body>
    <nav id="menu" class="menu">
         <ul>
             <li><a href="index.html">Recomendaciones</a></li>
             <li><a href="index2.html">Entrenamientos</a></li>
-            <li><a href="index3.html">Conócenos</a></li>
+            <li><a href="index3.html" class="active">Conócenos</a></li>
             <li><a href="index4.html">Jugadores</a></li>
             <li><a href="index5.html">Contáctanos</a></li>
             <li><a href="index6.html">Galería</a></li>
@@ -20,7 +478,7 @@
             <li><a href="index8.html">Asistencias</a></li>
             <li><a href="index9.html">Inscripciones</a></li>
             <li><a href="index10.html">Torneos</a></li>
-            <li><a href="index11.html" class="active">Nuestros Héroes</a></li>
+            <li><a href="index11.html">Nuestros Héroes</a></li>
         </ul>
     </nav>
 
@@ -34,199 +492,43 @@
     <!-- Contenido principal -->
     <div class="content">
         <header>
-            <h1>Conoce nuestros jugadores - La Cuna del Fútbol</h1>
+            <h1>Conoce nuestros jugadores</h1>
+            <p>El talento y pasión de La Cuna del Fútbol</p>
             <img src="lacuna.jpg" alt="Logo La Cuna del Fútbol" class="logo-bottom-right">
         </header>
 
         <section>
-            <h2>Jugadores de La Cuna del Fútbol</h2>
+            <div class="page-intro">
+                <p>En <strong>La Cuna del Fútbol</strong>, contamos con un equipo lleno de talento, dedicación y pasión por el deporte. Cada jugador aporta habilidades únicas que enriquecen nuestro juego y fortalecen nuestro espíritu de equipo.</p>
+            </div>
 
-            <p>En La Cuna del Fútbol, contamos con un equipo lleno de talento y pasión por el deporte. A continuación, te presentamos a algunos de nuestros jugadores destacados:</p>
+            <!-- Filtros de búsqueda -->
+            <div class="filtros-container">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Buscar jugador por nombre o posición...">
+                    <button id="clearSearch">
+                        <i class="fas fa-times"></i> Limpiar
+                    </button>
+                </div>
+                
+                <div class="filtros-rapidos">
+                    <button class="filtro-btn active" data-filter="all">Todos</button>
+                    <button class="filtro-btn" data-filter="portero">Porteros</button>
+                    <button class="filtro-btn" data-filter="defensa">Defensas</button>
+                    <button class="filtro-btn" data-filter="mediocampista">Mediocampistas</button>
+                    <button class="filtro-btn" data-filter="delantero">Delanteros</button>
+                    <button class="filtro-btn" data-filter="versatil">Versátiles</button>
+                </div>
+            </div>
+            
+            <!-- Contador de resultados -->
+            <div class="resultados-info" id="resultadosInfo">
+                Mostrando <span id="contadorJugadores">24</span> jugadores
+            </div>
 
-            <div class="jugadores-container">
-                <div class="jugador-card">
-                    <div class="jugador-info">
-                        <h3>Arturo Trejo (#2)</h3>
-                        <p><strong>Posiciones:</strong> Defensa Central (DFC), Delantero (DEL)</p>
-                        <p>Arturo es un jugador versátil que se desempeña principalmente como defensa central, destacando por su capacidad para interceptar balones y su excelente lectura del juego. Además, su habilidad para sumarse al ataque le permite también jugar como delantero, buscando siempre la oportunidad de generar peligro en el área rival.</p>
-                    </div>
-                </div>
-
-                <div class="jugador-card">
-                    <div class="jugador-info">
-                        <h3>Mateo Rodríguez (#3)</h3>
-                        <p><strong>Posiciones:</strong> Defensa Central (DFC), Mediocampista Central (MC)</p>
-                        <p>Mateo es un jugador sólido en la defensa, actuando principalmente como defensa central, pero también tiene un gran manejo de balón que le permite adaptarse como mediocampista central, organizando el juego desde el centro del campo y contribuyendo tanto en defensa como en ataque.</p>
-                    </div>
-                </div>
-
-                <div class="jugador-card">
-                    <div class="jugador-info">
-                        <h3>Gerardo Gómez (#5)</h3>
-                        <p><strong>Posición:</strong> Defensa Central (DFC)</p>
-                        <p>Gerardo es un defensor central robusto, conocido por su capacidad para ganar balones aéreos y su solidez en los duelos individuales. Es el encargado de mantener la seguridad en la última línea, liderando la defensa con su experiencia.</p>
-                    </div>
-                </div>
-
-                <div class="jugador-card">
-                    <div class="jugador-info">
-                        <h3>Alexander Solís (#9)</h3>
-                        <p><strong>Posiciones:</strong> Delantero (DEL), Mediocampista Central (MC), Defensa Central (DFC), Portero (POR)</p>
-                        <p>Alexander es un jugador polifacético que ha demostrado gran adaptabilidad en diversas posiciones. Su principal rol es como delantero, donde utiliza su velocidad y capacidad de finalización, pero también puede desempeñarse como mediocampista, defensa central o incluso portero en situaciones críticas.</p>
-                    </div>
-                </div>
-
-                <div class="jugador-card">
-                    <div class="jugador-info">
-                        <h3>Yeik Solís (#10)</h3>
-                        <p><strong>Posiciones:</strong> Delantero (DEL), Mediocampista Central (MC)</p>
-                        <p>Yeik es un jugador con gran capacidad ofensiva, destacando principalmente como delantero por su agilidad y capacidad para generar oportunidades de gol. Sin embargo, también puede actuar como mediocampista central, contribuyendo al control del balón y la distribución de juego.</p>
-                    </div>
-                </div>
-
-                <div class="jugador-card">
-                    <div class="jugador-info">
-                        <h3>Fernando Ángeles (#11)</h3>
-                        <p><strong>Posiciones:</strong> Mediocampista Central (MC), Delantero (DEL)</p>
-                        <p>Fernando es un mediocampista central con gran visión de juego, capaz de distribuir el balón con precisión y generar jugadas de peligro. Su capacidad para llegar al área rival también le permite jugar como delantero, aportando tanto en defensa como en ataque.</p>
-                    </div>
-                </div>
-
-                <div class="jugador-card">
-                    <div class="jugador-info">
-                        <h3>Yasid Martínez (#15)</h3>
-                        <p><strong>Posición:</strong> Mediocampista Central (MC)</p>
-                        <p>Yasid es un mediocampista central dinámico, conocido por su capacidad para recuperar balones y distribuir el juego de forma eficiente. Su presencia en el centro del campo es fundamental para conectar las líneas de defensa y ataque.</p>
-                    </div>
-                </div>
-
-                <div class="jugador-card">
-                    <div class="jugador-info">
-                        <h3>Alan Ramírez (#22)</h3>
-                        <p><strong>Posición:</strong> Defensa Central (DFC)</p>
-                        <p>Alan es un defensor central con gran capacidad para desactivar jugadas peligrosas. Su agresividad y liderazgo lo convierten en una pieza clave en la defensa, donde siempre está dispuesto a poner su cuerpo en el balón y proteger su arco.</p>
-                    </div>
-                </div>
-
-                <div class="jugador-card">
-                    <div class="jugador-info">
-                        <h3>Alexis Hernández (#7)</h3>
-                        <p><strong>Posición:</strong> No Especificada</p>
-                        <p>Alexis es un jugador versátil cuya posición aún se puede definir según las necesidades del equipo. Su adaptabilidad le permite jugar en diferentes roles dentro del campo.</p>
-                    </div>
-                </div>
-
-                <div class="jugador-card">
-                    <div class="jugador-info">
-                        <h3>Iker Alexis (#17)</h3>
-                        <p><strong>Posiciones:</strong> Defensa Central (DFC), Mediocampista Central (MC)</p>
-                        <p>Iker es un jugador con gran capacidad defensiva, destacando como defensa central por su habilidad para leer el juego y anticipar jugadas. También puede aportar en el mediocampo, donde su visión de juego y habilidades de pase son muy útiles.</p>
-                    </div>
-                </div>
-
-                <div class="jugador-card">
-                    <div class="jugador-info">
-                        <h3>Barush (#30)</h3>
-                        <p><strong>Posiciones:</strong> Delantero (DEL), Mediocampista Central (MC), Defensa Central (DFC)</p>
-                        <p>Barush es un jugador extremadamente versátil, capaz de desempeñarse en varias posiciones. Su rol principal es como delantero, pero también tiene habilidades defensivas y de mediocampo, lo que le permite adaptarse a diferentes situaciones durante los partidos.</p>
-                    </div>
-                </div>
-
-                <div class="jugador-card">
-                    <div class="jugador-info">
-                        <h3>Axel (#27)</h3>
-                        <p><strong>Posiciones:</strong> Defensa Central (DFC), Mediocampista Central (MC)</p>
-                        <p>Axel se destaca por su solidez defensiva como defensa central, siendo una roca en la última línea. Además, puede actuar como mediocampista central, aportando en la recuperación y distribución del balón.</p>
-                    </div>
-                </div>
-
-                <div class="jugador-card">
-                    <div class="jugador-info">
-                        <h3>Santiago (#25)</h3>
-                        <p><strong>Posición:</strong> Portero (POR)</p>
-                        <p>Santiago es el guardameta titular del equipo, conocido por su gran agilidad bajo los tres palos y su capacidad para realizar paradas decisivas. Su liderazgo en el área es fundamental para mantener el orden defensivo.</p>
-                    </div>
-                </div>
-
-                <div class="jugador-card">
-                    <div class="jugador-info">
-                        <h3>Josmar (#8)</h3>
-                        <p><strong>Posiciones:</strong> Delantero (DEL), Mediocampista Central (MC), Portero (POR)</p>
-                        <p>Josmar es un jugador completo que se desempeña como delantero y mediocampista central, pero también ha demostrado habilidades bajo los tres palos en situaciones especiales. Su polivalencia lo convierte en un jugador clave para el equipo.</p>
-                    </div>
-                </div>
-
-                <div class="jugador-card">
-                    <div class="jugador-info">
-                        <h3>Karim (#12)</h3>
-                        <p><strong>Posiciones:</strong> Mediocampista Central (MC), Delantero (DEL)</p>
-                        <p>Karim es un mediocampista central con gran capacidad para controlar el ritmo del juego. También tiene una buena llegada al área, lo que le permite sumarse al ataque y contribuir como delantero.</p>
-                    </div>
-                </div>
-
-                <div class="jugador-card">
-                    <div class="jugador-info">
-                        <h3>Frankie (#27)</h3>
-                        <p><strong>Posición:</strong> Mediocampista Central (MC)</p>
-                        <p>Frankie es un mediocampista central con gran visión de juego y habilidades de pase. Su capacidad para distribuir el balón de manera precisa y su compromiso defensivo lo convierten en un jugador fundamental en el centro del campo.</p>
-                    </div>
-                </div>
-                <div class="jugador-card">
-                    <div class="jugador-info">
-                        <h3>Sandro (#43)</h3>
-                        <p><strong>Posición:</strong> Centro delantero (DEL)</p>
-                        <p>Sandro es un atacante explosivo con gran capacidad de definición y velocidad. Su habilidad para el regate lo hace peligroso en el uno contra uno.</p>
-                    </div>
-                </div>
-                <div class="jugador-card">
-                    <div class="jugador-info">
-                        <h3>Mati (#21)</h3>
-                        <p><strong>Posición:</strong> Centro delantero (DEL)</p>
-                        <p>Mati destaca por su instinto goleador y excelente posicionamiento en el área. Siempre está listo para aprovechar cualquier oportunidad.</p>
-                    </div>
-                </div>
-                <div class="jugador-card">
-                    <div class="jugador-info">
-                        <h3>Santi (#29)</h3>
-                        <p><strong>Posición:</strong> Centro delantero (DEL)</p>
-                        <p>Santi es el motor del equipo en el mediocampo, distribuye el balón con inteligencia y es clave en la transición defensa-ataque.</p>
-                    </div>
-                </div>
-                <div class="jugador-card">
-                    <div class="jugador-info">
-                        <h3>Lucas (#)</h3>
-                        <p><strong>Posición:</strong> Medio campista (MC)</p>
-                        <p>Lucas aporta equilibrio al equipo con su capacidad para recuperar balones y apoyar en la construcción del juego ofensivo.</p>
-                    </div>
-                </div>
-                <div class="jugador-card">
-                    <div class="jugador-info">
-                        <h3>Cristopher (#33)</h3>
-                        <p><strong>Posición:</strong> Centro delantero (DEL)</p>
-                        <p>Cristopher es un delantero creativo, capaz de generar jugadas de peligro y asistir a sus compañeros. Su visión de juego es destacada.</p>
-                    </div>
-                </div>
-                                <div class="jugador-card">
-                    <div class="jugador-info">
-                        <h3>Brayan (#66)</h3>
-                        <p><strong>Posición:</strong> Medio Campista Ofensivo (MCO)</p>
-                        <p>Brayan es el cerebro ofensivo del equipo. Su precisión en los pases y su capacidad para romper líneas lo convierten en un jugador fundamental.</p>
-                    </div>
-                </div>
-                                <div class="jugador-card">
-                    <div class="jugador-info">
-                        <h3>Richy (#)</h3>
-                        <p><strong>Posición:</strong> Defensa Central (DFC)</p>
-                        <p>Richy es un defensor aguerrido, siempre atento a cortar jugadas del rival. Su fuerza física lo hace dominante en los duelos.</p>
-                    </div>
-                </div>
-                <div class="jugador-card">
-                    <div class="jugador-info">
-                        <h3>Adrian Sierra (#18)</h3>
-                        <p><strong>Posición:</strong> Delantero central (DEL)</p>
-                        <p>Adrian es un delantero aguerrido, siempre atento a cortar jugadas del rival. Su fuerza física lo hace dominante en los duelos lo que permite siempre estar solo mano a mano con los porteros rivales.</p>
-                    </div>
-                </div>
+            <!-- Contenedor de jugadores -->
+            <div class="jugadores-container" id="jugadoresContainer">
+                <!-- Las tarjetas se generarán dinámicamente con JavaScript -->
             </div>
 
         </section>
@@ -237,6 +539,338 @@
         </footer>
     </div>
 
-    <script src="script4.js"></script>
+    <script>
+        // Datos de los jugadores
+        const jugadores = [
+            { 
+                nombre: "Arturo Trejo", 
+                numero: 2,
+                posiciones: ["Defensa Central (DFC)", "Delantero (DEL)"], 
+                descripcion: "Arturo es un jugador versátil que se desempeña principalmente como defensa central, destacando por su capacidad para interceptar balones y su excelente lectura del juego. Además, su habilidad para sumarse al ataque le permite también jugar como delantero.",
+                categoria: "versatil"
+            },
+            { 
+                nombre: "Mateo Rodríguez", 
+                numero: 3,
+                posiciones: ["Defensa Central (DFC)", "Mediocampista Central (MC)"], 
+                descripcion: "Mateo es un jugador sólido en la defensa, actuando principalmente como defensa central, pero también tiene un gran manejo de balón que le permite adaptarse como mediocampista central.",
+                categoria: "versatil"
+            },
+            { 
+                nombre: "Gerardo Gómez", 
+                numero: 5,
+                posiciones: ["Defensa Central (DFC)"], 
+                descripcion: "Gerardo es un defensor central robusto, conocido por su capacidad para ganar balones aéreos y su solidez en los duelos individuales. Es el encargado de mantener la seguridad en la última línea.",
+                categoria: "defensa"
+            },
+            { 
+                nombre: "Alexander Solís", 
+                numero: 9,
+                posiciones: ["Delantero (DEL)", "Mediocampista Central (MC)", "Defensa Central (DFC)", "Portero (POR)"], 
+                descripcion: "Alexander es un jugador polifacético que ha demostrado gran adaptabilidad en diversas posiciones. Su principal rol es como delantero, donde utiliza su velocidad y capacidad de finalización.",
+                categoria: "versatil"
+            },
+            { 
+                nombre: "Yeik Solís", 
+                numero: 10,
+                posiciones: ["Delantero (DEL)", "Mediocampista Central (MC)"], 
+                descripcion: "Yeik es un jugador con gran capacidad ofensiva, destacando principalmente como delantero por su agilidad y capacidad para generar oportunidades de gol.",
+                categoria: "versatil"
+            },
+            { 
+                nombre: "Fernando Ángeles", 
+                numero: 11,
+                posiciones: ["Mediocampista Central (MC)", "Delantero (DEL)"], 
+                descripcion: "Fernando es un mediocampista central con gran visión de juego, capaz de distribuir el balón con precisión y generar jugadas de peligro.",
+                categoria: "versatil"
+            },
+            { 
+                nombre: "Yasid Martínez", 
+                numero: 15,
+                posiciones: ["Mediocampista Central (MC)"], 
+                descripcion: "Yasid es un mediocampista central dinámico, conocido por su capacidad para recuperar balones y distribuir el juego de forma eficiente.",
+                categoria: "mediocampista"
+            },
+            { 
+                nombre: "Alan Ramírez", 
+                numero: 22,
+                posiciones: ["Defensa Central (DFC)"], 
+                descripcion: "Alan es un defensor central con gran capacidad para desactivar jugadas peligrosas. Su agresividad y liderazgo lo convierten en una pieza clave en la defensa.",
+                categoria: "defensa"
+            },
+            { 
+                nombre: "Alexis Hernández", 
+                numero: 7,
+                posiciones: ["Jugador Versátil"], 
+                descripcion: "Alexis es un jugador versátil cuya posición aún se puede definir según las necesidades del equipo. Su adaptabilidad le permite jugar en diferentes roles dentro del campo.",
+                categoria: "versatil"
+            },
+            { 
+                nombre: "Iker Alexis", 
+                numero: 17,
+                posiciones: ["Defensa Central (DFC)", "Mediocampista Central (MC)"], 
+                descripcion: "Iker es un jugador con gran capacidad defensiva, destacando como defensa central por su habilidad para leer el juego y anticipar jugadas.",
+                categoria: "versatil"
+            },
+            { 
+                nombre: "Barush", 
+                numero: 30,
+                posiciones: ["Delantero (DEL)", "Mediocampista Central (MC)", "Defensa Central (DFC)"], 
+                descripcion: "Barush es un jugador extremadamente versátil, capaz de desempeñarse en varias posiciones. Su rol principal es como delantero.",
+                categoria: "versatil"
+            },
+            { 
+                nombre: "Axel", 
+                numero: 27,
+                posiciones: ["Defensa Central (DFC)", "Mediocampista Central (MC)"], 
+                descripcion: "Axel se destaca por su solidez defensiva como defensa central, siendo una roca en la última línea. Además, puede actuar como mediocampista central.",
+                categoria: "versatil"
+            },
+            { 
+                nombre: "Santiago", 
+                numero: 25,
+                posiciones: ["Portero (POR)"], 
+                descripcion: "Santiago es el guardameta titular del equipo, conocido por su gran agilidad bajo los tres palos y su capacidad para realizar paradas decisivas.",
+                categoria: "portero"
+            },
+            { 
+                nombre: "Josmar", 
+                numero: 8,
+                posiciones: ["Delantero (DEL)", "Mediocampista Central (MC)", "Portero (POR)"], 
+                descripcion: "Josmar es un jugador completo que se desempeña como delantero y mediocampista central, pero también ha demostrado habilidades bajo los tres palos.",
+                categoria: "versatil"
+            },
+            { 
+                nombre: "Karim", 
+                numero: 12,
+                posiciones: ["Mediocampista Central (MC)", "Delantero (DEL)"], 
+                descripcion: "Karim es un mediocampista central con gran capacidad para controlar el ritmo del juego. También tiene una buena llegada al área.",
+                categoria: "versatil"
+            },
+            { 
+                nombre: "Frankie", 
+                numero: 27,
+                posiciones: ["Mediocampista Central (MC)"], 
+                descripcion: "Frankie es un mediocampista central con gran visión de juego y habilidades de pase. Su capacidad para distribuir el balón es fundamental.",
+                categoria: "mediocampista"
+            },
+            { 
+                nombre: "Sandro", 
+                numero: 43,
+                posiciones: ["Centro Delantero (DEL)"], 
+                descripcion: "Sandro es un atacante explosivo con gran capacidad de definición y velocidad. Su habilidad para el regate lo hace peligroso en el uno contra uno.",
+                categoria: "delantero"
+            },
+            { 
+                nombre: "Mati", 
+                numero: 21,
+                posiciones: ["Centro Delantero (DEL)"], 
+                descripcion: "Mati destaca por su instinto goleador y excelente posicionamiento en el área. Siempre está listo para aprovechar cualquier oportunidad.",
+                categoria: "delantero"
+            },
+            { 
+                nombre: "Santi", 
+                numero: 29,
+                posiciones: ["Centro Delantero (DEL)"], 
+                descripcion: "Santi es el motor del equipo en el mediocampo, distribuye el balón con inteligencia y es clave en la transición defensa-ataque.",
+                categoria: "delantero"
+            },
+            { 
+                nombre: "Lucas", 
+                numero: null,
+                posiciones: ["Mediocampista (MC)"], 
+                descripcion: "Lucas aporta equilibrio al equipo con su capacidad para recuperar balones y apoyar en la construcción del juego ofensivo.",
+                categoria: "mediocampista"
+            },
+            { 
+                nombre: "Cristopher", 
+                numero: 33,
+                posiciones: ["Centro Delantero (DEL)"], 
+                descripcion: "Cristopher es un delantero creativo, capaz de generar jugadas de peligro y asistir a sus compañeros. Su visión de juego es destacada.",
+                categoria: "delantero"
+            },
+            { 
+                nombre: "Brayan", 
+                numero: 66,
+                posiciones: ["Mediocampista Ofensivo (MCO)"], 
+                descripcion: "Brayan es el cerebro ofensivo del equipo. Su precisión en los pases y su capacidad para romper líneas lo convierten en un jugador fundamental.",
+                categoria: "mediocampista"
+            },
+            { 
+                nombre: "Richy", 
+                numero: null,
+                posiciones: ["Defensa Central (DFC)"], 
+                descripcion: "Richy es un defensor aguerrido, siempre atento a cortar jugadas del rival. Su fuerza física lo hace dominante en los duelos.",
+                categoria: "defensa"
+            },
+            { 
+                nombre: "Adrian Sierra", 
+                numero: 18,
+                posiciones: ["Delantero Central (DEL)"], 
+                descripcion: "Adrian es un delantero aguerrido, siempre atento a cortar jugadas del rival. Su fuerza física lo hace dominante en los duelos lo que permite siempre estar solo mano a mano con los porteros rivales.",
+                categoria: "delantero"
+            }
+        ];
+
+        // Función para determinar la clase CSS de la posición
+        function getPosicionClass(posicion) {
+            if (posicion.includes('Portero') || posicion.includes('POR')) return 'portero';
+            if (posicion.includes('Defensa') || posicion.includes('DFC')) return 'defensa';
+            if (posicion.includes('Mediocampista') || posicion.includes('MC') || posicion.includes('MCO')) return 'mediocampista';
+            if (posicion.includes('Delantero') || posicion.includes('DEL')) return 'delantero';
+            return '';
+        }
+
+        // Función para renderizar jugadores
+        function renderizarJugadores(jugadoresAMostrar) {
+            const container = document.getElementById('jugadoresContainer');
+            const contador = document.getElementById('contadorJugadores');
+            
+            container.innerHTML = '';
+            contador.textContent = jugadoresAMostrar.length;
+            
+            if (jugadoresAMostrar.length === 0) {
+                container.innerHTML = `
+                    <div class="no-resultados">
+                        <i class="fas fa-search"></i>
+                        <h3>No se encontraron jugadores</h3>
+                        <p>Intenta con otro nombre o cambia el filtro</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            jugadoresAMostrar.forEach(jugador => {
+                const jugadorCard = document.createElement('div');
+                jugadorCard.className = 'jugador-card';
+                
+                // Crear badges de posiciones
+                const posicionesHTML = jugador.posiciones.map(pos => `
+                    <span class="posicion-badge ${getPosicionClass(pos)}">${pos}</span>
+                `).join('');
+                
+                jugadorCard.innerHTML = `
+                    <div class="jugador-header">
+                        ${jugador.numero ? `<div class="jugador-numero">#${jugador.numero}</div>` : ''}
+                        <h3>${jugador.nombre}</h3>
+                    </div>
+                    <div class="jugador-info">
+                        <div class="posiciones">
+                            ${posicionesHTML}
+                        </div>
+                        <p class="jugador-descripcion">${jugador.descripcion}</p>
+                        <div class="stats">
+                            <div class="stat-item">
+                                <div class="stat-valor">${jugador.posiciones.length}</div>
+                                <div class="stat-label">Posiciones</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-valor">${jugador.categoria === 'versatil' ? '★' : '✓'}</div>
+                                <div class="stat-label">${jugador.categoria === 'versatil' ? 'Versátil' : 'Especialista'}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                container.appendChild(jugadorCard);
+            });
+        }
+
+        // Función para filtrar jugadores
+        function filtrarJugadores() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const filtroActivo = document.querySelector('.filtro-btn.active').dataset.filter;
+            
+            let jugadoresFiltrados = jugadores.filter(jugador => {
+                // Filtrar por búsqueda de texto
+                const matchSearch = !searchTerm || 
+                    jugador.nombre.toLowerCase().includes(searchTerm) ||
+                    jugador.posiciones.some(pos => pos.toLowerCase().includes(searchTerm)) ||
+                    jugador.descripcion.toLowerCase().includes(searchTerm);
+                
+                // Filtrar por categoría
+                const matchFilter = filtroActivo === 'all' || jugador.categoria === filtroActivo;
+                
+                return matchSearch && matchFilter;
+            });
+            
+            renderizarJugadores(jugadoresFiltrados);
+        }
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', function() {
+            // Renderizar todos los jugadores al inicio
+            renderizarJugadores(jugadores);
+            
+            // Configurar búsqueda
+            document.getElementById('searchInput').addEventListener('input', filtrarJugadores);
+            
+            document.getElementById('clearSearch').addEventListener('click', function() {
+                document.getElementById('searchInput').value = '';
+                filtrarJugadores();
+            });
+            
+            // Configurar filtros rápidos
+            document.querySelectorAll('.filtro-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.filtro-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    filtrarJugadores();
+                });
+            });
+            
+            // Menú toggle (copiado de tu script original)
+            document.getElementById("menu-toggle").addEventListener("click", function() {
+                var menu = document.getElementById("menu");
+                if (menu.style.left === "-250px") {
+                    menu.style.left = "0";
+                } else {
+                    menu.style.left = "-250px";
+                }
+            });
+            
+            // Efecto de escritura en el placeholder
+            const searchInput = document.getElementById('searchInput');
+            const placeholders = [
+                "Buscar por nombre...",
+                "Buscar por posición...",
+                "Ej: Delantero",
+                "Ej: Alexander",
+                "Ej: Defensa"
+            ];
+            
+            let currentPlaceholder = 0;
+            let charIndex = 0;
+            let isDeleting = false;
+            
+            function typePlaceholder() {
+                const currentText = placeholders[currentPlaceholder];
+                
+                if (isDeleting) {
+                    searchInput.placeholder = currentText.substring(0, charIndex - 1);
+                    charIndex--;
+                } else {
+                    searchInput.placeholder = currentText.substring(0, charIndex + 1);
+                    charIndex++;
+                }
+                
+                if (!isDeleting && charIndex === currentText.length) {
+                    isDeleting = true;
+                    setTimeout(typePlaceholder, 1000);
+                } else if (isDeleting && charIndex === 0) {
+                    isDeleting = false;
+                    currentPlaceholder = (currentPlaceholder + 1) % placeholders.length;
+                    setTimeout(typePlaceholder, 300);
+                } else {
+                    setTimeout(typePlaceholder, isDeleting ? 50 : 100);
+                }
+            }
+            
+            // Iniciar efecto de escritura solo si el input está vacío
+            if (!searchInput.value) {
+                typePlaceholder();
+            }
+        });
+    </script>
 </body>
 </html>
