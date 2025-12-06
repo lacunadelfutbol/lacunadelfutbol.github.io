@@ -4,15 +4,609 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Conócenos - La Cuna del Fútbol</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Enlace al archivo CSS -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Agregar Chart.js -->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Tema negro/dorado */
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #000000;
+        }
+
+        /* Header mejorado */
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 50px 30px;
+            background: linear-gradient(135deg, #000000, #1a1a1a);
+            border-radius: 20px;
+            border: 3px solid #FFD700;
+            box-shadow: 0 15px 35px rgba(255, 215, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, transparent, #FFD700, #B8860B, transparent);
+        }
+
+        header h1 {
+            font-size: 3.5rem;
+            color: #FFD700;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+        }
+
+        .logo-bottom-right {
+            width: 180px;
+            height: auto;
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            border: 3px solid #FFD700;
+            padding: 10px;
+            background: #000000;
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.5);
+        }
+
+        /* Sección principal */
+        section {
+            background: linear-gradient(145deg, #1a1a1a, #000000);
+            border-radius: 20px;
+            padding: 50px;
+            border: 2px solid #333;
+            margin-bottom: 50px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: #FFD700;
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        section:hover::before {
+            transform: scaleX(1);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+            padding-bottom: 20px;
+        }
+
+        .section-title h2 {
+            font-size: 2.8rem;
+            color: #FFD700;
+            display: inline-block;
+            padding: 0 30px;
+            background: #1a1a1a;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #FFD700, transparent);
+        }
+
+        /* Contenido de texto */
+        .about-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .about-text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #e0e0e0;
+            margin-bottom: 30px;
+            text-align: justify;
+            padding: 20px;
+            background: rgba(255, 215, 0, 0.05);
+            border-radius: 15px;
+            border-left: 4px solid #FFD700;
+        }
+
+        .highlight {
+            color: #FFD700;
+            font-weight: bold;
+            text-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
+        }
+
+        .important-date {
+            display: inline-block;
+            background: rgba(255, 215, 0, 0.1);
+            color: #FFD700;
+            padding: 8px 20px;
+            border-radius: 20px;
+            border: 2px solid #FFD700;
+            font-weight: bold;
+            margin: 5px;
+            font-size: 1.1rem;
+        }
+
+        /* Tarjetas informativas - ANIMACIONES CORREGIDAS */
+        .info-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
+        }
+
+        .info-card {
+            background: linear-gradient(145deg, #000000, #1a1a1a);
+            border-radius: 15px;
+            padding: 30px;
+            border: 2px solid #333;
+            transition: all 0.4s ease;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .info-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .info-card:hover {
+            transform: translateY(-10px);
+            border-color: #FFD700;
+            box-shadow: 0 20px 40px rgba(255, 215, 0, 0.2);
+        }
+
+        .info-card-icon {
+            font-size: 3.5rem;
+            color: #FFD700;
+            margin-bottom: 20px;
+        }
+
+        .info-card h3 {
+            color: #FFD700;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        .info-card p {
+            color: #cccccc;
+            line-height: 1.6;
+            font-size: 1.1rem;
+        }
+
+        /* Línea de tiempo - ANIMACIONES CORREGIDAS */
+        .timeline-container {
+            position: relative;
+            margin: 50px 0;
+            padding: 40px 0;
+        }
+
+        .timeline-container::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, #FFD700, #B8860B, #FFD700);
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 60px;
+            width: 45%;
+            padding: 25px;
+            background: linear-gradient(145deg, #000000, #1a1a1a);
+            border-radius: 15px;
+            border: 2px solid #333;
+            opacity: 0;
+        }
+
+        .timeline-item:nth-child(odd) {
+            left: 0;
+            transform: translateX(-50px);
+        }
+
+        .timeline-item:nth-child(even) {
+            left: 55%;
+            transform: translateX(50px);
+        }
+
+        .timeline-item.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            top: 30px;
+            width: 20px;
+            height: 20px;
+            background: #FFD700;
+            border-radius: 50%;
+            border: 3px solid #000000;
+        }
+
+        .timeline-item:nth-child(odd)::before {
+            right: -45px;
+        }
+
+        .timeline-item:nth-child(even)::before {
+            left: -45px;
+        }
+
+        .timeline-year {
+            color: #FFD700;
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+        }
+
+        .timeline-content {
+            color: #e0e0e0;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        /* Patrocinadores */
+        .sponsors-section {
+            text-align: center;
+            margin: 60px 0;
+            padding: 40px;
+            background: linear-gradient(145deg, #1a1a1a, #000000);
+            border-radius: 20px;
+            border: 2px solid #333;
+        }
+
+        .sponsors-grid {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .sponsor-item {
+            background: #000000;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #FFD700;
+            transition: all 0.3s;
+        }
+
+        .sponsor-item:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .sponsor-item h4 {
+            color: #FFD700;
+            margin-top: 10px;
+            font-size: 1.2rem;
+        }
+
+        /* Botón flotante de Facebook */
+        .fb-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(45deg, #1877F2, #0A5BC4);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(24, 119, 242, 0.4);
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+
+        .fb-float:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 25px rgba(24, 119, 242, 0.6);
+        }
+
+        .fb-float svg {
+            width: 30px;
+            height: 30px;
+        }
+
+        .fb-tooltip {
+            position: absolute;
+            right: 70px;
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            border: 1px solid #FFD700;
+        }
+
+        .fb-float:hover .fb-tooltip {
+            opacity: 1;
+        }
+
+        /* Cita destacada - ANIMACIÓN CORREGIDA */
+        .highlight-quote {
+            text-align: center;
+            padding: 40px;
+            margin: 40px 0;
+            background: linear-gradient(145deg, #000000, #1a1a1a);
+            border-radius: 15px;
+            border: 3px solid #FFD700;
+            position: relative;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .highlight-quote.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .highlight-quote::before {
+            content: '"';
+            position: absolute;
+            top: 20px;
+            left: 30px;
+            font-size: 6rem;
+            color: #FFD700;
+            opacity: 0.3;
+            font-family: serif;
+        }
+
+        .highlight-quote p {
+            font-size: 1.8rem;
+            color: #FFD700;
+            font-style: italic;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
+        }
+
+        .highlight-quote .author {
+            color: #cccccc;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding: 40px 20px;
+            background: #1a1a1a;
+            border-top: 3px solid #FFD700;
+            border-radius: 20px 20px 0 0;
+        }
+
+        footer p {
+            color: #cccccc;
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+
+        footer a {
+            color: #FFD700;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+        }
+
+        /* Botón de acción - ANIMACIÓN CORREGIDA */
+        .action-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            background: linear-gradient(45deg, #000000, #1a1a1a);
+            color: #FFD700;
+            border: 2px solid #FFD700;
+            padding: 15px 35px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+            text-decoration: none;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .action-button.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .action-button:hover {
+            background: #FFD700;
+            color: #000000;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.3);
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            header h1 {
+                font-size: 3rem;
+            }
+            
+            .logo-bottom-right {
+                width: 150px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .logo-bottom-right {
+                position: relative;
+                bottom: auto;
+                right: auto;
+                margin: 20px auto;
+                display: block;
+                width: 140px;
+            }
+            
+            .section-title h2 {
+                font-size: 2.2rem;
+            }
+            
+            .timeline-container::before {
+                left: 30px;
+            }
+            
+            .timeline-item {
+                width: calc(100% - 60px);
+                left: 60px !important;
+            }
+            
+            .timeline-item::before {
+                left: -45px !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                padding: 15px;
+            }
+            
+            header {
+                padding: 30px 20px;
+            }
+            
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            section {
+                padding: 30px;
+            }
+            
+            .about-text {
+                font-size: 1.1rem;
+                padding: 15px;
+            }
+            
+            .info-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .sponsors-grid {
+                gap: 30px;
+            }
+            
+            .fb-float {
+                bottom: 20px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+            }
+            
+            .fb-float svg {
+                width: 25px;
+                height: 25px;
+            }
+            
+            .highlight-quote p {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .section-title h2 {
+                font-size: 1.8rem;
+                padding: 0 15px;
+            }
+            
+            .about-text {
+                font-size: 1rem;
+                text-align: left;
+            }
+            
+            .important-date {
+                display: block;
+                margin: 10px 0;
+                text-align: center;
+            }
+            
+            .info-card {
+                padding: 20px;
+            }
+            
+            .info-card-icon {
+                font-size: 2.5rem;
+            }
+            
+            .fb-tooltip {
+                display: none;
+            }
+            
+            .highlight-quote p {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
 </head>
 <body>
    <nav id="menu" class="menu">
         <ul>
             <li><a href="index.html">Recomendaciones</a></li>
             <li><a href="index2.html">Entrenamientos</a></li>
-            <li><a href="index3.html">Conócenos</a></li>
+            <li><a href="index3.html" class="active">Conócenos</a></li>
             <li><a href="index4.html">Jugadores</a></li>
             <li><a href="index5.html">Contáctanos</a></li>
             <li><a href="index6.html">Galería</a></li>
@@ -20,7 +614,7 @@
             <li><a href="index8.html">Asistencias</a></li>
             <li><a href="index9.html">Inscripciones</a></li>
             <li><a href="index10.html">Torneos</a></li>
-            <li><a href="index11.html" class="active">Nuestros Héroes</a></li>
+            <li><a href="index11.html">Nuestros Héroes</a></li>
         </ul>
     </nav>
 
@@ -34,40 +628,267 @@
     <!-- Contenido principal -->
     <div class="content">
         <header>
-            <h1>Conócenos - La Cuna del Fútbol</h1>
-            <!-- Imagen Lacuna abajo a la derecha -->
+            <h1>Conócenos</h1>
+            <p style="color: #cccccc; font-size: 1.3rem;">La historia y filosofía de La Cuna del Fútbol</p>
             <img src="lacuna.jpg" alt="Logo La Cuna del Fútbol" class="logo-bottom-right">
         </header>
-<!-- Botón flotante de Facebook -->
-<a id="fb-float" class="fb-float" href="https://www.facebook.com/profile.php?id=61575543471765" target="_blank" rel="noopener noreferrer" aria-label="Ir a Facebook">
-  <!-- SVG del logo de Facebook (blanco) -->
-  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
-    <path fill="currentColor" d="M22 12a10 10 0 10-11.5 9.9v-7H8.9V12h1.6V9.8c0-1.6.96-2.5 2.42-2.5.7 0 1.44.13 1.44.13v1.58h-.81c-.8 0-1.05.5-1.05 1.02V12h1.78l-.28 2.9h-1.5v7A10 10 0 0022 12z"/>
-  </svg>
-  <span class="fb-tooltip">Síguenos en Facebook</span>
-</a>
+
+        <!-- Botón flotante de Facebook -->
+        <a id="fb-float" class="fb-float" href="https://www.facebook.com/profile.php?id=61575543471765" target="_blank" rel="noopener noreferrer" aria-label="Ir a Facebook">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path fill="currentColor" d="M22 12a10 10 0 10-11.5 9.9v-7H8.9V12h1.6V9.8c0-1.6.96-2.5 2.42-2.5.7 0 1.44.13 1.44.13v1.58h-.81c-.8 0-1.05.5-1.05 1.02V12h1.78l-.28 2.9h-1.5v7A10 10 0 0022 12z"/>
+            </svg>
+            <span class="fb-tooltip">Síguenos en Facebook</span>
+        </a>
 
         <section>
-            <h2>¿Quiénes somos?</h2>
-            <p><strong>La Cuna del Fútbol</strong> es un club dedicado a la formación integral de niños y jóvenes en el mundo del fútbol. Fundado el <strong>26 de octubre de 2024</strong>, nuestro objetivo es mejorar las habilidades futbolísticas de nuestros jugadores y fomentar valores como el trabajo en equipo, la disciplina y el respeto.</p>
+            <div class="section-title">
+                <h2>¿Quiénes Somos?</h2>
+            </div>
+            
+            <div class="about-content">
+                <div class="about-text">
+                    <span class="highlight">La Cuna del Fútbol</span> es un club dedicado a la formación integral de niños y jóvenes en el mundo del fútbol. Fundado el <span class="important-date">26 de octubre de 2024</span>, nuestro objetivo es mejorar las habilidades futbolísticas de nuestros jugadores y fomentar valores como el trabajo en equipo, la disciplina y el respeto.
+                </div>
+                
+                <div class="about-text">
+                    Desde nuestros inicios, nos hemos enfocado en ofrecer <span class="highlight">entrenamientos gratuitos</span> para todos nuestros jugadores. Creemos que el acceso al deporte debe ser inclusivo, por lo que nuestros entrenamientos no tienen ningún costo. Queremos asegurarnos de que todos los niños de nuestra comunidad tengan la oportunidad de desarrollarse y crezar en el fútbol, independientemente de su situación económica.
+                </div>
+                
+                <div class="about-text">
+                    Nuestra <span class="highlight">casa y lugar de entrenamiento</span> es la emblemática <span class="highlight">Cancha de San Luis</span>, conocida popularmente como <span class="highlight">Las Playas</span>, ubicada en <span class="highlight">Real del Monte</span>. Este municipio, con su rica tradición minera y cultural, es reconocido como <span class="highlight">"La Cuna del Fútbol"</span> en México. A finales del siglo XIX, los mineros y técnicos de origen inglés que trabajaban en la Compañía Real del Monte y Pachuca introdujeron el fútbol en la región. En particular, el <span class="important-date">12 de mayo de 1889</span>, se celebró el primer partido de fútbol documentado en México, gracias a la influencia de estos trabajadores ingleses.
+                </div>
+                
+                <div class="about-text">
+                    Posteriormente, el <span class="important-date">1 de noviembre de 1892</span>, se fundó el <span class="highlight">Pachuca Football Club</span>, considerado el primer club de fútbol en México. Este legado futbolístico ha perdurado, y Real del Monte sigue siendo un punto de referencia para los amantes del fútbol en el país.
+                </div>
+                
+                <div class="about-text">
+                    Además de nuestros entrenamientos, <span class="highlight">La Cuna del Fútbol</span> cuenta con el apoyo de patrocinadores locales como <span class="highlight">Carnicería El Güero</span> y el <span class="highlight">Club de Fútbol Real Zaragoza</span>, quienes nos ayudan a proporcionar el mejor ambiente para que nuestros jóvenes aprendan y crezcan en el fútbol.
+                </div>
+                
+                <div class="about-text">
+                    En <span class="highlight">La Cuna del Fútbol</span>, nos apasiona este deporte y nos comprometemos a brindar un espacio seguro, formativo y accesible para todos los jóvenes que deseen unirse a nosotros. ¡Te invitamos a ser parte de nuestra familia y a contribuir a la rica historia futbolística de Real del Monte!
+                </div>
+            </div>
+        </section>
 
-            <p>Desde nuestros inicios, nos hemos enfocado en ofrecer <strong>entrenamientos gratuitos</strong> para todos nuestros jugadores. Creemos que el acceso al deporte debe ser inclusivo, por lo que nuestros entrenamientos no tienen ningún costo. Queremos asegurarnos de que todos los niños de nuestra comunidad tengan la oportunidad de desarrollarse y crecer en el fútbol, independientemente de su situación económica.</p>
+        <!-- Tarjetas informativas -->
+        <div class="info-cards">
+            <div class="info-card">
+                <div class="info-card-icon">
+                    <i class="fas fa-home"></i>
+                </div>
+                <h3>Nuestra Casa</h3>
+                <p>Entrenamos en la emblemática <span class="highlight">Cancha de San Luis</span>, conocida popularmente como <span class="highlight">Las Playas</span>, ubicada en <span class="highlight">Real del Monte</span>.</p>
+            </div>
+            
+            <div class="info-card">
+                <div class="info-card-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <h3>Formación Integral</h3>
+                <p>No solo enseñamos fútbol, formamos personas con valores, disciplina y espíritu deportivo para la vida.</p>
+            </div>
+            
+            <div class="info-card">
+                <div class="info-card-icon">
+                    <i class="fas fa-handshake"></i>
+                </div>
+                <h3>Acceso Gratuito</h3>
+                <p>Todos nuestros entrenamientos son completamente gratuitos porque creemos en el deporte como derecho, no como privilegio.</p>
+            </div>
+        </div>
 
-            <p>Nuestra <strong>casa y lugar de entrenamiento</strong> es la emblemática <strong>Cancha de San Luis</strong>, conocida popularmente como <strong>Las Playas</strong>, ubicada en <strong>Real del Monte</strong>. Este municipio, con su rica tradición minera y cultural, es reconocido como <strong>"La Cuna del Fútbol"</strong> en México. A finales del siglo XIX, los mineros y técnicos de origen inglés que trabajaban en la Compañía Real del Monte y Pachuca introdujeron el fútbol en la región. En particular, el <strong>12 de mayo de 1889</strong>, se celebró el primer partido de fútbol documentado en México, gracias a la influencia de estos trabajadores ingleses.</p>
+        <!-- Línea de tiempo histórica -->
+        <section>
+            <div class="section-title">
+                <h2>Nuestra Historia</h2>
+            </div>
+            
+            <div class="timeline-container">
+                <div class="timeline-item">
+                    <div class="timeline-year">Siglo XIX</div>
+                    <div class="timeline-content">
+                        Los mineros y técnicos de origen inglés que trabajaban en la Compañía Real del Monte y Pachuca introdujeron el fútbol en la región.
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">12 de Mayo 1889</div>
+                    <div class="timeline-content">
+                        Se celebró el <span class="highlight">primer partido de fútbol documentado en México</span>, gracias a la influencia de los trabajadores ingleses.
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">1 de Noviembre 1892</div>
+                    <div class="timeline-content">
+                        Se fundó el <span class="highlight">Pachuca Football Club</span>, considerado el primer club de fútbol en México.
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">26 de Octubre 2024</div>
+                    <div class="timeline-content">
+                        Nace <span class="highlight">La Cuna del Fútbol</span>, continuando con el legado histórico de Real del Monte como cuna del fútbol mexicano.
+                    </div>
+                </div>
+            </div>
+        </section>
 
-            <p>Posteriormente, el <strong>1 de noviembre de 1892</strong>, se fundó el <strong>Pachuca Football Club</strong>, considerado el primer club de fútbol en México. Este legado futbolístico ha perdurado, y Real del Monte sigue siendo un punto de referencia para los amantes del fútbol en el país.</p>
+        <!-- Cita destacada -->
+        <div class="highlight-quote">
+            <p>"En Real del Monte, cada gol es un tributo a la historia, cada partido un capítulo nuevo en la cuna del fútbol mexicano."</p>
+            <div class="author">- Legado de La Cuna del Fútbol</div>
+        </div>
 
-            <p>Además de nuestros entrenamientos, <strong>La Cuna del Fútbol</strong> cuenta con el apoyo de patrocinadores locales como <strong>Carnicería El Güero</strong> y el <strong>Club de Fútbol Real Zaragoza</strong>, quienes nos ayudan a proporcionar el mejor ambiente para que nuestros jóvenes aprendan y crezcan en el fútbol.</p>
+        <!-- Patrocinadores -->
+        <div class="sponsors-section">
+            <div class="section-title">
+                <h2>Nuestros Aliados</h2>
+            </div>
+            
+            <p style="color: #cccccc; font-size: 1.2rem; margin-bottom: 30px;">
+                Contamos con el valioso apoyo de patrocinadores que creen en nuestro proyecto
+            </p>
+            
+            <div class="sponsors-grid">
+                <div class="sponsor-item">
+                    <i class="fas fa-utensils" style="font-size: 3rem; color: #FFD700;"></i>
+                    <h4>Carnicería El Güero</h4>
+                </div>
+                
+                <div class="sponsor-item">
+                    <i class="fas fa-futbol" style="font-size: 3rem; color: #FFD700;"></i>
+                    <h4>Club de Fútbol<br>Real Zaragoza</h4>
+                </div>
+            </div>
+        </div>
 
-            <p>En <strong>La Cuna del Fútbol</strong>, nos apasiona este deporte y nos comprometemos a brindar un espacio seguro, formativo y accesible para todos los jóvenes que deseen unirse a nosotros. ¡Te invitamos a ser parte de nuestra familia y a contribuir a la rica historia futbolística de Real del Monte!</p>
+        <!-- Mensaje final -->
+        <section>
+            <div class="about-text">
+                En <span class="highlight">La Cuna del Fútbol</span>, nos apasiona este deporte y nos comprometemos a brindar un espacio seguro, formativo y accesible para todos los jóvenes que deseen unirse a nosotros. ¡Te invitamos a ser parte de nuestra familia y a contribuir a la rica historia futbolística de Real del Monte!
+            </div>
+            
+            <div style="text-align: center; margin-top: 40px;">
+                <a href="index5.html" class="action-button">
+                    <i class="fas fa-hand-pointer"></i>
+                    ¡Únete a Nosotros!
+                </a>
+            </div>
         </section>
 
         <footer>
-            <p>© 2023 Entrenamiento Deportivo para Niños. Todos los derechos reservados.</p>
+            <p>© 2025 La Cuna del Fútbol. Todos los derechos reservados.</p>
             <p>La información está avalada por la <a href="https://www.fifa.com/" target="_blank">FIFA</a>.</p>
+            <p style="margin-top: 20px; color: #FFD700;">
+                <i class="fas fa-history"></i> Continuando el legado desde 1889
+            </p>
         </footer>
     </div>
 
-    <script src="script3.js"></script> <!-- Enlace al archivo JavaScript específico para index3 -->
+    <script>
+        // Menú toggle
+        document.getElementById('menu-toggle').addEventListener('click', function() {
+            var menu = document.getElementById('menu');
+            if (menu.style.left === '-250px' || menu.style.left === '') {
+                menu.style.left = '0';
+            } else {
+                menu.style.left = '-250px';
+            }
+        });
+
+        // Sistema de animaciones controladas y secuenciales
+        document.addEventListener('DOMContentLoaded', function() {
+            // Asegurar que el fondo sea negro
+            document.body.style.backgroundColor = '#000000';
+            
+            // Función para animar elementos secuencialmente
+            function animateSequentially(elements, delay) {
+                elements.forEach((element, index) => {
+                    setTimeout(() => {
+                        element.classList.add('visible');
+                    }, index * delay);
+                });
+            }
+            
+            // Función para verificar si un elemento está en vista
+            function isElementInViewport(el) {
+                const rect = el.getBoundingClientRect();
+                return (
+                    rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.8 &&
+                    rect.bottom >= 0
+                );
+            }
+            
+            // Función para manejar animaciones al hacer scroll
+            function handleScrollAnimations() {
+                // Animar tarjetas informativas
+                const infoCards = document.querySelectorAll('.info-card');
+                infoCards.forEach((card, index) => {
+                    if (isElementInViewport(card) && !card.classList.contains('visible')) {
+                        setTimeout(() => {
+                            card.classList.add('visible');
+                        }, index * 200); // 200ms entre cada tarjeta
+                    }
+                });
+                
+                // Animar elementos de timeline
+                const timelineItems = document.querySelectorAll('.timeline-item');
+                timelineItems.forEach((item, index) => {
+                    if (isElementInViewport(item) && !item.classList.contains('visible')) {
+                        setTimeout(() => {
+                            item.classList.add('visible');
+                        }, index * 300); // 300ms entre cada item
+                    }
+                });
+                
+                // Animar cita destacada
+                const highlightQuote = document.querySelector('.highlight-quote');
+                if (isElementInViewport(highlightQuote) && !highlightQuote.classList.contains('visible')) {
+                    highlightQuote.classList.add('visible');
+                }
+                
+                // Animar botón de acción
+                const actionButton = document.querySelector('.action-button');
+                if (isElementInViewport(actionButton) && !actionButton.classList.contains('visible')) {
+                    actionButton.classList.add('visible');
+                }
+            }
+            
+            // Inicializar animaciones al cargar
+            setTimeout(() => {
+                // Animar solo los elementos que están en vista inicialmente
+                handleScrollAnimations();
+                
+                // Configurar retrasos iniciales para evitar amontonamiento
+                const infoCards = document.querySelectorAll('.info-card');
+                infoCards.forEach((card, index) => {
+                    if (isElementInViewport(card)) {
+                        card.style.transitionDelay = `${index * 0.2}s`;
+                    }
+                });
+                
+                const timelineItems = document.querySelectorAll('.timeline-item');
+                timelineItems.forEach((item, index) => {
+                    if (isElementInViewport(item)) {
+                        item.style.transitionDelay = `${index * 0.3}s`;
+                    }
+                });
+            }, 500);
+            
+            // Escuchar eventos de scroll para animaciones
+            let scrollTimeout;
+            window.addEventListener('scroll', function() {
+                clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(handleScrollAnimations, 100);
+            });
+            
+            // También animar al hacer resize
+            window.addEventListener('resize', handleScrollAnimations);
+        });
+    </script>
 </body>
 </html>
