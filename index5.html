@@ -4,8 +4,553 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contáctanos - La Cuna del Fútbol</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Enlace al archivo CSS -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Agregar Chart.js -->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Tema negro/dorado */
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #000000;
+        }
+
+        /* Header mejorado */
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 40px 30px;
+            background: linear-gradient(135deg, #000000, #1a1a1a);
+            border-radius: 20px;
+            border: 3px solid #FFD700;
+            box-shadow: 0 15px 35px rgba(255, 215, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, transparent, #FFD700, #B8860B, transparent);
+        }
+
+        header h1 {
+            font-size: 3.5rem;
+            color: #FFD700;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+        }
+
+        .logo-bottom-right {
+            width: 150px;
+            height: auto;
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            border: 3px solid #FFD700;
+            padding: 8px;
+            background: #000000;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+        }
+
+        /* Secciones */
+        .contact-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin: 40px 0 30px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: #FFD700;
+            display: inline-block;
+            padding: 0 30px;
+            background: #000000;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 250px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #FFD700, transparent);
+        }
+
+        /* Tarjeta de información de contacto */
+        .contact-card {
+            background: linear-gradient(145deg, #1a1a1a, #000000);
+            border-radius: 20px;
+            padding: 40px;
+            border: 2px solid #333;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-10px);
+            border-color: #FFD700;
+            box-shadow: 0 20px 40px rgba(255, 215, 0, 0.2);
+        }
+
+        .contact-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: #FFD700;
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .contact-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        /* Estilos para la información de contacto */
+        .contact-info-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #333;
+        }
+
+        .contact-info-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .contact-icon {
+            background: #000000;
+            color: #FFD700;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin-right: 20px;
+            border: 2px solid #FFD700;
+            flex-shrink: 0;
+        }
+
+        .contact-details {
+            flex: 1;
+        }
+
+        .contact-details h3 {
+            color: #FFD700;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
+        }
+
+        .contact-details p {
+            color: #cccccc;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin: 5px 0;
+        }
+
+        .contact-details a {
+            color: #FFD700;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+            display: inline-block;
+            padding: 5px 0;
+        }
+
+        .contact-details a:hover {
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+            transform: translateX(5px);
+        }
+
+        /* Mapa mejorado */
+        .map-card {
+            background: linear-gradient(145deg, #1a1a1a, #000000);
+            border-radius: 20px;
+            padding: 40px;
+            border: 2px solid #333;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .map-card:hover {
+            border-color: #FFD700;
+            box-shadow: 0 20px 40px rgba(255, 215, 0, 0.2);
+        }
+
+        .map-card h2 {
+            color: #FFD700;
+            font-size: 2rem;
+            margin-bottom: 25px;
+            text-align: center;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+        }
+
+        .map-container {
+            width: 100%;
+            height: 400px;
+            border-radius: 15px;
+            overflow: hidden;
+            border: 3px solid #333;
+            position: relative;
+        }
+
+        .map-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            filter: grayscale(20%) contrast(110%);
+            transition: filter 0.3s;
+        }
+
+        .map-container:hover .map-iframe {
+            filter: grayscale(0%) contrast(120%);
+        }
+
+        .map-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.3));
+            pointer-events: none;
+            border-radius: 15px;
+        }
+
+        /* Horarios - CORREGIDOS */
+        .schedule-card {
+            background: linear-gradient(145deg, #1a1a1a, #000000);
+            border-radius: 20px;
+            padding: 40px;
+            border: 2px solid #333;
+            transition: all 0.4s ease;
+            margin-top: 40px;
+        }
+
+        .schedule-card:hover {
+            border-color: #FFD700;
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(255, 215, 0, 0.2);
+        }
+
+        .schedule-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 25px;
+        }
+
+        .schedule-item {
+            background: rgba(255, 215, 0, 0.05);
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid #333;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .schedule-item:hover {
+            border-color: #FFD700;
+            transform: translateY(-5px);
+        }
+
+        .schedule-item.highlight {
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid #FFD700;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+        }
+
+        .schedule-item h4 {
+            color: #FFD700;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+
+        .schedule-item p {
+            color: #ffffff;
+            font-size: 1.2rem;
+            margin: 8px 0;
+        }
+
+        .schedule-item .time-slot {
+            color: #FFD700;
+            font-weight: bold;
+            font-size: 1.3rem;
+            margin: 10px 0;
+        }
+
+        /* Botón de contacto rápido */
+        .contact-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            background: linear-gradient(45deg, #000000, #1a1a1a);
+            color: #FFD700;
+            border: 2px solid #FFD700;
+            padding: 15px 35px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+            margin-top: 20px;
+            text-decoration: none;
+        }
+
+        .contact-button:hover {
+            background: #FFD700;
+            color: #000000;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding: 40px 20px;
+            background: #1a1a1a;
+            border-top: 3px solid #FFD700;
+            border-radius: 20px 20px 0 0;
+        }
+
+        footer p {
+            color: #cccccc;
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+
+        footer a {
+            color: #FFD700;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .contact-container {
+                grid-template-columns: 1fr;
+                max-width: 800px;
+                margin: 0 auto 60px;
+            }
+            
+            header h1 {
+                font-size: 3rem;
+            }
+        }
+
+        @media (max-width: 992px) {
+            header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .logo-bottom-right {
+                position: relative;
+                bottom: auto;
+                right: auto;
+                margin: 20px auto;
+                display: block;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .map-container {
+                height: 350px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                padding: 15px;
+            }
+            
+            header {
+                padding: 30px 20px;
+            }
+            
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            .contact-card,
+            .map-card,
+            .schedule-card {
+                padding: 25px;
+            }
+            
+            .contact-info-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .contact-icon {
+                margin-bottom: 15px;
+            }
+            
+            .map-container {
+                height: 300px;
+            }
+            
+            .schedule-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .section-title h2 {
+                font-size: 1.6rem;
+                padding: 0 15px;
+            }
+            
+            .logo-bottom-right {
+                width: 120px;
+            }
+            
+            .contact-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+            }
+            
+            .map-container {
+                height: 250px;
+            }
+            
+            .schedule-item {
+                padding: 20px;
+            }
+            
+            .schedule-item h4 {
+                font-size: 1.2rem;
+            }
+            
+            .schedule-item p {
+                font-size: 1.1rem;
+            }
+        }
+
+        /* Animaciones */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .contact-card, .map-card, .schedule-card {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        /* Efecto de brillo */
+        .shine-effect {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .shine-effect::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to right,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.1) 50%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            transform: rotate(30deg);
+            transition: transform 0.6s;
+        }
+
+        .contact-card:hover.shine-effect::after {
+            transform: rotate(30deg) translate(20%, 20%);
+        }
+
+        /* Indicador de ubicación */
+        .location-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 215, 0, 0.1);
+            padding: 10px 20px;
+            border-radius: 25px;
+            border: 1px solid #FFD700;
+            margin-top: 15px;
+        }
+
+        .location-indicator i {
+            color: #FFD700;
+        }
+
+        /* Nota importante */
+        .important-note {
+            text-align: center;
+            color: #FFD700;
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 10px;
+            border-left: 4px solid #FFD700;
+        }
+    </style>
 </head>
 <body>
     <!-- Menú lateral -->
@@ -15,13 +560,13 @@
             <li><a href="index2.html">Entrenamientos</a></li>
             <li><a href="index3.html">Conócenos</a></li>
             <li><a href="index4.html">Jugadores</a></li>
-            <li><a href="index5.html">Contáctanos</a></li>
+            <li><a href="index5.html" class="active">Contáctanos</a></li>
             <li><a href="index6.html">Galería</a></li>
             <li><a href="index7.html">Patrocinadores</a></li>
             <li><a href="index8.html">Asistencias</a></li>
             <li><a href="index9.html">Inscripciones</a></li>
             <li><a href="index10.html">Torneos</a></li>
-            <li><a href="index11.html" class="active">Nuestros Héroes</a></li>
+            <li><a href="index11.html">Nuestros Héroes</a></li>
         </ul>
     </nav>
 
@@ -35,29 +580,222 @@
     <!-- Contenido principal -->
     <div class="content">
         <header>
-            <h1>Contáctanos - La Cuna del Fútbol</h1>
-            <!-- Imagen Lacuna abajo a la derecha -->
+            <h1>Contáctanos</h1>
+            <p style="color: #cccccc; font-size: 1.2rem;">Estamos aquí para responder tus preguntas</p>
             <img src="lacuna.jpg" alt="Logo La Cuna del Fútbol" class="logo-bottom-right">
         </header>
 
-        <section class="contact-info">
-            <h2>Información de Contacto</h2>
-            <p><strong>Teléfono:</strong> <a href="tel:7713911596">771 391 1596</a></p>
-            <p><strong>Ubicación:</strong> Cancha de San Luis, conocida como "Las Playas", en Real del Monte.</p>
-        </section>
+        <div class="contact-container">
+            <!-- Información de contacto -->
+            <div class="contact-card shine-effect">
+                <div class="section-title">
+                    <h2>Información de Contacto</h2>
+                </div>
+                
+                <div class="contact-info-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <div class="contact-details">
+                        <h3>Teléfono</h3>
+                        <p><a href="tel:7713911596">771 391 1596</a></p>
+                        <p style="color: #999999; font-size: 0.9rem;">Disponible para consultas</p>
+                    </div>
+                </div>
+                
+                <div class="contact-info-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="contact-details">
+                        <h3>Ubicación</h3>
+                        <p>Cancha de San Luis</p>
+                        <p>Conocida como "Las Playas"</p>
+                        <p>Real del Monte, Hidalgo</p>
+                        <div class="location-indicator">
+                            <i class="fas fa-futbol"></i>
+                            <span>Fácil acceso y amplio estacionamiento</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-info-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="contact-details">
+                        <h3>Horarios de Entrenamiento</h3>
+                        <p><strong>Lunes y Jueves solamente</strong></p>
+                        <p>De 4:00 PM a 6:00 PM</p>
+                        <a href="#horarios" class="contact-button" style="margin-top: 10px;">
+                            <i class="fas fa-calendar-alt"></i>
+                            Ver Horarios Completos
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="contact-info-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <div class="contact-details">
+                        <h3>Contacto Rápido</h3>
+                        <p>¿Tienes preguntas sobre entrenamientos?</p>
+                        <a href="tel:7713911596" class="contact-button">
+                            <i class="fas fa-phone-alt"></i>
+                            Llamar Ahora
+                        </a>
+                    </div>
+                </div>
+            </div>
 
-        <section class="map-container">
-            <iframe src="https://www.google.com/maps/embed?pb=!4v1741813788489!6m8!1m7!1sUBAH4gwbBHgh7jJRbPnYKg!2m2!1d20.14242499634921!2d-98.66963661152714!3f59.138152073606605!4f-8.455047906392153!5f0.7820865974627469" 
-                class="map-iframe" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
-            </iframe>
-        </section>
+            <!-- Mapa -->
+            <div class="map-card">
+                <h2>Nuestra Ubicación</h2>
+                <p style="text-align: center; color: #cccccc; margin-bottom: 20px; font-size: 1.1rem;">
+                    Ven a conocernos a nuestra cancha principal
+                </p>
+                <div class="map-container">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!4v1741813788489!6m8!1m7!1sUBAH4gwbBHgh7jJRbPnYKg!2m2!1d20.14242499634921!2d-98.66963661152714!3f59.138152073606605!4f-8.455047906392153!5f0.7820865974627469" 
+                        class="map-iframe" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                    <div class="map-overlay"></div>
+                </div>
+                <p style="text-align: center; color: #FFD700; margin-top: 20px; font-weight: bold;">
+                    <i class="fas fa-directions"></i> Cancha San Luis - "Las Playas"
+                </p>
+            </div>
+        </div>
+
+        <!-- Horarios CORREGIDOS -->
+        <div class="schedule-card" id="horarios">
+            <div class="section-title">
+                <h2>Horarios de Entrenamiento</h2>
+            </div>
+            
+            <p style="text-align: center; color: #cccccc; font-size: 1.1rem; margin-bottom: 30px;">
+                Entrenamos exclusivamente los días <strong style="color: #FFD700;">Lunes y Jueves</strong>
+            </p>
+            
+            <div class="schedule-grid">
+                <!-- Días de entrenamiento principales -->
+                <div class="schedule-item highlight">
+                    <h4><i class="fas fa-calendar-day"></i> Lunes</h4>
+                    <p class="time-slot">4:00 PM - 6:00 PM</p>
+                    <p>Entrenamiento regular</p>
+                    <p style="color: #FFD700; font-weight: bold;">Sesión completa</p>
+                </div>
+                
+                <div class="schedule-item highlight">
+                    <h4><i class="fas fa-calendar-day"></i> Jueves</h4>
+                    <p class="time-slot">4:00 PM - 6:00 PM</p>
+                    <p>Entrenamiento regular</p>
+                    <p style="color: #FFD700; font-weight: bold;">Sesión completa</p>
+                </div>
+                
+                <!-- Información adicional -->
+                <div class="schedule-item">
+                    <h4><i class="fas fa-info-circle"></i> Información</h4>
+                    <p><strong>Duración:</strong> 2 horas por sesión</p>
+                    <p><strong>Edades:</strong> Todas las categorías</p>
+                    <p><strong>Requisito:</strong> Puntualidad</p>
+                </div>
+                
+                <div class="schedule-item">
+                    <h4><i class="fas fa-exclamation-circle"></i> Importante</h4>
+                    <p>No hay entrenamientos otros días</p>
+                    <p>Solo Lunes y Jueves</p>
+                    <p style="color: #FFD700; font-weight: bold;">4pm - 6pm</p>
+                </div>
+            </div>
+            
+            <div class="important-note">
+                <i class="fas fa-bullhorn"></i> 
+                <strong>NOTA:</strong> Los horarios son fijos. No hay entrenamientos los martes, miércoles, viernes, sábados ni domingos.
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px;">
+                <a href="tel:7713911596" class="contact-button">
+                    <i class="fas fa-phone-alt"></i>
+                    Confirmar Asistencia
+                </a>
+            </div>
+        </div>
 
         <footer>
             <p>© 2025 La Cuna del Fútbol. Todos los derechos reservados.</p>
             <p>La información está avalada por la <a href="https://www.fifa.com/" target="_blank">FIFA</a>.</p>
+            <p style="margin-top: 20px; color: #FFD700;">
+                <i class="fas fa-phone"></i> Contacto: 771 391 1596 | 
+                <i class="fas fa-map-marker-alt"></i> Real del Monte, Hidalgo |
+                <i class="fas fa-clock"></i> Lunes y Jueves: 4pm - 6pm
+            </p>
         </footer>
     </div>
 
-    <script src="script5.js"></script> <!-- Enlace al archivo JavaScript específico para index5 -->
+    <script>
+        // Menú toggle
+        document.getElementById('menu-toggle').addEventListener('click', function() {
+            var menu = document.getElementById('menu');
+            if (menu.style.left === '-250px' || menu.style.left === '') {
+                menu.style.left = '0';
+            } else {
+                menu.style.left = '-250px';
+            }
+        });
+
+        // Efecto de animación al cargar
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.contact-card, .map-card, .schedule-card');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.2}s`;
+            });
+            
+            // Scroll suave para enlaces internos
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if (targetId !== '#') {
+                        const targetElement = document.querySelector(targetId);
+                        if (targetElement) {
+                            targetElement.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'start'
+                            });
+                        }
+                    }
+                });
+            });
+            
+            // Asegurar que el fondo sea negro
+            document.body.style.backgroundColor = '#000000';
+            
+            // Resaltar los días de entrenamiento actuales
+            const today = new Date();
+            const dayOfWeek = today.getDay(); // 0=Domingo, 1=Lunes, etc.
+            
+            if (dayOfWeek === 1) { // Lunes
+                document.querySelector('.schedule-item:nth-child(1)').style.animation = 'pulse 2s infinite';
+            } else if (dayOfWeek === 4) { // Jueves
+                document.querySelector('.schedule-item:nth-child(2)').style.animation = 'pulse 2s infinite';
+            }
+        });
+        
+        // Agregar animación de pulso
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes pulse {
+                0% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.4); }
+                70% { box-shadow: 0 0 0 10px rgba(255, 215, 0, 0); }
+                100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
 </body>
 </html>
