@@ -1,18 +1,386 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Patrocinadores - La Cuna del Fútbol</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Enlace al archivo CSS -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Agregar Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script> <!-- Bootstrap JS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"> <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Reset y estilos base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+        }
+
+        /* Menú lateral */
+        .menu {
+            position: fixed;
+            left: -250px;
+            top: 0;
+            width: 250px;
+            height: 100%;
+            background: #1a1a1a;
+            transition: left 0.3s ease;
+            z-index: 1000;
+            padding-top: 60px;
+        }
+
+        .menu ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .menu li {
+            padding: 15px 25px;
+            border-bottom: 1px solid #333;
+        }
+
+        .menu a {
+            color: #ffffff;
+            text-decoration: none;
+            display: block;
+            font-size: 1.1rem;
+        }
+
+        .menu a.active {
+            color: #FFD700;
+            font-weight: bold;
+        }
+
+        .menu a:hover {
+            color: #FFD700;
+        }
+
+        /* Ícono del menú hamburguesa */
+        .menu-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            width: 40px;
+            height: 40px;
+            background: #1a1a1a;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 1001;
+            border: 2px solid #FFD700;
+        }
+
+        .menu-toggle .dot {
+            width: 6px;
+            height: 6px;
+            background: #FFD700;
+            border-radius: 50%;
+            margin: 2px 0;
+        }
+
+        /* Contenido principal */
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        /* Header mejorado */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #000000, #1a1a1a);
+            border-radius: 15px;
+            border: 3px solid #FFD700;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, #FFD700, #B8860B, transparent);
+        }
+
+        header h1 {
+            font-size: 2.8rem;
+            color: #FFD700;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+            margin-bottom: 10px;
+        }
+
+        .logo-bottom-right {
+            width: 120px;
+            height: auto;
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            border: 2px solid #FFD700;
+            padding: 5px;
+            background: #000000;
+        }
+
+        /* Sección principal - SIN DOBLE BORDE */
+        .patrocinadores-section {
+            padding: 0;
+            margin-bottom: 50px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #FFD700;
+        }
+
+        .section-title h2 {
+            font-size: 2.2rem;
+            color: #FFD700;
+            display: inline-block;
+            padding: 0 20px;
+            background: #000000;
+        }
+
+        /* Texto introductorio - SIN BORDES EXTRA */
+        .intro-text {
+            text-align: center;
+            color: #cccccc;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto 40px;
+            padding: 0;
+            background: transparent;
+            border: none;
+        }
+
+        /* Contenedor de patrocinadores */
+        .patrocinador-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        /* Tarjetas de patrocinadores - SIN ANIMACIONES LENTAS */
+        .patrocinador {
+            background: linear-gradient(145deg, #1a1a1a, #000000);
+            border-radius: 15px;
+            padding: 25px;
+            border: 2px solid #333;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            /* Animación inmediata */
+            opacity: 1;
+            transform: none;
+            animation: none;
+        }
+
+        .patrocinador:hover {
+            transform: translateY(-5px);
+            border-color: #FFD700;
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.2);
+        }
+
+        /* Logo del patrocinador */
+        .patrocinador-logo {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            border-radius: 50%;
+            border: 2px solid #FFD700;
+            padding: 8px;
+            background: #000000;
+            margin-bottom: 20px;
+        }
+
+        /* Icono para patrocinadores sin logo */
+        .patrocinador-icon {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 2px solid #FFD700;
+            background: #000000;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: #FFD700;
+        }
+
+        /* Información del patrocinador - SIN BORDES EXTRA */
+        .patrocinador h3 {
+            color: #FFD700;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            min-height: auto;
+        }
+
+        .patrocinador p {
+            color: #cccccc;
+            line-height: 1.5;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            padding: 0;
+            background: transparent;
+            border: none;
+        }
+
+        /* Badge de categoría */
+        .categoria-badge {
+            display: inline-block;
+            background: #000000;
+            color: #FFD700;
+            padding: 5px 15px;
+            border-radius: 20px;
+            border: 1px solid #FFD700;
+            font-size: 0.8rem;
+            margin-top: 10px;
+        }
+
+        /* Agradecimiento especial - SIN BORDES EXTRA */
+        .agradecimiento {
+            text-align: center;
+            margin-top: 50px;
+            padding: 30px 20px;
+            background: #1a1a1a;
+            border-radius: 15px;
+            position: relative;
+            border: none;
+        }
+
+        .agradecimiento h3 {
+            color: #FFD700;
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+        }
+
+        .agradecimiento p {
+            color: #cccccc;
+            font-size: 1rem;
+            line-height: 1.5;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 30px 20px;
+            background: #1a1a1a;
+            border-top: 2px solid #FFD700;
+            border-radius: 15px 15px 0 0;
+        }
+
+        footer p {
+            color: #cccccc;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: #FFD700;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .content {
+                padding: 15px;
+            }
+            
+            header {
+                padding: 30px 15px;
+            }
+            
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            .logo-bottom-right {
+                width: 80px;
+                position: relative;
+                bottom: auto;
+                right: auto;
+                margin: 15px auto;
+                display: block;
+            }
+            
+            .section-title h2 {
+                font-size: 1.6rem;
+            }
+            
+            .patrocinador-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .patrocinador {
+                padding: 20px;
+            }
+            
+            .patrocinador-logo,
+            .patrocinador-icon {
+                width: 80px;
+                height: 80px;
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 1.6rem;
+            }
+            
+            .section-title h2 {
+                font-size: 1.4rem;
+            }
+            
+            .intro-text {
+                font-size: 1rem;
+            }
+            
+            .patrocinador h3 {
+                font-size: 1.2rem;
+            }
+            
+            .agradecimiento h3 {
+                font-size: 1.4rem;
+            }
+        }
+
+        /* Eliminar todas las animaciones lentas y bordes extra */
+        .patrocinador::before,
+        .patrocinadores-section::before,
+        .agradecimiento::before {
+            display: none !important;
+        }
+    </style>
 </head>
-
-<body class="dark-background"> <!-- Agregada la clase dark-background -->
-
+<body>
     <!-- Menú lateral -->
    <nav id="menu" class="menu">
         <ul>
@@ -22,11 +390,11 @@
             <li><a href="index4.html">Jugadores</a></li>
             <li><a href="index5.html">Contáctanos</a></li>
             <li><a href="index6.html">Galería</a></li>
-            <li><a href="index7.html">Patrocinadores</a></li>
+            <li><a href="index7.html" class="active">Patrocinadores</a></li>
             <li><a href="index8.html">Asistencias</a></li>
             <li><a href="index9.html">Inscripciones</a></li>
             <li><a href="index10.html">Torneos</a></li>
-            <li><a href="index11.html" class="active">Nuestros Héroes</a></li>
+            <li><a href="index11.html">Nuestros Héroes</a></li>
         </ul>
     </nav>
 
@@ -40,65 +408,116 @@
     <!-- Contenido principal -->
     <div class="content">
         <header>
-            <h1>Patrocinadores - La Cuna del Fútbol</h1>
+            <h1>Nuestros Patrocinadores</h1>
+            <p style="color: #cccccc; font-size: 1.1rem;">Aliados que hacen posible nuestro sueño</p>
             <img src="lacuna.jpg" alt="Logo La Cuna del Fútbol" class="logo-bottom-right">
         </header>
 
         <!-- Sección de patrocinadores -->
-        <section class="patrocinadores">
-            <h2>Nuestros Patrocinadores</h2>
-            <p>Queremos agradecer a quienes hacen posible el crecimiento de nuestros pequeños futbolistas.</p>
+        <div class="patrocinadores-section">
+            <div class="section-title">
+                <h2>Quienes Apoyan Nuestro Proyecto</h2>
+            </div>
+
+            <div class="intro-text">
+                Queremos agradecer profundamente a quienes hacen posible el crecimiento y desarrollo de nuestros pequeños futbolistas. Su apoyo es fundamental para seguir formando no solo deportistas, sino también personas de bien.
+            </div>
 
             <div class="patrocinador-container">
                 <!-- Club de Fútbol Real Zaragoza -->
                 <div class="patrocinador">
                     <img src="zaragoza_logo.jpg" alt="Club Real Zaragoza" class="patrocinador-logo">
                     <h3>Club de Fútbol Real Zaragoza</h3>
-                    <p>Apoyando el talento y la pasión de nuestros jugadores.</p>
+                    <p>Apoyando el talento y la pasión de nuestros jugadores desde el inicio. Un club hermano que comparte nuestra visión deportiva.</p>
+                    <span class="categoria-badge">Club Deportivo</span>
                 </div>
 
                 <!-- Carnicería El Güero -->
                 <div class="patrocinador">
                     <img src="carniceria_logo.jpg" alt="Carnicería El Güero" class="patrocinador-logo">
                     <h3>Carnicería El Güero</h3>
-                    <p>Impulsando a nuestros jóvenes deportistas.</p>
+                    <p>Impulsando a nuestros jóvenes deportistas con su valioso apoyo. Aliado principal en nuestra comunidad.</p>
+                    <span class="categoria-badge">Negocio Local</span>
                 </div>
 
                 <!-- Lic. Liliana Jiménez Cervantes -->
                 <div class="patrocinador">
+                    <div class="patrocinador-icon">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
                     <h3>Lic. Liliana Jiménez Cervantes</h3>
-                    <p>Gracias por su invaluable apoyo para equipar a nuestros niños.</p>
+                    <p>Gracias por su invaluable apoyo para equipar a nuestros niños. Su contribución ha sido fundamental para el equipo.</p>
+                    <span class="categoria-badge">Patrocinador Personal</span>
                 </div>
 
                 <!-- Sr. Roberto Valencia Espinoza -->
                 <div class="patrocinador">
+                    <div class="patrocinador-icon">
+                        <i class="fas fa-tshirt"></i>
+                    </div>
                     <h3>Sr. Roberto Valencia Espinoza</h3>
-                    <p>Por patrocinar uniformes deportivos para nuestros pequeños atletas.</p>
+                    <p>Por patrocinar uniformes deportivos para nuestros pequeños atletas. Gracias a él, nuestros niños juegan con orgullo.</p>
+                    <span class="categoria-badge">Equipamiento</span>
                 </div>
 
                 <!-- Sra. Grissel Amador Aguilar -->
                 <div class="patrocinador">
+                    <div class="patrocinador-icon">
+                        <i class="fas fa-hands-helping"></i>
+                    </div>
                     <h3>Sra. Grissel Amador Aguilar</h3>
-                    <p>Gracias por su apoyo con los uniformes deportivos del equipo.</p>
+                    <p>Gracias por su apoyo con los uniformes deportivos del equipo. Su generosidad viste a nuestros futuros campeones.</p>
+                    <span class="categoria-badge">Apoyo Directo</span>
                 </div>
 
                 <!-- Lic. Ángel Becerra Flores - Fisioterapeuta -->
                 <div class="patrocinador">
                     <img src="angel_becerra.jpg" alt="Lic. Ángel Becerra Flores" class="patrocinador-logo">
                     <h3>Lic. Ángel Becerra Flores</h3>
-                    <p>Fisioterapeuta comprometido con el bienestar físico de nuestros jugadores.</p>
+                    <p>Fisioterapeuta comprometido con el bienestar físico de nuestros jugadores. Cuida la salud de nuestros pequeños atletas.</p>
+                    <span class="categoria-badge">Salud y Bienestar</span>
                 </div>
             </div>
-        </section>
+
+            <!-- Agradecimiento especial -->
+            <div class="agradecimiento">
+                <h3>¡Gracias Totales!</h3>
+                <p>Cada uno de nuestros patrocinadores es parte fundamental de La Cuna del Fútbol. Su apoyo no solo se traduce en recursos materiales, sino en la confianza depositada en nuestro proyecto de formación integral para niños y jóvenes a través del deporte.</p>
+                <p style="color: #FFD700; font-weight: bold; margin-top: 15px;">
+                    ¡Juntos formamos campeones dentro y fuera de la cancha!
+                </p>
+            </div>
+        </div>
 
         <!-- Pie de página -->
         <footer>
             <p>© 2025 La Cuna del Fútbol. Todos los derechos reservados.</p>
             <p>La información está avalada por la <a href="https://www.fifa.com/" target="_blank">FIFA</a>.</p>
+            <p style="margin-top: 15px; color: #FFD700;">
+                <i class="fas fa-handshake"></i> Gracias a nuestros patrocinadores por creer en nosotros
+            </p>
         </footer>
     </div>
 
-    <script src="script7.js"></script> <!-- Enlace al archivo JavaScript específico -->
-</body>
+    <script>
+        // Menú toggle simple y rápido
+        document.getElementById('menu-toggle').addEventListener('click', function() {
+            var menu = document.getElementById('menu');
+            menu.style.left = menu.style.left === '0px' ? '-250px' : '0';
+        });
 
+        // Todo se carga inmediatamente - sin animaciones lentas
+        document.addEventListener('DOMContentLoaded', function() {
+            // Asegurar que todo sea visible inmediatamente
+            document.body.style.opacity = '1';
+            
+            // Los patrocinadores ya están visibles desde el inicio
+            const patrocinadores = document.querySelectorAll('.patrocinador');
+            patrocinadores.forEach(p => {
+                p.style.opacity = '1';
+                p.style.transform = 'none';
+            });
+        });
+    </script>
+</body>
 </html>
