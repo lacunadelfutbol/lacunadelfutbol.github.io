@@ -117,6 +117,33 @@ function crearBuscadorMinimalista() {
     });
 }
 
+// ----- Función para calcular posición con empates -----
+function calcularPosiciones(jugadoresOrdenados) {
+    let posicion = 1;
+    let posiciones = [];
+    let porcentajeAnterior = null;
+    let posicionAnterior = 1;
+    
+    for (let i = 0; i < jugadoresOrdenados.length; i++) {
+        const totalAsistencias = jugadoresOrdenados[i].asistencias.reduce((a, b) => a + b, 0);
+        const porcentajeActual = (totalAsistencias / TOTAL_ASISTENCIAS_POSIBLES) * 100;
+        
+        // Si es el primer jugador o el porcentaje es diferente al anterior
+        if (porcentajeAnterior === null || porcentajeActual !== porcentajeAnterior) {
+            posicion = i + 1;
+            posicionAnterior = posicion;
+        } else {
+            // Mismo porcentaje que el anterior → misma posición
+            posicion = posicionAnterior;
+        }
+        
+        posiciones.push(posicion);
+        porcentajeAnterior = porcentajeActual;
+    }
+    
+    return posiciones;
+}
+
 // ----- Función para renderizar tabla -----
 function renderizarTabla() {
     const tbody = document.querySelector("#tabla-asistencias tbody");
@@ -125,7 +152,7 @@ function renderizarTabla() {
     if (jugadoresFiltrados.length === 0) {
         tbody.innerHTML = `
             <tr>
-                <td colspan="14" style="text-align: center; padding: 30px; color: #666; font-style: italic;">
+                <td colspan="15" style="text-align: center; padding: 30px; color: #666; font-style: italic;">
                     No se encontraron jugadores con ese criterio de búsqueda
                 </td>
             </tr>
@@ -133,7 +160,7 @@ function renderizarTabla() {
         return;
     }
     
-    // Ordenar jugadores filtrados por porcentaje (igual que antes)
+    // Ordenar jugadores filtrados por porcentaje (de mayor a menor)
     const jugadoresOrdenados = [...jugadoresFiltrados].sort((a, b) => {
         const totalA = a.asistencias.reduce((sum, asistencia) => sum + asistencia, 0);
         const totalB = b.asistencias.reduce((sum, asistencia) => sum + asistencia, 0);
@@ -142,14 +169,18 @@ function renderizarTabla() {
         return porcentajeB - porcentajeA;
     });
     
-    // Llenar tabla (MANTENIENDO TU ESTILO ORIGINAL)
-    jugadoresOrdenados.forEach(nino => {
-        const totalAsistencias = nino.asistencias.reduce((a,b) => a+b, 0);
+    // Calcular posiciones (con empates)
+    const posiciones = calcularPosiciones(jugadoresOrdenados);
+    
+    // Llenar tabla
+    jugadoresOrdenados.forEach((nino, index) => {
+        const totalAsistencias = nino.asistencias.reduce((a, b) => a + b, 0);
         const porcentaje = (totalAsistencias / TOTAL_ASISTENCIAS_POSIBLES) * 100;
         let color = porcentaje >= 80 ? "green" : porcentaje >= 50 ? "orange" : "red";
         
         const tr = document.createElement("tr");
         tr.innerHTML = `
+            <td style="font-weight: bold; text-align: center; padding: 6px 3px; min-width: 50px;">${posiciones[index]}°</td>
             <td>${nino.nombre}</td>
             ${nino.asistencias.map(a => `<td>${a}</td>`).join('')}
             <td style="color:${color}; font-weight:bold;">${porcentaje.toFixed(0)}%</td>
@@ -170,13 +201,33 @@ function renderizarTabla() {
 
 // ----- Inicializar -----
 document.addEventListener('DOMContentLoaded', function() {
+    // Primero, agregar la columna "Posición" al encabezado de la tabla
+    const thead = document.querySelector("#tabla-asistencias thead tr");
+    thead.innerHTML = `
+        <th style="min-width: 50px; padding: 8px 3px;">Posición</th>
+        <th style="min-width: 180px;">Nombre</th>
+        <th>Sept</th>
+        <th>Oct</th>
+        <th>Nov</th>
+        <th>Dic</th>
+        <th>Ene</th>
+        <th>Feb</th>
+        <th>Mar</th>
+        <th>Abr</th>
+        <th>May</th>
+        <th>Jun</th>
+        <th>Jul</th>
+        <th>Ago</th>
+        <th>Porcentaje</th>
+    `;
+    
     // Crear el buscador minimalista
     crearBuscadorMinimalista();
     
-    // Renderizar tabla inicial (igual que tu código original)
+    // Renderizar tabla inicial
     renderizarTabla();
     
-    // Botón de descarga PDF (MANTENIENDO TU CÓDIGO ORIGINAL)
+    // Botón de descarga PDF
     document.getElementById("descargarPDF").addEventListener("click", () => {
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF();
