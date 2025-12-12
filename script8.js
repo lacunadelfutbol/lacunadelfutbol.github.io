@@ -50,7 +50,7 @@ let jugadoresFiltrados = [...jugadores];
 // Variable para almacenar las posiciones generales
 let posicionesGenerales = {};
 
-// ----- Función para calcular posiciones generales (con empates) -----
+// ----- Función para calcular posiciones generales (SIN EMPATES, posiciones consecutivas) -----
 function calcularPosicionesGenerales() {
     // Ordenar todos los jugadores por porcentaje (de mayor a menor)
     const jugadoresOrdenados = [...jugadores].sort((a, b) => {
@@ -58,31 +58,21 @@ function calcularPosicionesGenerales() {
         const totalB = b.asistencias.reduce((sum, asistencia) => sum + asistencia, 0);
         const porcentajeA = (totalA / TOTAL_ASISTENCIAS_POSIBLES) * 100;
         const porcentajeB = (totalB / TOTAL_ASISTENCIAS_POSIBLES) * 100;
+        
+        // Si el porcentaje es igual, desempatar por total de asistencias
+        if (porcentajeA === porcentajeB) {
+            return totalB - totalA; // Mayor total de asistencias primero
+        }
         return porcentajeB - porcentajeA;
     });
     
-    // Calcular posiciones con empates
+    // Calcular posiciones SIN repetición (1, 2, 3, 4...)
     const posiciones = {};
-    let posicionActual = 1;
-    let porcentajeAnterior = null;
-    let posicionAnterior = 1;
     
     for (let i = 0; i < jugadoresOrdenados.length; i++) {
-        const totalAsistencias = jugadoresOrdenados[i].asistencias.reduce((a, b) => a + b, 0);
-        const porcentajeActual = (totalAsistencias / TOTAL_ASISTENCIAS_POSIBLES) * 100;
-        
-        // Si es el primer jugador o el porcentaje es diferente al anterior
-        if (porcentajeAnterior === null || porcentajeActual !== porcentajeAnterior) {
-            posicionActual = i + 1;
-            posicionAnterior = posicionActual;
-        } else {
-            // Mismo porcentaje que el anterior → misma posición
-            posicionActual = posicionAnterior;
-        }
-        
-        // Guardar posición por nombre del jugador
-        posiciones[jugadoresOrdenados[i].nombre] = posicionActual;
-        porcentajeAnterior = porcentajeActual;
+        // Posición consecutiva (i + 1)
+        const posicion = i + 1;
+        posiciones[jugadoresOrdenados[i].nombre] = posicion;
     }
     
     return posiciones;
