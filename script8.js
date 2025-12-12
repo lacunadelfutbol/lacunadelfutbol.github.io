@@ -47,6 +47,46 @@ const jugadores = [
 
 // Variable global para jugadores filtrados
 let jugadoresFiltrados = [...jugadores];
+// Variable para almacenar las posiciones generales
+let posicionesGenerales = {};
+
+// ----- Función para calcular posiciones generales (con empates) -----
+function calcularPosicionesGenerales() {
+    // Ordenar todos los jugadores por porcentaje (de mayor a menor)
+    const jugadoresOrdenados = [...jugadores].sort((a, b) => {
+        const totalA = a.asistencias.reduce((sum, asistencia) => sum + asistencia, 0);
+        const totalB = b.asistencias.reduce((sum, asistencia) => sum + asistencia, 0);
+        const porcentajeA = (totalA / TOTAL_ASISTENCIAS_POSIBLES) * 100;
+        const porcentajeB = (totalB / TOTAL_ASISTENCIAS_POSIBLES) * 100;
+        return porcentajeB - porcentajeA;
+    });
+    
+    // Calcular posiciones con empates
+    const posiciones = {};
+    let posicionActual = 1;
+    let porcentajeAnterior = null;
+    let posicionAnterior = 1;
+    
+    for (let i = 0; i < jugadoresOrdenados.length; i++) {
+        const totalAsistencias = jugadoresOrdenados[i].asistencias.reduce((a, b) => a + b, 0);
+        const porcentajeActual = (totalAsistencias / TOTAL_ASISTENCIAS_POSIBLES) * 100;
+        
+        // Si es el primer jugador o el porcentaje es diferente al anterior
+        if (porcentajeAnterior === null || porcentajeActual !== porcentajeAnterior) {
+            posicionActual = i + 1;
+            posicionAnterior = posicionActual;
+        } else {
+            // Mismo porcentaje que el anterior → misma posición
+            posicionActual = posicionAnterior;
+        }
+        
+        // Guardar posición por nombre del jugador
+        posiciones[jugadoresOrdenados[i].nombre] = posicionActual;
+        porcentajeAnterior = porcentajeActual;
+    }
+    
+    return posiciones;
+}
 
 // ----- BÚSQUEDA SIMPLE Y MINIMALISTA -----
 function crearBuscadorMinimalista() {
@@ -117,33 +157,6 @@ function crearBuscadorMinimalista() {
     });
 }
 
-// ----- Función para calcular posición con empates -----
-function calcularPosiciones(jugadoresOrdenados) {
-    let posicion = 1;
-    let posiciones = [];
-    let porcentajeAnterior = null;
-    let posicionAnterior = 1;
-    
-    for (let i = 0; i < jugadoresOrdenados.length; i++) {
-        const totalAsistencias = jugadoresOrdenados[i].asistencias.reduce((a, b) => a + b, 0);
-        const porcentajeActual = (totalAsistencias / TOTAL_ASISTENCIAS_POSIBLES) * 100;
-        
-        // Si es el primer jugador o el porcentaje es diferente al anterior
-        if (porcentajeAnterior === null || porcentajeActual !== porcentajeAnterior) {
-            posicion = i + 1;
-            posicionAnterior = posicion;
-        } else {
-            // Mismo porcentaje que el anterior → misma posición
-            posicion = posicionAnterior;
-        }
-        
-        posiciones.push(posicion);
-        porcentajeAnterior = porcentajeActual;
-    }
-    
-    return posiciones;
-}
-
 // ----- Función para renderizar tabla -----
 function renderizarTabla() {
     const tbody = document.querySelector("#tabla-asistencias tbody");
@@ -160,27 +173,23 @@ function renderizarTabla() {
         return;
     }
     
-    // Ordenar jugadores filtrados por porcentaje (de mayor a menor)
+    // Ordenar jugadores filtrados por su posición general
     const jugadoresOrdenados = [...jugadoresFiltrados].sort((a, b) => {
-        const totalA = a.asistencias.reduce((sum, asistencia) => sum + asistencia, 0);
-        const totalB = b.asistencias.reduce((sum, asistencia) => sum + asistencia, 0);
-        const porcentajeA = (totalA / TOTAL_ASISTENCIAS_POSIBLES) * 100;
-        const porcentajeB = (totalB / TOTAL_ASISTENCIAS_POSIBLES) * 100;
-        return porcentajeB - porcentajeA;
+        const posicionA = posicionesGenerales[a.nombre] || 999;
+        const posicionB = posicionesGenerales[b.nombre] || 999;
+        return posicionA - posicionB;
     });
     
-    // Calcular posiciones (con empates)
-    const posiciones = calcularPosiciones(jugadoresOrdenados);
-    
     // Llenar tabla
-    jugadoresOrdenados.forEach((nino, index) => {
+    jugadoresOrdenados.forEach((nino) => {
         const totalAsistencias = nino.asistencias.reduce((a, b) => a + b, 0);
         const porcentaje = (totalAsistencias / TOTAL_ASISTENCIAS_POSIBLES) * 100;
         let color = porcentaje >= 80 ? "green" : porcentaje >= 50 ? "orange" : "red";
+        const posicion = posicionesGenerales[nino.nombre] || "-";
         
         const tr = document.createElement("tr");
         tr.innerHTML = `
-            <td style="font-weight: bold; text-align: center; padding: 6px 3px; min-width: 50px;">${posiciones[index]}°</td>
+            <td style="font-weight: bold; text-align: center; padding: 6px 3px; min-width: 50px;">${posicion}°</td>
             <td>${nino.nombre}</td>
             ${nino.asistencias.map(a => `<td>${a}</td>`).join('')}
             <td style="color:${color}; font-weight:bold;">${porcentaje.toFixed(0)}%</td>
@@ -220,6 +229,9 @@ document.addEventListener('DOMContentLoaded', function() {
         <th>Ago</th>
         <th>Porcentaje</th>
     `;
+    
+    // Calcular posiciones generales una vez al inicio
+    posicionesGenerales = calcularPosicionesGenerales();
     
     // Crear el buscador minimalista
     crearBuscadorMinimalista();
