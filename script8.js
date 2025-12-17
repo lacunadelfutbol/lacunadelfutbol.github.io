@@ -9,40 +9,40 @@ document.getElementById("menu-toggle").addEventListener("click", function() {
 });
 
 // ----- CONFIGURACIÓN -----
-const TOTAL_ASISTENCIAS_POSIBLES = 22;
+const TOTAL_ASISTENCIAS_POSIBLES = 23;
 
 // ----- Datos de ejemplo -----
 const jugadores = [
-    { nombre: "YEIK SOLIS", asistencias: [5,7,6,4,0,0,0,0,0,0,0,0] },
-    { nombre: "ALEXANDER SOLIS", asistencias: [5,6,6,4,0,0,0,0,0,0,0,0] },
-    { nombre: "MATEO RODRIGUEZ", asistencias: [2,5,4,4,0,0,0,0,0,0,0,0] },
-    { nombre: "ALAN MELO", asistencias: [4,7,3,2,0,0,0,0,0,0,0,0] },
+    { nombre: "YEIK SOLIS", asistencias: [5,7,6,5,0,0,0,0,0,0,0,0] },
+    { nombre: "ALEXANDER SOLIS", asistencias: [5,6,6,5,0,0,0,0,0,0,0,0] },
+    { nombre: "MATEO RODRIGUEZ", asistencias: [2,5,4,5,0,0,0,0,0,0,0,0] },
+    { nombre: "ALAN MELO", asistencias: [4,7,3,3,0,0,0,0,0,0,0,0] },
     { nombre: "MICHEL MORALES", asistencias: [3,6,2,3,0,0,0,0,0,0,0,0] },
     { nombre: "ARTURO TREJO", asistencias: [4,2,2,2,0,0,0,0,0,0,0,0] },
-    { nombre: "KARIM VALENCIA", asistencias: [2,6,4,2,0,0,0,0,0,0,0,0] },
-    { nombre: "JOSMAR VALENCIA", asistencias: [2,6,4,2,0,0,0,0,0,0,0,0] },
-    { nombre: "AXEL PELCASTRE", asistencias: [3,4,3,4,0,0,0,0,0,0,0,0] },
-    { nombre: "SANTIAGO PECASTRE", asistencias: [3,4,3,4,0,0,0,0,0,0,0,0] },
+    { nombre: "KARIM VALENCIA", asistencias: [2,6,4,3,0,0,0,0,0,0,0,0] },
+    { nombre: "JOSMAR VALENCIA", asistencias: [2,6,4,3,0,0,0,0,0,0,0,0] },
+    { nombre: "AXEL PELCASTRE", asistencias: [3,4,3,5,0,0,0,0,0,0,0,0] },
+    { nombre: "SANTIAGO PECASTRE", asistencias: [3,4,3,5,0,0,0,0,0,0,0,0] },
     { nombre: "DYLAN RIVERA", asistencias: [2,5,3,4,0,0,0,0,0,0,0,0] },
     { nombre: "DIEGO RIVERA", asistencias: [2,5,2,4,0,0,0,0,0,0,0,0] },
     { nombre: "LEO", asistencias: [1,0,1,0,0,0,0,0,0,0,0,0] },
     { nombre: "FERNANDO ANGELES", asistencias: [3,7,3,4,0,0,0,0,0,0,0,0] },
     { nombre: "GABRIEL HERNANDEZ", asistencias: [3,2,2,1,0,0,0,0,0,0,0,0] },
     { nombre: "BARUSH AMADOR", asistencias: [1,2,4,2,0,0,0,0,0,0,0,0] },
-    { nombre: "ALAIN AMADOR", asistencias: [3,6,4,4,0,0,0,0,0,0,0,0] },
-    { nombre: "ALEXIS HERNANDEZ", asistencias: [4,5,3,2,0,0,0,0,0,0,0,0] },
-    { nombre: "FRANKI AMADOR", asistencias: [2,7,4,2,0,0,0,0,0,0,0,0] },
+    { nombre: "ALAIN AMADOR", asistencias: [3,6,4,5,0,0,0,0,0,0,0,0] },
+    { nombre: "ALEXIS HERNANDEZ", asistencias: [4,5,3,3,0,0,0,0,0,0,0,0] },
+    { nombre: "FRANKI AMADOR", asistencias: [2,7,4,3,0,0,0,0,0,0,0,0] },
     { nombre: "CRISTOPHER ZARCO", asistencias: [3,4,3,2,0,0,0,0,0,0,0,0] },
     { nombre: "ANGEL PEREZ", asistencias: [3,4,3,2,0,0,0,0,0,0,0,0] },
     { nombre: "EDWIN LARES", asistencias: [0,2,0,0,0,0,0,0,0,0,0,0] },
     { nombre: "MATI HERNANDEZ", asistencias: [1,2,2,0,0,0,0,0,0,0,0,0] },
     { nombre: "SANTI HERNANDEZ", asistencias: [1,2,2,0,0,0,0,0,0,0,0,0] },
     { nombre: "GERARDO GONZALEZ", asistencias: [0,0,2,0,0,0,0,0,0,0,0,0] },
-    { nombre: "IAN CASTILLO", asistencias: [1,5,2,2,0,0,0,0,0,0,0,0] },
-    { nombre: "RICARDO CASTILLO", asistencias: [1,5,2,2,0,0,0,0,0,0,0,0] },
+    { nombre: "IAN CASTILLO", asistencias: [1,5,2,3,0,0,0,0,0,0,0,0] },
+    { nombre: "RICARDO CASTILLO", asistencias: [1,5,2,3,0,0,0,0,0,0,0,0] },
     { nombre: "ADRIAN SIERRA", asistencias: [1,7,2,3,0,0,0,0,0,0,0,0] },
-    { nombre: "YASID MARTINEZ", asistencias: [1,2,3,0,0,0,0,0,0,0,0,0] },
-    { nombre: "EDGAR ROBERTO", asistencias: [0,0,3,3,0,0,0,0,0,0,0,0] }
+    { nombre: "YASID MARTINEZ", asistencias: [1,2,4,0,0,0,0,0,0,0,0,0] },
+    { nombre: "EDGAR ROBERTO", asistencias: [0,0,3,4,0,0,0,0,0,0,0,0] }
 ];
 
 // Variable global para jugadores filtrados
