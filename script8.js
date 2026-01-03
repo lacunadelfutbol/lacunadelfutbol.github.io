@@ -37,7 +37,7 @@ const jugadores = [
     { nombre: "EDWIN LARES", asistencias: [0,2,0,0,0,0,0,0,0,0,0,0] },
     { nombre: "MATI HERNANDEZ", asistencias: [1,2,2,1,1,0,0,0,0,0,0,0] },
     { nombre: "SANTI HERNANDEZ", asistencias: [1,2,2,1,1,0,0,0,0,0,0,0] },
-    { nombre: "GERARDO GONZALEZ", asistencias: [0,0,2,3,0,0,0,0,0,0,0,0] },
+    { nombre: "GERARDO GONZALEZ", asistencias: [0,0,2,3,1,0,0,0,0,0,0,0] },
     { nombre: "IAN CASTILLO", asistencias: [1,5,2,5,1,0,0,0,0,0,0,0] },
     { nombre: "RICARDO CASTILLO", asistencias: [1,5,2,5,1,0,0,0,0,0,0,0] },
     { nombre: "ADRIAN SIERRA", asistencias: [1,7,2,3,0,0,0,0,0,0,0,0] },
