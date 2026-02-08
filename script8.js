@@ -40,6 +40,7 @@ const jugadores = [
     { nombre: "GERARDO GONZALEZ", asistencias: [0,0,2,3,2,0,0,0,0,0,0,0] },
     { nombre: "IAN CASTILLO", asistencias: [1,5,2,5,5,3,0,0,0,0,0,0] },
     { nombre: "RICARDO CASTILLO", asistencias: [1,5,2,5,5,3,0,0,0,0,0,0] },
+    { nombre: "VANESA", asistencias: [0,0,0,0,0,2,0,0,0,0,0,0] },
     { nombre: "ADRIAN SIERRA", asistencias: [1,7,2,3,1,0,0,0,0,0,0,0] },
     { nombre: "YASID MARTINEZ", asistencias: [1,2,4,1,4,1,0,0,0,0,0,0] },
     { nombre: "EDGAR ROBERTO", asistencias: [0,0,3,4,5,0,0,0,0,0,0,0] }
