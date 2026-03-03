@@ -9,7 +9,7 @@ document.getElementById("menu-toggle").addEventListener("click", function() {
 });
 
 // ----- CONFIGURACIÓN -----
-const TOTAL_ASISTENCIAS_POSIBLES = 43;
+const TOTAL_ASISTENCIAS_POSIBLES = 44;
 
 // ----- Datos de ejemplo -----
 const jugadores = [
