@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>CUNATECH - Sistema por Categorías</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Agregar html2canvas para capturar como PNG -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     
     <style>
         /* ===== ESTILOS OPTIMIZADOS ===== */
@@ -654,6 +656,37 @@
             margin-bottom: 10px;
         }
         
+        /* ===== BOTÓN DE COMPARTIR ===== */
+        .share-btn {
+            background: var(--success);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 15px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            margin: 15px 0;
+            transition: all 0.2s;
+        }
+        
+        .share-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+        }
+        
+        /* ===== CONTENEDOR PARA CAPTURA ===== */
+        #topPlayersContainer {
+            background: linear-gradient(145deg, #1a1a1a, #000);
+            border-radius: 15px;
+            padding: 20px;
+        }
+        
         /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
             .content-grid {
@@ -1144,7 +1177,7 @@
                     </div>
                 </div>
                 
-                <!-- CARD: TOP JUGADORES -->
+                <!-- CARD: TOP JUGADORES POR CATEGORÍA (MODIFICADO - AÑADIDO BOTÓN DE COMPARTIR) -->
                 <div class="secure-card">
                     <div class="card-header">
                         <div class="card-title">
@@ -1154,9 +1187,18 @@
                         <span style="color: var(--warning);">Top 3</span>
                     </div>
                     
-                    <div id="topPlayersByCategory">
-                        <!-- Top jugadores cargados dinámicamente -->
+                    <!-- Contenedor que se va a capturar como imagen -->
+                    <div id="topPlayersContainer">
+                        <div id="topPlayersByCategory">
+                            <!-- Top jugadores cargados dinámicamente -->
+                        </div>
                     </div>
+                    
+                    <!-- Botón de compartir para descargar PNG -->
+                    <button class="share-btn" onclick="compartirTopJugadores()">
+                        <i class="fas fa-share-alt"></i>
+                        Compartir Top 3
+                    </button>
                 </div>
                 
             </div>
@@ -2432,6 +2474,47 @@
             }
         }
 
+        // ===== NUEVA FUNCIÓN PARA COMPARTIR TOP JUGADORES COMO PNG =====
+        function compartirTopJugadores() {
+            const elemento = document.getElementById('topPlayersContainer');
+            
+            // Mostrar notificación de que se está procesando
+            mostrarNotificacion('Generando imagen...', 'info');
+            
+            // Opciones para la captura
+            const opciones = {
+                scale: 2, // Mayor calidad
+                backgroundColor: '#1a1a1a',
+                allowTaint: false,
+                useCORS: true,
+                logging: false,
+                windowWidth: elemento.scrollWidth,
+                windowHeight: elemento.scrollHeight
+            };
+            
+            // Capturar el elemento como canvas
+            html2canvas(elemento, opciones).then(canvas => {
+                // Convertir canvas a URL de datos
+                const imagenURL = canvas.toDataURL('image/png');
+                
+                // Crear enlace de descarga
+                const enlace = document.createElement('a');
+                enlace.href = imagenURL;
+                enlace.download = `cunatech_top3_${new Date().toISOString().split('T')[0]}.png`;
+                
+                // Simular clic para descargar
+                document.body.appendChild(enlace);
+                enlace.click();
+                document.body.removeChild(enlace);
+                
+                // Notificar éxito
+                mostrarNotificacion('¡Imagen descargada! Lista para compartir en la página del club.', 'success');
+            }).catch(error => {
+                console.error('Error al generar la imagen:', error);
+                mostrarNotificacion('Error al generar la imagen. Intenta de nuevo.', 'error');
+            });
+        }
+
         // ===== FUNCIONES DE CONFIGURACIÓN =====
         function mostrarConfig() {
             document.getElementById('configModal').classList.add('active');
@@ -2565,7 +2648,7 @@
         }
 
         // Inicializar el sistema (actualizar rendimientos primero)
-        actualiz,arRendimientos();
+        actualizarRendimientos();
         inicializarSistema();
     </script>
 
