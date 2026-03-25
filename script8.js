@@ -54,6 +54,8 @@ let jugadoresFiltrados = [...jugadores];
 let posicionesGenerales = {};
 // Variable para almacenar el mes actual
 let mesActual = {};
+// Cache para el contenedor del Top 10
+let topContainerCache = null;
 
 // ----- FUNCIÓN: Obtener mes actual basado en la fecha -----
 function obtenerMesActual() {
@@ -76,7 +78,8 @@ function obtenerMesActual() {
     return {
         nombre: meses[indiceMes] || 'Septiembre',
         nombreCompleto: `${meses[indiceMes] || 'Septiembre'} ${añoVisualizacion}`,
-        indice: indiceMes
+        indice: indiceMes,
+        año: añoVisualizacion
     };
 }
 
@@ -117,15 +120,18 @@ function mostrarNotificacionMes() {
     setTimeout(() => {
         notificacion.style.animation = 'slideOut 0.5s ease';
         setTimeout(() => {
-            document.body.removeChild(notificacion);
+            if (document.body.contains(notificacion)) {
+                document.body.removeChild(notificacion);
+            }
         }, 500);
     }, 3000);
 }
 
-// ----- FUNCIÓN: Calcular Top 10 del mes actual -----
+// ----- FUNCIÓN: Calcular Top 10 del mes actual basado en jugadores filtrados -----
 function calcularTop10Mensual() {
     const indiceMes = mesActual.indice;
     
+    // Usar jugadores filtrados en lugar de todos los jugadores
     const asistenciasMes = jugadoresFiltrados.map(jugador => ({
         nombre: jugador.nombre,
         asistencia: jugador.asistencias[indiceMes] || 0
@@ -141,20 +147,36 @@ function calcularTop10Mensual() {
     };
 }
 
-// ----- FUNCIÓN: Renderizar Top 10 mensual (SOLO ESTO SE MODIFICA) -----
+// ----- FUNCIÓN: Renderizar Top 10 mensual (OPTIMIZADA) -----
 function renderizarTop10Mensual() {
     const topData = calcularTop10Mensual();
     
-    let topContainer = document.querySelector('.top-mensual-container');
-    
-    if (!topContainer) {
-        topContainer = document.createElement('div');
-        topContainer.className = 'top-mensual-container';
+    // Usar el contenedor en caché o crearlo solo una vez
+    if (!topContainerCache) {
+        topContainerCache = document.querySelector('.top-mensual-container');
         
-        const tablaContainer = document.querySelector('.tabla-container');
-        tablaContainer.parentNode.insertBefore(topContainer, tablaContainer.nextSibling);
+        if (!topContainerCache) {
+            topContainerCache = document.createElement('div');
+            topContainerCache.className = 'top-mensual-container';
+            
+            const tablaContainer = document.querySelector('.tabla-container');
+            if (tablaContainer && tablaContainer.parentNode) {
+                tablaContainer.parentNode.insertBefore(topContainerCache, tablaContainer.nextSibling);
+            }
+        }
     }
     
+    // Verificar si realmente necesitamos actualizar el contenido
+    // Si el contenedor ya tiene el mismo mes y misma cantidad de datos, evitamos re-renderizar
+    const mesActualEnDOM = topContainerCache.querySelector('.top-mes');
+    if (mesActualEnDOM && mesActualEnDOM.textContent === topData.mes && 
+        topContainerCache.querySelectorAll('.top-item').length === topData.top.length) {
+        // Si el mes no cambió y la cantidad de items es la misma, actualizar solo los valores
+        actualizarTop10Valores(topData);
+        return;
+    }
+    
+    // Si hay cambios significativos, re-renderizar completamente
     let topHTML = `
         <div class="top-header">
             <div class="top-titulo">
@@ -179,10 +201,10 @@ function renderizarTop10Mensual() {
             const asistenciaTexto = item.asistencia === 1 ? 'asistencia' : 'asistencias';
             
             topHTML += `
-                <div class="top-item${posicionClass}">
+                <div class="top-item${posicionClass}" data-nombre="${item.nombre.replace(/[^a-zA-Z0-9]/g, '_')}">
                     <div class="top-posicion">${index + 1}</div>
                     <div class="top-info">
-                        <span class="top-nombre">${item.nombre}</span>
+                        <span class="top-nombre">${escapeHTML(item.nombre)}</span>
                         <span class="top-asistencias">${item.asistencia} ${asistenciaTexto}</span>
                     </div>
                 </div>
@@ -198,7 +220,45 @@ function renderizarTop10Mensual() {
         </div>
     `;
     
-    topContainer.innerHTML = topHTML;
+    // Usar requestAnimationFrame para evitar reflows durante el scroll
+    requestAnimationFrame(() => {
+        if (topContainerCache) {
+            topContainerCache.innerHTML = topHTML;
+        }
+    });
+}
+
+// ----- FUNCIÓN AUXILIAR: Actualizar solo los valores del Top 10 (evita re-renderizar todo) -----
+function actualizarTop10Valores(topData) {
+    const items = topContainerCache.querySelectorAll('.top-item');
+    
+    if (items.length === topData.top.length) {
+        items.forEach((item, index) => {
+            const asistenciaSpan = item.querySelector('.top-asistencias');
+            if (asistenciaSpan && topData.top[index]) {
+                const asistenciaTexto = topData.top[index].asistencia === 1 ? 'asistencia' : 'asistencias';
+                asistenciaSpan.textContent = `${topData.top[index].asistencia} ${asistenciaTexto}`;
+            }
+        });
+    } else {
+        // Si la cantidad cambió, re-renderizar completo
+        requestAnimationFrame(() => {
+            if (topContainerCache) {
+                const topDataNuevo = calcularTop10Mensual();
+                renderizarTop10Mensual();
+            }
+        });
+    }
+}
+
+// ----- FUNCIÓN AUXILIAR: Escapar HTML para prevenir XSS -----
+function escapeHTML(str) {
+    return str.replace(/[&<>]/g, function(m) {
+        if (m === '&') return '&amp;';
+        if (m === '<') return '&lt;';
+        if (m === '>') return '&gt;';
+        return m;
+    });
 }
 
 // ----- FUNCIÓN: Calcular posiciones generales (original) -----
@@ -225,7 +285,7 @@ function calcularPosicionesGenerales() {
     return posiciones;
 }
 
-// ----- BÚSQUEDA (original) -----
+// ----- BÚSQUEDA (optimizada) -----
 function crearBuscadorMinimalista() {
     const buscadorHTML = `
         <div class="buscador-container" style="margin: 20px 0; max-width: 500px; margin-left: auto; margin-right: auto;">
@@ -240,97 +300,120 @@ function crearBuscadorMinimalista() {
     `;
     
     const h2 = document.querySelector('section h2');
-    h2.insertAdjacentHTML('afterend', buscadorHTML);
+    if (h2) {
+        h2.insertAdjacentHTML('afterend', buscadorHTML);
+    }
     
     const inputBuscador = document.getElementById('inputBuscador');
     const contadorDiv = document.getElementById('contadorResultados');
+    
+    // Usar debounce para mejorar rendimiento durante la escritura
+    let timeoutId = null;
     
     function filtrarJugadores(textoBusqueda) {
         const textoBusquedaUpper = textoBusqueda.toUpperCase().trim();
         
         if (!textoBusquedaUpper) {
             jugadoresFiltrados = [...jugadores];
-            contadorDiv.textContent = `Mostrando ${jugadores.length} jugadores`;
-            contadorDiv.style.color = '#666';
+            if (contadorDiv) {
+                contadorDiv.textContent = `Mostrando ${jugadores.length} jugadores`;
+                contadorDiv.style.color = '#666';
+            }
         } else {
             jugadoresFiltrados = jugadores.filter(jugador => 
                 jugador.nombre.toUpperCase().includes(textoBusquedaUpper)
             );
             
-            if (jugadoresFiltrados.length === 0) {
-                contadorDiv.textContent = `No se encontraron jugadores con "${textoBusqueda}"`;
-                contadorDiv.style.color = '#e74c3c';
-            } else if (jugadoresFiltrados.length === 1) {
-                contadorDiv.textContent = `Mostrando 1 jugador`;
-                contadorDiv.style.color = '#27ae60';
-            } else {
-                contadorDiv.textContent = `Mostrando ${jugadoresFiltrados.length} jugadores`;
-                contadorDiv.style.color = '#2980b9';
+            if (contadorDiv) {
+                if (jugadoresFiltrados.length === 0) {
+                    contadorDiv.textContent = `No se encontraron jugadores con "${textoBusqueda}"`;
+                    contadorDiv.style.color = '#e74c3c';
+                } else if (jugadoresFiltrados.length === 1) {
+                    contadorDiv.textContent = `Mostrando 1 jugador`;
+                    contadorDiv.style.color = '#27ae60';
+                } else {
+                    contadorDiv.textContent = `Mostrando ${jugadoresFiltrados.length} jugadores`;
+                    contadorDiv.style.color = '#2980b9';
+                }
             }
         }
         
-        renderizarTabla();
-        renderizarTop10Mensual();
+        // Usar requestAnimationFrame para actualizaciones suaves
+        requestAnimationFrame(() => {
+            renderizarTabla();
+            renderizarTop10Mensual();
+        });
     }
     
-    inputBuscador.addEventListener('input', function(e) {
-        filtrarJugadores(e.target.value);
-    });
-    
-    inputBuscador.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-            this.value = '';
-            filtrarJugadores('');
-        }
-    });
+    if (inputBuscador) {
+        inputBuscador.addEventListener('input', function(e) {
+            if (timeoutId) clearTimeout(timeoutId);
+            timeoutId = setTimeout(() => {
+                filtrarJugadores(e.target.value);
+            }, 150); // Debounce de 150ms
+        });
+        
+        inputBuscador.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                this.value = '';
+                filtrarJugadores('');
+            }
+        });
+    }
 }
 
-// ----- RENDERIZAR TABLA (EXACTAMENTE COMO AL INICIO) -----
+// ----- RENDERIZAR TABLA (OPTIMIZADA) -----
 function renderizarTabla() {
     const tbody = document.querySelector("#tabla-asistencias tbody");
-    tbody.innerHTML = '';
+    if (!tbody) return;
+    
+    // Usar DocumentFragment para mejorar rendimiento
+    const fragment = document.createDocumentFragment();
     
     if (jugadoresFiltrados.length === 0) {
-        tbody.innerHTML = `
-            <tr>
-                <td colspan="15" style="text-align: center; padding: 30px; color: #666; font-style: italic;">
-                    No se encontraron jugadores con ese criterio de búsqueda
-                </td>
-            </tr>
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td colspan="15" style="text-align: center; padding: 30px; color: #666; font-style: italic;">
+                No se encontraron jugadores con ese criterio de búsqueda
+            </td>
         `;
-        return;
+        fragment.appendChild(tr);
+    } else {
+        const jugadoresOrdenados = [...jugadoresFiltrados].sort((a, b) => {
+            const posicionA = posicionesGenerales[a.nombre] || 999;
+            const posicionB = posicionesGenerales[b.nombre] || 999;
+            return posicionA - posicionB;
+        });
+        
+        jugadoresOrdenados.forEach((nino) => {
+            const totalAsistencias = nino.asistencias.reduce((a, b) => a + b, 0);
+            const porcentaje = (totalAsistencias / TOTAL_ASISTENCIAS_POSIBLES) * 100;
+            let color = porcentaje >= 80 ? "green" : porcentaje >= 50 ? "orange" : "red";
+            const posicion = posicionesGenerales[nino.nombre] || "-";
+            
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+                <td style="font-weight: bold; text-align: center; padding: 6px 3px; min-width: 50px;">${posicion}°</td>
+                <td>${escapeHTML(nino.nombre)}</td>
+                ${nino.asistencias.map(a => `<td>${a}</td>`).join('')}
+                <td style="color:${color}; font-weight:bold;">${porcentaje.toFixed(0)}%</td>
+            `;
+            
+            tr.addEventListener('mouseover', function() {
+                this.style.backgroundColor = '#f0f8ff';
+            });
+            
+            tr.addEventListener('mouseout', function() {
+                this.style.backgroundColor = '';
+            });
+            
+            fragment.appendChild(tr);
+        });
     }
     
-    const jugadoresOrdenados = [...jugadoresFiltrados].sort((a, b) => {
-        const posicionA = posicionesGenerales[a.nombre] || 999;
-        const posicionB = posicionesGenerales[b.nombre] || 999;
-        return posicionA - posicionB;
-    });
-    
-    jugadoresOrdenados.forEach((nino) => {
-        const totalAsistencias = nino.asistencias.reduce((a, b) => a + b, 0);
-        const porcentaje = (totalAsistencias / TOTAL_ASISTENCIAS_POSIBLES) * 100;
-        let color = porcentaje >= 80 ? "green" : porcentaje >= 50 ? "orange" : "red";
-        const posicion = posicionesGenerales[nino.nombre] || "-";
-        
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-            <td style="font-weight: bold; text-align: center; padding: 6px 3px; min-width: 50px;">${posicion}°</td>
-            <td>${nino.nombre}</td>
-            ${nino.asistencias.map(a => `<td>${a}</td>`).join('')}
-            <td style="color:${color}; font-weight:bold;">${porcentaje.toFixed(0)}%</td>
-        `;
-        
-        tr.addEventListener('mouseover', function() {
-            this.style.backgroundColor = '#f0f8ff';
-        });
-        
-        tr.addEventListener('mouseout', function() {
-            this.style.backgroundColor = '';
-        });
-        
-        tbody.appendChild(tr);
-    });
+    // Limpiar y agregar el fragmento de una vez
+    tbody.innerHTML = '';
+    tbody.appendChild(fragment);
 }
 
 // ----- INICIALIZAR -----
@@ -338,23 +421,25 @@ document.addEventListener('DOMContentLoaded', function() {
     mesActual = obtenerMesActual();
     
     const thead = document.querySelector("#tabla-asistencias thead tr");
-    thead.innerHTML = `
-        <th style="min-width: 50px; padding: 8px 3px;">Posición</th>
-        <th style="min-width: 180px;">Nombre</th>
-        <th>Sept</th>
-        <th>Oct</th>
-        <th>Nov</th>
-        <th>Dic</th>
-        <th>Ene</th>
-        <th>Feb</th>
-        <th>Mar</th>
-        <th>Abr</th>
-        <th>May</th>
-        <th>Jun</th>
-        <th>Jul</th>
-        <th>Ago</th>
-        <th>Porcentaje</th>
-    `;
+    if (thead) {
+        thead.innerHTML = `
+            <th style="min-width: 50px; padding: 8px 3px;">Posición</th>
+            <th style="min-width: 180px;">Nombre</th>
+            <th>Sept</th>
+            <th>Oct</th>
+            <th>Nov</th>
+            <th>Dic</th>
+            <th>Ene</th>
+            <th>Feb</th>
+            <th>Mar</th>
+            <th>Abr</th>
+            <th>May</th>
+            <th>Jun</th>
+            <th>Jul</th>
+            <th>Ago</th>
+            <th>Porcentaje</th>
+        `;
+    }
     
     posicionesGenerales = calcularPosicionesGenerales();
     crearBuscadorMinimalista();
@@ -364,24 +449,27 @@ document.addEventListener('DOMContentLoaded', function() {
     setInterval(verificarCambioMes, 3600000);
     window.addEventListener('focus', verificarCambioMes);
     
-    document.getElementById("descargarPDF").addEventListener("click", () => {
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF();
+    const descargarBtn = document.getElementById("descargarPDF");
+    if (descargarBtn) {
+        descargarBtn.addEventListener("click", () => {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
 
-        doc.setFontSize(18);
-        doc.text("Registro de Asistencias", 14, 20);
-        doc.setFontSize(10);
-        doc.text(`Total de asistencias posibles: ${TOTAL_ASISTENCIAS_POSIBLES}`, 14, 28);
+            doc.setFontSize(18);
+            doc.text("Registro de Asistencias", 14, 20);
+            doc.setFontSize(10);
+            doc.text(`Total de asistencias posibles: ${TOTAL_ASISTENCIAS_POSIBLES}`, 14, 28);
 
-        doc.autoTable({
-            html: "#tabla-asistencias",
-            startY: 30,
-            styles: { fontSize: 10, halign: "center" },
-            headStyles: { fillColor: [41, 128, 185] },
+            doc.autoTable({
+                html: "#tabla-asistencias",
+                startY: 30,
+                styles: { fontSize: 10, halign: "center" },
+                headStyles: { fillColor: [41, 128, 185] },
+            });
+
+            doc.save("Asistencias.pdf");
         });
-
-        doc.save("Asistencias.pdf");
-    });
+    }
 });
 
 // ----- ESTILOS SOLO PARA TOP 10 (negro y dorado) -----
@@ -411,6 +499,7 @@ style.textContent = `
         margin-right: auto;
         position: relative;
         overflow: hidden;
+        will-change: transform;
     }
     
     .top-mensual-container::before {
@@ -581,6 +670,12 @@ style.textContent = `
         color: #D4AF37;
         font-style: italic;
         border: 2px dashed #D4AF37;
+    }
+    
+    /* Mejoras para scroll suave */
+    .tabla-container {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
     }
 `;
 document.head.appendChild(style);
