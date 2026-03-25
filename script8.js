@@ -2,9 +2,9 @@
 document.getElementById("menu-toggle").addEventListener("click", function() {
     var menu = document.getElementById("menu");
     if (menu.style.left === "-250px") {
-        menu.style.left = "0";  // Mostrar el menú
+        menu.style.left = "0";
     } else {
-        menu.style.left = "-250px";  // Ocultar el menú
+        menu.style.left = "-250px";
     }
 });
 
@@ -50,14 +50,12 @@ const jugadores = [
 
 // Variable global para jugadores filtrados
 let jugadoresFiltrados = [...jugadores];
-// Variable para almacenar las posiciones generales
 let posicionesGenerales = {};
-// Variable para almacenar el mes actual
 let mesActual = {};
-// Cache para el contenedor del Top 10
 let topContainerCache = null;
+let busquedaTimeout = null;
 
-// ----- FUNCIÓN: Obtener mes actual basado en la fecha -----
+// ----- FUNCIÓN: Obtener mes actual -----
 function obtenerMesActual() {
     const meses = ['Septiembre', 'Octubre', 'Noviembre', 'Diciembre', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto'];
     const fecha = new Date();
@@ -127,11 +125,10 @@ function mostrarNotificacionMes() {
     }, 3000);
 }
 
-// ----- FUNCIÓN: Calcular Top 10 del mes actual basado en jugadores filtrados -----
+// ----- FUNCIÓN: Calcular Top 10 del mes actual -----
 function calcularTop10Mensual() {
     const indiceMes = mesActual.indice;
     
-    // Usar jugadores filtrados en lugar de todos los jugadores
     const asistenciasMes = jugadoresFiltrados.map(jugador => ({
         nombre: jugador.nombre,
         asistencia: jugador.asistencias[indiceMes] || 0
@@ -147,64 +144,88 @@ function calcularTop10Mensual() {
     };
 }
 
-// ----- FUNCIÓN: Renderizar Top 10 mensual (OPTIMIZADA) -----
-function renderizarTop10Mensual() {
-    const topData = calcularTop10Mensual();
+// ----- FUNCIÓN: Crear contenedor del Top 10 -----
+function obtenerContenedorTop10() {
+    if (topContainerCache && document.body.contains(topContainerCache)) {
+        return topContainerCache;
+    }
     
-    // Usar el contenedor en caché o crearlo solo una vez
-    if (!topContainerCache) {
-        topContainerCache = document.querySelector('.top-mensual-container');
+    let contenedor = document.querySelector('.top-mensual-container');
+    
+    if (!contenedor) {
+        contenedor = document.createElement('div');
+        contenedor.className = 'top-mensual-container';
         
-        if (!topContainerCache) {
-            topContainerCache = document.createElement('div');
-            topContainerCache.className = 'top-mensual-container';
-            
-            const tablaContainer = document.querySelector('.tabla-container');
-            if (tablaContainer && tablaContainer.parentNode) {
-                tablaContainer.parentNode.insertBefore(topContainerCache, tablaContainer.nextSibling);
+        const section = document.querySelector('section');
+        if (section) {
+            const btnPDF = document.getElementById('descargarPDF');
+            if (btnPDF && btnPDF.parentNode) {
+                btnPDF.parentNode.insertBefore(contenedor, btnPDF.nextSibling);
+            } else {
+                section.appendChild(contenedor);
             }
         }
     }
     
-    // Verificar si realmente necesitamos actualizar el contenido
-    // Si el contenedor ya tiene el mismo mes y misma cantidad de datos, evitamos re-renderizar
-    const mesActualEnDOM = topContainerCache.querySelector('.top-mes');
-    if (mesActualEnDOM && mesActualEnDOM.textContent === topData.mes && 
-        topContainerCache.querySelectorAll('.top-item').length === topData.top.length) {
-        // Si el mes no cambió y la cantidad de items es la misma, actualizar solo los valores
-        actualizarTop10Valores(topData);
-        return;
-    }
+    topContainerCache = contenedor;
+    return contenedor;
+}
+
+// ----- FUNCIÓN: Renderizar Top 10 con diseño limpio -----
+function renderizarTop10Mensual() {
+    const topData = calcularTop10Mensual();
+    const container = obtenerContenedorTop10();
     
-    // Si hay cambios significativos, re-renderizar completamente
+    if (!container) return;
+    
     let topHTML = `
         <div class="top-header">
             <div class="top-titulo">
-                <span class="top-icon">👑</span>
+                <span class="top-icon">🏆</span>
                 <h3>TOP 10 ASISTENCIAS</h3>
             </div>
-            <div class="top-mes">${topData.mes}</div>
+            <div class="top-mes-badge">
+                <span class="mes-icon">📅</span>
+                <span>${topData.mes}</span>
+            </div>
         </div>
     `;
     
     if (topData.top.length === 0 || topData.top.every(item => item.asistencia === 0)) {
         topHTML += `
-            <div class="no-data">
-                No hay asistencias registradas en ${topData.mes}
+            <div class="no-data-mensual">
+                <span class="no-data-icon">📊</span>
+                <p>No hay asistencias registradas en ${topData.mes}</p>
             </div>
         `;
     } else {
         topHTML += '<div class="top-lista">';
         
         topData.top.forEach((item, index) => {
-            const posicionClass = index < 3 ? ` top-${index + 1}` : '';
+            let medalla = '';
+            let claseEspecial = '';
+            
+            if (index === 0) {
+                medalla = '🥇';
+                claseEspecial = 'top-oro';
+            } else if (index === 1) {
+                medalla = '🥈';
+                claseEspecial = 'top-plata';
+            } else if (index === 2) {
+                medalla = '🥉';
+                claseEspecial = 'top-bronce';
+            }
+            
             const asistenciaTexto = item.asistencia === 1 ? 'asistencia' : 'asistencias';
             
             topHTML += `
-                <div class="top-item${posicionClass}" data-nombre="${item.nombre.replace(/[^a-zA-Z0-9]/g, '_')}">
-                    <div class="top-posicion">${index + 1}</div>
+                <div class="top-item ${claseEspecial}">
+                    <div class="top-posicion">
+                        <span class="posicion-numero">${index + 1}</span>
+                        ${medalla ? `<span class="medalla">${medalla}</span>` : ''}
+                    </div>
                     <div class="top-info">
-                        <span class="top-nombre">${escapeHTML(item.nombre)}</span>
+                        <span class="top-nombre">${item.nombre}</span>
                         <span class="top-asistencias">${item.asistencia} ${asistenciaTexto}</span>
                     </div>
                 </div>
@@ -212,56 +233,23 @@ function renderizarTop10Mensual() {
         });
         
         topHTML += '</div>';
+        topHTML += `
+            <div class="top-footer">
+                <span class="auto-update">🔄 Se actualiza automáticamente cada mes</span>
+            </div>
+        `;
     }
     
-    topHTML += `
-        <div class="top-footer">
-            <span class="auto-update">👑 Se actualiza automáticamente cada mes</span>
-        </div>
-    `;
-    
-    // Usar requestAnimationFrame para evitar reflows durante el scroll
-    requestAnimationFrame(() => {
-        if (topContainerCache) {
-            topContainerCache.innerHTML = topHTML;
-        }
-    });
-}
-
-// ----- FUNCIÓN AUXILIAR: Actualizar solo los valores del Top 10 (evita re-renderizar todo) -----
-function actualizarTop10Valores(topData) {
-    const items = topContainerCache.querySelectorAll('.top-item');
-    
-    if (items.length === topData.top.length) {
-        items.forEach((item, index) => {
-            const asistenciaSpan = item.querySelector('.top-asistencias');
-            if (asistenciaSpan && topData.top[index]) {
-                const asistenciaTexto = topData.top[index].asistencia === 1 ? 'asistencia' : 'asistencias';
-                asistenciaSpan.textContent = `${topData.top[index].asistencia} ${asistenciaTexto}`;
-            }
-        });
-    } else {
-        // Si la cantidad cambió, re-renderizar completo
+    if (container.innerHTML !== topHTML) {
         requestAnimationFrame(() => {
-            if (topContainerCache) {
-                const topDataNuevo = calcularTop10Mensual();
-                renderizarTop10Mensual();
+            if (container) {
+                container.innerHTML = topHTML;
             }
         });
     }
 }
 
-// ----- FUNCIÓN AUXILIAR: Escapar HTML para prevenir XSS -----
-function escapeHTML(str) {
-    return str.replace(/[&<>]/g, function(m) {
-        if (m === '&') return '&amp;';
-        if (m === '<') return '&lt;';
-        if (m === '>') return '&gt;';
-        return m;
-    });
-}
-
-// ----- FUNCIÓN: Calcular posiciones generales (original) -----
+// ----- FUNCIÓN: Calcular posiciones generales -----
 function calcularPosicionesGenerales() {
     const jugadoresOrdenados = [...jugadores].sort((a, b) => {
         const totalA = a.asistencias.reduce((sum, asistencia) => sum + asistencia, 0);
@@ -276,24 +264,23 @@ function calcularPosicionesGenerales() {
     });
     
     const posiciones = {};
-    
     for (let i = 0; i < jugadoresOrdenados.length; i++) {
-        const posicion = i + 1;
-        posiciones[jugadoresOrdenados[i].nombre] = posicion;
+        posiciones[jugadoresOrdenados[i].nombre] = i + 1;
     }
-    
     return posiciones;
 }
 
-// ----- BÚSQUEDA (optimizada) -----
+// ----- BÚSQUEDA OPTIMIZADA -----
 function crearBuscadorMinimalista() {
+    if (document.querySelector('.buscador-container')) return;
+    
     const buscadorHTML = `
-        <div class="buscador-container" style="margin: 20px 0; max-width: 500px; margin-left: auto; margin-right: auto;">
+        <div class="buscador-container">
+            <div class="buscador-icono">🔍</div>
             <input type="text" 
                    id="inputBuscador" 
-                   placeholder="Buscar jugador por nombre..."
-                   style="width: 100%; padding: 10px; border: 2px solid #3498db; border-radius: 5px; font-size: 16px;">
-            <div id="contadorResultados" style="margin-top: 5px; font-size: 14px; color: #666; text-align: right;">
+                   placeholder="Buscar jugador por nombre...">
+            <div id="contadorResultados" class="contador-resultados">
                 Mostrando ${jugadores.length} jugadores
             </div>
         </div>
@@ -307,16 +294,13 @@ function crearBuscadorMinimalista() {
     const inputBuscador = document.getElementById('inputBuscador');
     const contadorDiv = document.getElementById('contadorResultados');
     
-    // Usar debounce para mejorar rendimiento durante la escritura
-    let timeoutId = null;
-    
     function filtrarJugadores(textoBusqueda) {
         const textoBusquedaUpper = textoBusqueda.toUpperCase().trim();
         
         if (!textoBusquedaUpper) {
             jugadoresFiltrados = [...jugadores];
             if (contadorDiv) {
-                contadorDiv.textContent = `Mostrando ${jugadores.length} jugadores`;
+                contadorDiv.textContent = `📋 Mostrando ${jugadores.length} jugadores`;
                 contadorDiv.style.color = '#666';
             }
         } else {
@@ -326,19 +310,18 @@ function crearBuscadorMinimalista() {
             
             if (contadorDiv) {
                 if (jugadoresFiltrados.length === 0) {
-                    contadorDiv.textContent = `No se encontraron jugadores con "${textoBusqueda}"`;
+                    contadorDiv.textContent = `❌ No se encontraron jugadores con "${textoBusqueda}"`;
                     contadorDiv.style.color = '#e74c3c';
                 } else if (jugadoresFiltrados.length === 1) {
-                    contadorDiv.textContent = `Mostrando 1 jugador`;
+                    contadorDiv.textContent = `✅ Mostrando 1 jugador`;
                     contadorDiv.style.color = '#27ae60';
                 } else {
-                    contadorDiv.textContent = `Mostrando ${jugadoresFiltrados.length} jugadores`;
+                    contadorDiv.textContent = `📊 Mostrando ${jugadoresFiltrados.length} jugadores`;
                     contadorDiv.style.color = '#2980b9';
                 }
             }
         }
         
-        // Usar requestAnimationFrame para actualizaciones suaves
         requestAnimationFrame(() => {
             renderizarTabla();
             renderizarTop10Mensual();
@@ -347,10 +330,10 @@ function crearBuscadorMinimalista() {
     
     if (inputBuscador) {
         inputBuscador.addEventListener('input', function(e) {
-            if (timeoutId) clearTimeout(timeoutId);
-            timeoutId = setTimeout(() => {
+            if (busquedaTimeout) clearTimeout(busquedaTimeout);
+            busquedaTimeout = setTimeout(() => {
                 filtrarJugadores(e.target.value);
-            }, 150); // Debounce de 150ms
+            }, 200);
         });
         
         inputBuscador.addEventListener('keydown', function(e) {
@@ -362,20 +345,19 @@ function crearBuscadorMinimalista() {
     }
 }
 
-// ----- RENDERIZAR TABLA (OPTIMIZADA) -----
+// ----- RENDERIZAR TABLA OPTIMIZADA -----
 function renderizarTabla() {
     const tbody = document.querySelector("#tabla-asistencias tbody");
     if (!tbody) return;
     
-    // Usar DocumentFragment para mejorar rendimiento
     const fragment = document.createDocumentFragment();
     
     if (jugadoresFiltrados.length === 0) {
         const tr = document.createElement('tr');
         tr.innerHTML = `
-            <td colspan="15" style="text-align: center; padding: 30px; color: #666; font-style: italic;">
-                No se encontraron jugadores con ese criterio de búsqueda
-            </td>
+            <td colspan="15" style="text-align: center; padding: 40px; color: #999; font-style: italic;">
+                🔍 No se encontraron jugadores con ese criterio de búsqueda
+              </td>
         `;
         fragment.appendChild(tr);
     } else {
@@ -388,19 +370,19 @@ function renderizarTabla() {
         jugadoresOrdenados.forEach((nino) => {
             const totalAsistencias = nino.asistencias.reduce((a, b) => a + b, 0);
             const porcentaje = (totalAsistencias / TOTAL_ASISTENCIAS_POSIBLES) * 100;
-            let color = porcentaje >= 80 ? "green" : porcentaje >= 50 ? "orange" : "red";
+            let color = porcentaje >= 80 ? "#27ae60" : porcentaje >= 50 ? "#f39c12" : "#e74c3c";
             const posicion = posicionesGenerales[nino.nombre] || "-";
             
             const tr = document.createElement("tr");
             tr.innerHTML = `
-                <td style="font-weight: bold; text-align: center; padding: 6px 3px; min-width: 50px;">${posicion}°</td>
-                <td>${escapeHTML(nino.nombre)}</td>
-                ${nino.asistencias.map(a => `<td>${a}</td>`).join('')}
-                <td style="color:${color}; font-weight:bold;">${porcentaje.toFixed(0)}%</td>
+                <td style="font-weight: bold; text-align: center; padding: 8px 3px; min-width: 60px;">${posicion}°</td>
+                <td style="font-weight: 500; text-align: left;">${nino.nombre}</td>
+                ${nino.asistencias.map(a => `<td style="text-align: center;">${a}</td>`).join('')}
+                <td style="color:${color}; font-weight:bold; text-align: center;">${porcentaje.toFixed(0)}%</td>
             `;
             
             tr.addEventListener('mouseover', function() {
-                this.style.backgroundColor = '#f0f8ff';
+                this.style.backgroundColor = '#f8f9fa';
             });
             
             tr.addEventListener('mouseout', function() {
@@ -411,7 +393,6 @@ function renderizarTabla() {
         });
     }
     
-    // Limpiar y agregar el fragmento de una vez
     tbody.innerHTML = '';
     tbody.appendChild(fragment);
 }
@@ -422,23 +403,10 @@ document.addEventListener('DOMContentLoaded', function() {
     
     const thead = document.querySelector("#tabla-asistencias thead tr");
     if (thead) {
-        thead.innerHTML = `
-            <th style="min-width: 50px; padding: 8px 3px;">Posición</th>
-            <th style="min-width: 180px;">Nombre</th>
-            <th>Sept</th>
-            <th>Oct</th>
-            <th>Nov</th>
-            <th>Dic</th>
-            <th>Ene</th>
-            <th>Feb</th>
-            <th>Mar</th>
-            <th>Abr</th>
-            <th>May</th>
-            <th>Jun</th>
-            <th>Jul</th>
-            <th>Ago</th>
-            <th>Porcentaje</th>
-        `;
+        const primeraTh = thead.querySelector('th');
+        if (primeraTh && primeraTh.textContent !== 'Posición') {
+            thead.insertAdjacentHTML('afterbegin', '<th style="min-width: 60px; padding: 10px 3px;">Posición</th>');
+        }
     }
     
     posicionesGenerales = calcularPosicionesGenerales();
@@ -463,8 +431,9 @@ document.addEventListener('DOMContentLoaded', function() {
             doc.autoTable({
                 html: "#tabla-asistencias",
                 startY: 30,
-                styles: { fontSize: 10, halign: "center" },
-                headStyles: { fillColor: [41, 128, 185] },
+                styles: { fontSize: 9, halign: "center", cellPadding: 3 },
+                headStyles: { fillColor: [30, 60, 114], textColor: [255, 255, 255] },
+                alternateRowStyles: { fillColor: [245, 245, 245] }
             });
 
             doc.save("Asistencias.pdf");
@@ -472,210 +441,260 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// ----- ESTILOS SOLO PARA TOP 10 (negro y dorado) -----
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes slideIn {
-        from { transform: translateX(100%); opacity: 0; }
-        to { transform: translateX(0); opacity: 1; }
-    }
-    
-    @keyframes slideOut {
-        from { transform: translateX(0); opacity: 1; }
-        to { transform: translateX(100%); opacity: 0; }
-    }
-    
-    /* Estilos EXCLUSIVOS para Top 10 */
-    .top-mensual-container {
-        margin: 40px 0 20px;
-        padding: 30px;
-        background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-        border-radius: 15px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        border: 1px solid #D4AF37;
-        width: 100%;
-        max-width: 800px;
-        margin-left: auto;
-        margin-right: auto;
-        position: relative;
-        overflow: hidden;
-        will-change: transform;
-    }
-    
-    .top-mensual-container::before {
-        content: '';
-        position: absolute;
-        top: -2px;
-        left: -2px;
-        right: -2px;
-        bottom: -2px;
-        background: linear-gradient(45deg, #D4AF37, #8B6910, #D4AF37);
-        border-radius: 16px;
-        z-index: -1;
-        animation: borderGlow 3s ease-in-out infinite;
-    }
-    
-    @keyframes borderGlow {
-        0%, 100% { opacity: 0.5; }
-        50% { opacity: 1; }
-    }
-    
-    .top-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 25px;
-        padding-bottom: 15px;
-        border-bottom: 2px solid #D4AF37;
-    }
-    
-    .top-titulo {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-    
-    .top-icon {
-        font-size: 32px;
-        filter: drop-shadow(0 0 10px #D4AF37);
-    }
-    
-    .top-titulo h3 {
-        margin: 0;
-        color: #D4AF37;
-        font-size: 1.6em;
-        font-weight: 700;
-        letter-spacing: 2px;
-        text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
-    }
-    
-    .top-mes {
-        background: linear-gradient(135deg, #D4AF37, #8B6910);
-        color: #1a1a1a;
-        padding: 8px 20px;
-        border-radius: 25px;
-        font-size: 1em;
-        font-weight: 600;
-        box-shadow: 0 2px 15px rgba(212, 175, 55, 0.3);
-    }
-    
-    .top-lista {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-    }
-    
-    .top-item {
-        background: rgba(255, 255, 255, 0.05);
-        backdrop-filter: blur(10px);
-        padding: 15px 20px;
-        border-radius: 12px;
-        display: flex;
-        align-items: center;
-        transition: all 0.3s;
-        border: 1px solid rgba(212, 175, 55, 0.2);
-        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-    }
-    
-    .top-item:hover {
-        transform: translateX(8px);
-        background: rgba(212, 175, 55, 0.1);
-        border-color: #D4AF37;
-        box-shadow: 0 5px 20px rgba(212, 175, 55, 0.2);
-    }
-    
-    .top-posicion {
-        width: 45px;
-        height: 45px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: bold;
-        font-size: 1.3em;
-        margin-right: 20px;
-        background: #2d2d2d;
-        color: #D4AF37;
-        border: 2px solid #D4AF37;
-        transition: all 0.3s;
-    }
-    
-    .top-item.top-1 .top-posicion {
-        background: linear-gradient(135deg, #D4AF37, #8B6910);
-        color: #1a1a1a;
-        border-color: #fff;
-        box-shadow: 0 0 20px #D4AF37;
-    }
-    
-    .top-item.top-2 .top-posicion {
-        background: linear-gradient(135deg, #C0C0C0, #A0A0A0);
-        color: #1a1a1a;
-        border-color: #fff;
-        box-shadow: 0 0 15px #C0C0C0;
-    }
-    
-    .top-item.top-3 .top-posicion {
-        background: linear-gradient(135deg, #CD7F32, #8B4513);
-        color: #fff;
-        border-color: #fff;
-        box-shadow: 0 0 15px #CD7F32;
-    }
-    
-    .top-info {
-        flex: 1;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-    
-    .top-nombre {
-        font-weight: 600;
-        color: #fff;
-        font-size: 1.1em;
-        letter-spacing: 0.5px;
-        text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-    }
-    
-    .top-asistencias {
-        background: linear-gradient(135deg, #D4AF37, #8B6910);
-        color: #1a1a1a;
-        padding: 6px 20px;
-        border-radius: 25px;
-        font-weight: 600;
-        font-size: 0.95em;
-        box-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);
-    }
-    
-    .top-footer {
-        margin-top: 25px;
-        text-align: center;
-    }
-    
-    .auto-update {
-        font-size: 0.9em;
-        color: #D4AF37;
-        background: rgba(212, 175, 55, 0.1);
-        padding: 8px 20px;
-        border-radius: 25px;
-        display: inline-block;
-        border: 1px solid #D4AF37;
-        backdrop-filter: blur(5px);
-    }
-    
-    .no-data {
-        text-align: center;
-        padding: 40px;
-        background: rgba(255, 255, 255, 0.05);
-        border-radius: 12px;
-        color: #D4AF37;
-        font-style: italic;
-        border: 2px dashed #D4AF37;
-    }
-    
-    /* Mejoras para scroll suave */
-    .tabla-container {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-    }
-`;
-document.head.appendChild(style);
+// Agregar estilos limpios y elegantes
+if (!document.querySelector('#estilos-top10')) {
+    const estilosTop10 = document.createElement('style');
+    estilosTop10.id = 'estilos-top10';
+    estilosTop10.textContent = `
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+        
+        /* Estilos del Top 10 */
+        .top-mensual-container {
+            margin: 40px auto 20px;
+            background: linear-gradient(135deg, #1a2a3a 0%, #0f1a24 100%);
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            transform: translateZ(0);
+        }
+        
+        .top-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(212, 175, 55, 0.3);
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .top-titulo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .top-icon {
+            font-size: 32px;
+        }
+        
+        .top-titulo h3 {
+            margin: 0;
+            color: #D4AF37;
+            font-size: 1.5em;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        
+        .top-mes-badge {
+            background: rgba(212, 175, 55, 0.15);
+            padding: 8px 18px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid rgba(212, 175, 55, 0.5);
+        }
+        
+        .mes-icon {
+            font-size: 14px;
+        }
+        
+        .top-mes-badge span:last-child {
+            color: #D4AF37;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+        
+        .top-lista {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .top-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 12px 18px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.2s;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        
+        .top-item:hover {
+            background: rgba(212, 175, 55, 0.1);
+            transform: translateX(5px);
+            border-color: #D4AF37;
+        }
+        
+        .top-item.top-oro {
+            background: linear-gradient(90deg, rgba(212, 175, 55, 0.15), rgba(212, 175, 55, 0.05));
+            border-left: 3px solid #D4AF37;
+        }
+        
+        .top-item.top-plata {
+            border-left: 3px solid #C0C0C0;
+        }
+        
+        .top-item.top-bronce {
+            border-left: 3px solid #CD7F32;
+        }
+        
+        .top-posicion {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 55px;
+        }
+        
+        .posicion-numero {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #D4AF37;
+            width: 35px;
+            text-align: center;
+        }
+        
+        .medalla {
+            font-size: 1.1em;
+        }
+        
+        .top-info {
+            flex: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .top-nombre {
+            font-weight: 600;
+            color: #ecf0f1;
+            font-size: 1em;
+        }
+        
+        .top-asistencias {
+            background: rgba(212, 175, 55, 0.2);
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9em;
+            color: #D4AF37;
+        }
+        
+        .top-footer {
+            text-align: center;
+            padding-top: 15px;
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        
+        .auto-update {
+            font-size: 0.8em;
+            color: #95a5a6;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .no-data-mensual {
+            text-align: center;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+        }
+        
+        .no-data-icon {
+            font-size: 48px;
+            display: block;
+            margin-bottom: 15px;
+        }
+        
+        .no-data-mensual p {
+            color: #D4AF37;
+            font-size: 1em;
+        }
+        
+        /* Estilos del buscador */
+        .buscador-container {
+            margin: 20px auto;
+            max-width: 500px;
+            position: relative;
+        }
+        
+        .buscador-icono {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+            color: #1e3c72;
+        }
+        
+        .buscador-container input {
+            width: 100%;
+            padding: 12px 15px 12px 45px;
+            border: 2px solid #e0e0e0;
+            border-radius: 50px;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s;
+            background: white;
+        }
+        
+        .buscador-container input:focus {
+            border-color: #1e3c72;
+            box-shadow: 0 0 0 3px rgba(30, 60, 114, 0.1);
+        }
+        
+        .contador-resultados {
+            margin-top: 8px;
+            font-size: 13px;
+            text-align: right;
+            padding-right: 15px;
+        }
+        
+        @media (max-width: 768px) {
+            .top-mensual-container {
+                padding: 18px;
+                margin: 20px auto;
+            }
+            
+            .top-titulo h3 {
+                font-size: 1.2em;
+            }
+            
+            .top-item {
+                padding: 10px 15px;
+            }
+            
+            .top-nombre {
+                font-size: 0.9em;
+            }
+            
+            .top-asistencias {
+                font-size: 0.8em;
+                padding: 4px 10px;
+            }
+            
+            .posicion-numero {
+                font-size: 1.1em;
+                width: 30px;
+            }
+        }
+    `;
+    document.head.appendChild(estilosTop10);
+}
