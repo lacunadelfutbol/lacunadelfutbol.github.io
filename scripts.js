@@ -1,93 +1,146 @@
 // Esperar a que el DOM esté completamente cargado
 document.addEventListener("DOMContentLoaded", function () {
-    // Gráfica 1: Partidos por semana recomendados
-    const partidosCtx = document.getElementById('partidosChart').getContext('2d');
-    const partidosChart = new Chart(partidosCtx, {
-        type: 'bar',
-        data: {
-            labels: ['6-8 años', '9-10 años', '11-12 años'],
-            datasets: [{
-                label: 'Partidos por semana',
-                data: [1, 2, 2],
-                backgroundColor: ['#4CAF50', '#FFC107', '#2196F3'],
-                borderColor: ['#388E3C', '#FFA000', '#1976D2'],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    title: {
-                        display: true,
-                        text: 'Partidos por semana'
-                    }
+    
+    // ========== MENÚ LATERAL ==========
+    const menuToggle = document.getElementById("menu-toggle");
+    const menu = document.getElementById("menu");
+
+    if (menuToggle && menu) {
+        // Estado inicial del menú
+        menu.style.left = "-250px";
+        
+        menuToggle.addEventListener("click", function() {
+            if (menu.style.left === "-250px") {
+                menu.style.left = "0";
+            } else {
+                menu.style.left = "-250px";
+            }
+        });
+        
+        // Cerrar menú al hacer clic en un enlace
+        const menuLinks = menu.querySelectorAll("a");
+        menuLinks.forEach(link => {
+            link.addEventListener("click", function() {
+                menu.style.left = "-250px";
+            });
+        });
+    }
+
+    // ========== CONTADORES CON ANIMACIÓN ==========
+    const counters = document.querySelectorAll('.counter-number');
+    
+    const animateCounter = (counter) => {
+        const target = parseInt(counter.getAttribute('data-target'));
+        let current = 0;
+        const increment = target / 50;
+        const updateCounter = () => {
+            current += increment;
+            if (current < target) {
+                counter.innerText = Math.floor(current);
+                requestAnimationFrame(updateCounter);
+            } else {
+                counter.innerText = target;
+            }
+        };
+        updateCounter();
+    };
+    
+    // Intersection Observer para activar contadores al hacer scroll
+    const observerOptions = {
+        threshold: 0.5,
+        rootMargin: "0px"
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const counter = entry.target;
+                animateCounter(counter);
+                observer.unobserve(counter);
+            }
+        });
+    }, observerOptions);
+    
+    counters.forEach(counter => observer.observe(counter));
+    
+    // ========== MENSAJE MOTIVACIONAL INTERACTIVO ==========
+    const messages = [
+        { text: "El éxito no es casualidad, es trabajo duro, perseverancia, aprendizaje, sacrificio y amor por lo que haces.", author: "- Johan Cruyff" },
+        { text: "La única manera de hacer un gran trabajo es amar lo que haces.", author: "- Steve Jobs" },
+        { text: "Nunca te rindas, porque los grandes resultados requieren de un gran esfuerzo.", author: "- Lionel Messi" },
+        { text: "El fútbol se juega con la cabeza. Los pies son solo las herramientas.", author: "- Andrés Iniesta" },
+        { text: "La diferencia entre lo posible y lo imposible está en la determinación de una persona.", author: "- Tommy Lasorda" },
+        { text: "Sueña, cree, trabaja, lucha, triunfa. Todo es posible con pasión.", author: "- Cristiano Ronaldo" },
+        { text: "El talento gana partidos, pero el trabajo en equipo gana campeonatos.", author: "- Michael Jordan" }
+    ];
+    
+    let currentIndex = 0;
+    const motivationText = document.getElementById('motivation-text');
+    const motivationAuthor = document.getElementById('motivation-author');
+    const changeBtn = document.getElementById('change-message-btn');
+    
+    if (changeBtn && motivationText && motivationAuthor) {
+        changeBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % messages.length;
+            const newMessage = messages[currentIndex];
+            
+            // Animación de fade out/in
+            motivationText.style.opacity = '0';
+            motivationAuthor.style.opacity = '0';
+            
+            setTimeout(() => {
+                motivationText.textContent = newMessage.text;
+                motivationAuthor.textContent = newMessage.author;
+                motivationText.style.opacity = '1';
+                motivationAuthor.style.opacity = '1';
+            }, 300);
+        });
+    }
+    
+    // ========== EFECTO DE SCROLL SUAVE PARA ENLACES ==========
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            const href = this.getAttribute('href');
+            if (href !== "#" && href !== "") {
+                const target = document.querySelector(href);
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth' });
                 }
             }
+        });
+    });
+    
+    // ========== EFECTO DE PARALLAX EN HEADER ==========
+    window.addEventListener('scroll', () => {
+        const header = document.querySelector('.main-header');
+        if (header) {
+            const scrolled = window.pageYOffset;
+            header.style.backgroundPositionY = scrolled * 0.5 + 'px';
         }
     });
-
-    // Gráfica 2: Riesgo de lesiones
-    const lesionesCtx = document.getElementById('lesionesChart').getContext('2d');
-    const lesionesChart = new Chart(lesionesCtx, {
-        type: 'bar',
-        data: {
-            labels: ['1 partido', '2 partidos', '3+ partidos'],
-            datasets: [{
-                label: 'Riesgo de lesiones (%)',
-                data: [10, 20, 40],
-                backgroundColor: ['#FFC107', '#FF9800', '#F44336'],
-                borderColor: ['#FFA000', '#FB8C00', '#D32F2F'],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    title: {
-                        display: true,
-                        text: 'Riesgo de lesiones (%)'
-                    }
-                }
+    
+    // ========== ANIMACIÓN DE TARJETAS AL HOVER (se maneja con CSS) ==========
+    // Efecto de aparición al hacer scroll para las tarjetas
+    const animateOnScroll = () => {
+        const elements = document.querySelectorAll('.value-card, .counter-card, .welcome-card');
+        
+        elements.forEach(element => {
+            const elementPosition = element.getBoundingClientRect().top;
+            const screenPosition = window.innerHeight;
+            
+            if (elementPosition < screenPosition - 100) {
+                element.classList.add('visible');
             }
-        }
+        });
+    };
+    
+    // Aplicar clase inicial para animación CSS
+    const cards = document.querySelectorAll('.value-card, .counter-card');
+    cards.forEach(card => {
+        card.classList.add('animate-on-scroll');
     });
-
-    // Gráfica 3: Actividad física recomendada
-    const actividadCtx = document.getElementById('actividadChart').getContext('2d');
-    const actividadChart = new Chart(actividadCtx, {
-        type: 'bar',
-        data: {
-            labels: ['Fútbol', 'Juegos', 'Educación física'],
-            datasets: [{
-                label: 'Horas por semana',
-                data: [4, 5, 3],
-                backgroundColor: ['#4CAF50', '#2196F3', '#9C27B0'],
-                borderColor: ['#388E3C', '#1976D2', '#7B1FA2'],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    title: {
-                        display: true,
-                        text: 'Horas por semana'
-                    }
-                }
-            }
-        }
-    });
-
-    // Función para alternar el estado del menú (mostrar u ocultar)
-    document.getElementById("menu-toggle").addEventListener("click", function() {
-        var menu = document.getElementById("menu");
-        if (menu.style.left === "-250px") {
-            menu.style.left = "0";  // Mostrar el menú
-        } else {
-            menu.style.left = "-250px";  // Ocultar el menú
-        }
-    });
+    
+    window.addEventListener('scroll', animateOnScroll);
+    animateOnScroll(); // Ejecutar una vez al cargar
 });
