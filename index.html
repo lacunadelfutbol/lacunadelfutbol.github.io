@@ -100,14 +100,9 @@
             height: 8px;
             background: #FFD700;
             border-radius: 50%;
-            transition: all 0.3s ease;
         }
 
-        .menu-toggle:hover .dot {
-            background: #fff;
-        }
-
-        /* ========== HEADER ANIMADO ========== */
+        /* ========== HEADER ========== */
         .main-header {
             min-height: 100vh;
             position: relative;
@@ -115,32 +110,7 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            overflow: hidden;
-            background: linear-gradient(135deg, #000000, #1a1a1a, #000000);
-            background-size: 200% 200%;
-            animation: gradientShift 8s ease infinite;
-        }
-
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .animated-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 20% 50%, rgba(255,215,0,0.08) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 80%, rgba(255,215,0,0.08) 0%, transparent 50%);
-            animation: floatBg 10s ease-in-out infinite;
-        }
-
-        @keyframes floatBg {
-            0%, 100% { transform: translate(0, 0); }
-            50% { transform: translate(-20px, -20px); }
+            background: #000000;
         }
 
         .header-content {
@@ -164,8 +134,6 @@
             color: #FFD700;
             filter: drop-shadow(0 0 20px rgba(255,215,0,0.6));
             animation: ballSpin 3s ease-in-out infinite;
-            position: relative;
-            z-index: 2;
         }
 
         @keyframes ballSpin {
@@ -173,7 +141,7 @@
                 transform: rotate(0deg) scale(1);
             }
             50% { 
-                transform: rotate(180deg) scale(1.1);
+                transform: rotate(180deg) scale(1.05);
             }
         }
 
@@ -207,7 +175,6 @@
             margin-bottom: 20px;
             text-transform: uppercase;
             letter-spacing: 2px;
-            text-shadow: 0 0 30px rgba(255,215,0,0.3);
         }
 
         .tagline {
@@ -232,7 +199,6 @@
 
         .bouncing {
             animation: bounce 1.5s ease infinite;
-            color: #FFD700;
         }
 
         @keyframes bounce {
@@ -285,7 +251,6 @@
 
         .welcome-card {
             background: rgba(255,255,255,0.03);
-            backdrop-filter: blur(10px);
             border-radius: 30px;
             padding: 50px;
             text-align: center;
@@ -294,7 +259,7 @@
         }
 
         .welcome-card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-5px);
             border-color: #FFD700;
         }
 
@@ -359,15 +324,13 @@
             padding: 40px 20px;
             background: rgba(255,255,255,0.03);
             border-radius: 20px;
-            backdrop-filter: blur(10px);
             border: 1px solid rgba(255,215,0,0.3);
             transition: all 0.3s ease;
         }
 
         .counter-card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-5px);
             border-color: #FFD700;
-            box-shadow: 0 10px 30px rgba(255,215,0,0.15);
         }
 
         .counter-card i {
@@ -406,31 +369,12 @@
             background: rgba(255,255,255,0.03);
             border-radius: 20px;
             transition: all 0.3s ease;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
             border: 1px solid rgba(255,215,0,0.2);
         }
 
-        .value-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,215,0,0.1), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .value-card:hover::before {
-            left: 100%;
-        }
-
         .value-card:hover {
-            transform: translateY(-10px) scale(1.02);
+            transform: translateY(-5px);
             border-color: #FFD700;
-            box-shadow: 0 10px 30px rgba(255,215,0,0.15);
         }
 
         .card-icon {
@@ -466,12 +410,11 @@
         }
 
         .motivation-card {
-            background: linear-gradient(135deg, rgba(255,215,0,0.08), rgba(255,165,0,0.05));
+            background: rgba(255,215,0,0.05);
             border-radius: 30px;
             padding: 60px 40px;
             text-align: center;
             border: 1px solid rgba(255,215,0,0.3);
-            backdrop-filter: blur(10px);
         }
 
         .motivation-content {
@@ -500,7 +443,6 @@
             color: #FFD700;
             font-style: italic;
             margin-bottom: 30px;
-            transition: opacity 0.3s ease;
         }
 
         .motivation-btn {
@@ -519,8 +461,7 @@
         }
 
         .motivation-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 5px 20px rgba(255,215,0,0.5);
+            transform: scale(1.02);
         }
 
         /* ========== CTA ========== */
@@ -581,9 +522,7 @@
         }
 
         .cta-btn:hover {
-            transform: scale(1.05);
-            gap: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            transform: scale(1.02);
             background: #1a1a1a;
         }
 
@@ -623,7 +562,6 @@
         .footer-social a:hover {
             background: #FFD700;
             color: #000000;
-            transform: translateY(-5px);
         }
 
         footer p {
@@ -634,18 +572,6 @@
         .footer-motto {
             color: #FFD700;
             font-weight: 600;
-        }
-
-        /* ========== ANIMACIONES AL HACER SCROLL ========== */
-        .animate-on-scroll {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s ease;
-        }
-
-        .animate-on-scroll.visible {
-            opacity: 1;
-            transform: translateY(0);
         }
 
         /* ========== RESPONSIVE ========== */
@@ -717,7 +643,6 @@
 
     <!-- Header animado -->
     <header class="main-header">
-        <div class="animated-bg"></div>
         <div class="header-content">
             <div class="logo-icon">
                 <i class="fas fa-futbol"></i>
@@ -733,7 +658,7 @@
     </header>
 
     <main>
-        <!-- Sección de bienvenida interactiva -->
+        <!-- Sección de bienvenida -->
         <section class="welcome-section">
             <div class="container">
                 <div class="section-title">
@@ -752,7 +677,7 @@
             </div>
         </section>
 
-        <!-- Contador interactivo -->
+        <!-- Contadores -->
         <section class="counter-section">
             <div class="container">
                 <div class="section-title">
@@ -785,7 +710,7 @@
             </div>
         </section>
 
-        <!-- Sección de valores con tarjetas interactivas -->
+        <!-- Valores -->
         <section class="values-section">
             <div class="container">
                 <div class="section-title">
@@ -826,7 +751,7 @@
             </div>
         </section>
 
-        <!-- Sección de mensaje motivacional interactivo -->
+        <!-- Mensaje motivacional -->
         <section class="motivation-section">
             <div class="container">
                 <div class="motivation-card">
@@ -842,7 +767,7 @@
             </div>
         </section>
 
-        <!-- Sección de CTA interactivo -->
+        <!-- CTA -->
         <section class="cta-section">
             <div class="container">
                 <div class="cta-card">

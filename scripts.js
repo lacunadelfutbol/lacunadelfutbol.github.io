@@ -6,7 +6,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const menu = document.getElementById("menu");
 
     if (menuToggle && menu) {
-        // Estado inicial del menú
         menu.style.left = "-250px";
         
         menuToggle.addEventListener("click", function() {
@@ -17,7 +16,6 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
         
-        // Cerrar menú al hacer clic en un enlace
         const menuLinks = menu.querySelectorAll("a");
         menuLinks.forEach(link => {
             link.addEventListener("click", function() {
@@ -26,42 +24,54 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // ========== CONTADORES CON ANIMACIÓN ==========
+    // ========== CONTADORES OPTIMIZADOS (sin requestAnimationFrame pesado) ==========
     const counters = document.querySelectorAll('.counter-number');
+    let countersActivated = false;
     
-    const animateCounter = (counter) => {
-        const target = parseInt(counter.getAttribute('data-target'));
-        let current = 0;
-        const increment = target / 50;
-        const updateCounter = () => {
-            current += increment;
-            if (current < target) {
-                counter.innerText = Math.floor(current);
-                requestAnimationFrame(updateCounter);
-            } else {
-                counter.innerText = target;
-            }
-        };
-        updateCounter();
+    const animateCounters = () => {
+        if (countersActivated) return;
+        countersActivated = true;
+        
+        counters.forEach(counter => {
+            const target = parseInt(counter.getAttribute('data-target'));
+            let current = 0;
+            const duration = 1500; // 1.5 segundos
+            const stepTime = 20; // 20ms por paso
+            const steps = duration / stepTime;
+            const increment = target / steps;
+            
+            const interval = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    counter.innerText = target;
+                    clearInterval(interval);
+                } else {
+                    counter.innerText = Math.floor(current);
+                }
+            }, stepTime);
+        });
     };
     
-    // Intersection Observer para activar contadores al hacer scroll
+    // Usar Intersection Observer solo para activar contadores UNA VEZ
     const observerOptions = {
-        threshold: 0.5,
+        threshold: 0.3,
         rootMargin: "0px"
     };
     
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                const counter = entry.target;
-                animateCounter(counter);
-                observer.unobserve(counter);
+                animateCounters();
+                observer.disconnect(); // Desconectar después de activar
             }
         });
     }, observerOptions);
     
-    counters.forEach(counter => observer.observe(counter));
+    // Observar la sección de contadores
+    const counterSection = document.querySelector('.counter-section');
+    if (counterSection) {
+        observer.observe(counterSection);
+    }
     
     // ========== MENSAJE MOTIVACIONAL INTERACTIVO ==========
     const messages = [
@@ -84,7 +94,6 @@ document.addEventListener("DOMContentLoaded", function () {
             currentIndex = (currentIndex + 1) % messages.length;
             const newMessage = messages[currentIndex];
             
-            // Animación de fade out/in
             motivationText.style.opacity = '0';
             motivationAuthor.style.opacity = '0';
             
@@ -93,54 +102,32 @@ document.addEventListener("DOMContentLoaded", function () {
                 motivationAuthor.textContent = newMessage.author;
                 motivationText.style.opacity = '1';
                 motivationAuthor.style.opacity = '1';
-            }, 300);
+            }, 200);
         });
     }
     
-    // ========== EFECTO DE SCROLL SUAVE PARA ENLACES ==========
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            const href = this.getAttribute('href');
-            if (href !== "#" && href !== "") {
-                const target = document.querySelector(href);
-                if (target) {
-                    e.preventDefault();
-                    target.scrollIntoView({ behavior: 'smooth' });
-                }
-            }
-        });
-    });
+    // ========== ANIMACIÓN SIMPLE AL HACER SCROLL (sin eventos pesados) ==========
+    const cards = document.querySelectorAll('.value-card, .counter-card, .welcome-card');
     
-    // ========== EFECTO DE PARALLAX EN HEADER ==========
-    window.addEventListener('scroll', () => {
-        const header = document.querySelector('.main-header');
-        if (header) {
-            const scrolled = window.pageYOffset;
-            header.style.backgroundPositionY = scrolled * 0.5 + 'px';
-        }
-    });
-    
-    // ========== ANIMACIÓN DE TARJETAS AL HOVER (se maneja con CSS) ==========
-    // Efecto de aparición al hacer scroll para las tarjetas
-    const animateOnScroll = () => {
-        const elements = document.querySelectorAll('.value-card, .counter-card, .welcome-card');
-        
-        elements.forEach(element => {
-            const elementPosition = element.getBoundingClientRect().top;
-            const screenPosition = window.innerHeight;
-            
-            if (elementPosition < screenPosition - 100) {
-                element.classList.add('visible');
+    const checkVisibility = () => {
+        cards.forEach(card => {
+            const rect = card.getBoundingClientRect();
+            const isVisible = rect.top < window.innerHeight - 100;
+            if (isVisible) {
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
             }
         });
     };
     
-    // Aplicar clase inicial para animación CSS
-    const cards = document.querySelectorAll('.value-card, .counter-card');
+    // Estado inicial
     cards.forEach(card => {
-        card.classList.add('animate-on-scroll');
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
     });
     
-    window.addEventListener('scroll', animateOnScroll);
-    animateOnScroll(); // Ejecutar una vez al cargar
+    // Ejecutar una vez y en scroll (sin throttle para mantenerlo simple pero ligero)
+    checkVisibility();
+    window.addEventListener('scroll', checkVisibility);
 });
