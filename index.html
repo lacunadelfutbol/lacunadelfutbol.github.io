@@ -804,59 +804,97 @@
             <p>© 2024 La Cuna del Fútbol - Donde nacen los campeones</p>
             <p class="footer-motto">Formando talentos desde la base</p>
             
-            <!-- ===== CONTADOR DE VISITAS EN VIVO (NUEVA API) ===== -->
+            <!-- ===== CONTADOR GLOBAL EN VIVO ===== -->
             <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid rgba(255,215,0,0.2);">
-                <i class="fas fa-eye" style="color: #FFD700;"></i>
-                <span style="color: #FFD700; font-weight: 600;"> Visitantes: </span>
-                <span id="contador-visitas" style="color: #FFD700; font-weight: bold; font-size: 1.1rem;">0</span>
-                <span style="color: rgba(255,255,255,0.4); font-size: 0.7rem;"> | Desde 2024</span>
+                <i class="fas fa-globe" style="color: #FFD700;"></i>
+                <span style="color: #FFD700; font-weight: 600;"> Visitantes globales: </span>
+                <span id="contador-global" style="color: #FFD700; font-weight: bold; font-size: 1.2rem;">---</span>
+                <span style="color: rgba(255,255,255,0.4); font-size: 0.7rem;"> | En vivo</span>
             </div>
         </div>
     </footer>
 
     <script src="scripts.js"></script>
     
-    <!-- ===== CÓDIGO DEL CONTADOR CON API ALTERNATIVA ===== -->
+    <!-- ===== CONTADOR GLOBAL CON GITHUB API ===== -->
     <script>
-        // Usando una API alternativa que funciona con GitHub Pages
-        const ID_UNICO = 'lacuna_futbol_2024';
+        // DATOS DE TU REPOSITORIO
+        const GITHUB_USER = "lacunadelfutbol";
+        const GITHUB_REPO = "lacunadelfutbol.github.io";
+        const ISSUE_NUMBER = 1;
         
-        async function actualizarContador() {
+        // ⚠️ IMPORTANTE: Reemplaza con el NUEVO token que vas a crear
+        // Ve a: https://github.com/settings/tokens/new
+        // Marca SOLO "public_repo" y genera el token
+        const GITHUB_TOKEN = "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";  // <--- PON AQUÍ TU NUEVO TOKEN
+        
+        const GITHUB_API_URL = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/issues/${ISSUE_NUMBER}/comments`;
+        
+        async function actualizarContadorGlobal() {
             try {
-                // Intentar obtener y aumentar el contador
-                const respuesta = await fetch(`https://api.countapi.xyz/update/${ID_UNICO}/visitas/?amount=1`);
-                const datos = await respuesta.json();
-                
-                if (datos && datos.value) {
-                    document.getElementById('contador-visitas').textContent = datos.value;
-                } else {
-                    // Fallback: contador local si la API falla
-                    let localCount = localStorage.getItem('visitas_local');
-                    if (localCount === null) {
-                        localCount = 1;
-                    } else {
-                        localCount = parseInt(localCount) + 1;
+                // 1. Obtener comentarios del Issue
+                const response = await fetch(GITHUB_API_URL, {
+                    headers: {
+                        'Authorization': `token ${GITHUB_TOKEN}`,
+                        'Accept': 'application/vnd.github.v3+json'
                     }
-                    localStorage.setItem('visitas_local', localCount);
-                    document.getElementById('contador-visitas').textContent = localCount;
-                    document.getElementById('contador-visitas').style.color = "#FFA500";
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
                 }
-            } catch (error) {
-                console.log("Error con API, usando contador local:", error);
-                // Fallback: contador local
-                let localCount = localStorage.getItem('visitas_local');
-                if (localCount === null) {
-                    localCount = 1;
+                
+                const comentarios = await response.json();
+                
+                let visitasActuales = 0;
+                
+                // 2. Buscar el último número de visitas
+                if (comentarios && comentarios.length > 0) {
+                    const ultimoComentario = comentarios[comentarios.length - 1];
+                    const numeroTexto = ultimoComentario.body.match(/\d+/);
+                    if (numeroTexto) {
+                        visitasActuales = parseInt(numeroTexto[0]);
+                    }
+                }
+                
+                // 3. Aumentar en 1
+                const nuevasVisitas = visitasActuales + 1;
+                
+                // 4. Crear nuevo comentario con el número actualizado
+                const fecha = new Date().toLocaleString('es-MX');
+                const nuevoComentario = `🌐 ${nuevasVisitas} visitas totales - Actualizado: ${fecha}`;
+                
+                const postResponse = await fetch(GITHUB_API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `token ${GITHUB_TOKEN}`,
+                        'Accept': 'application/vnd.github.v3+json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        body: nuevoComentario
+                    })
+                });
+                
+                if (postResponse.ok) {
+                    document.getElementById('contador-global').textContent = nuevasVisitas;
                 } else {
-                    localCount = parseInt(localCount) + 1;
+                    document.getElementById('contador-global').textContent = "?";
                 }
-                localStorage.setItem('visitas_local', localCount);
-                document.getElementById('contador-visitas').textContent = localCount;
+                
+            } catch (error) {
+                console.log("Error:", error);
+                document.getElementById('contador-global').textContent = "⚠️";
             }
         }
         
-        // Ejecutar el contador
-        actualizarContador();
+        // Verificar que el token esté configurado
+        if (GITHUB_TOKEN !== "TU_NUEVO_TOKEN_AQUI") {
+            actualizarContadorGlobal();
+        } else {
+            document.getElementById('contador-global').textContent = "Configurar";
+            console.log("⚠️ Configura tu token de GitHub en la variable GITHUB_TOKEN");
+        }
     </script>
 </body>
 </html>
