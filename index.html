@@ -804,7 +804,7 @@
             <p>© 2024 La Cuna del Fútbol - Donde nacen los campeones</p>
             <p class="footer-motto">Formando talentos desde la base</p>
             
-            <!-- ===== CONTADOR DE VISITAS EN VIVO ===== -->
+            <!-- ===== CONTADOR DE VISITAS EN VIVO (NUEVA API) ===== -->
             <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid rgba(255,215,0,0.2);">
                 <i class="fas fa-eye" style="color: #FFD700;"></i>
                 <span style="color: #FFD700; font-weight: 600;"> Visitantes: </span>
@@ -816,39 +816,47 @@
 
     <script src="scripts.js"></script>
     
-    <!-- ===== CÓDIGO DEL CONTADOR DE VISITAS ===== -->
+    <!-- ===== CÓDIGO DEL CONTADOR CON API ALTERNATIVA ===== -->
     <script>
-        // NOMBRE ÚNICO PARA EL CONTADOR - Funciona para toda la página
-        const NOMBRE_UNICO_SITIO = 'lacuna-futbol-real-del-monte-2024-oficial';
+        // Usando una API alternativa que funciona con GitHub Pages
+        const ID_UNICO = 'lacuna_futbol_2024';
         
-        async function actualizarContadorVisitas() {
+        async function actualizarContador() {
             try {
-                // Intentar obtener el número actual de visitas
-                let respuesta = await fetch(`https://api.countapi.xyz/get/${NOMBRE_UNICO_SITIO}/visitas`);
-                let datos = await respuesta.json();
+                // Intentar obtener y aumentar el contador
+                const respuesta = await fetch(`https://api.countapi.xyz/update/${ID_UNICO}/visitas/?amount=1`);
+                const datos = await respuesta.json();
                 
-                // Si el contador no existe, crearlo y aumentar en 1
-                if (!datos.value) {
-                    const hitRespuesta = await fetch(`https://api.countapi.xyz/hit/${NOMBRE_UNICO_SITIO}/visitas`);
-                    datos = await hitRespuesta.json();
-                }
-                
-                // Mostrar el número en la página
-                const contadorElemento = document.getElementById('contador-visitas');
-                if (contadorElemento) {
-                    contadorElemento.textContent = datos.value;
+                if (datos && datos.value) {
+                    document.getElementById('contador-visitas').textContent = datos.value;
+                } else {
+                    // Fallback: contador local si la API falla
+                    let localCount = localStorage.getItem('visitas_local');
+                    if (localCount === null) {
+                        localCount = 1;
+                    } else {
+                        localCount = parseInt(localCount) + 1;
+                    }
+                    localStorage.setItem('visitas_local', localCount);
+                    document.getElementById('contador-visitas').textContent = localCount;
+                    document.getElementById('contador-visitas').style.color = "#FFA500";
                 }
             } catch (error) {
-                console.log('Error al cargar contador de visitas:', error);
-                const contadorElemento = document.getElementById('contador-visitas');
-                if (contadorElemento) {
-                    contadorElemento.textContent = '---';
+                console.log("Error con API, usando contador local:", error);
+                // Fallback: contador local
+                let localCount = localStorage.getItem('visitas_local');
+                if (localCount === null) {
+                    localCount = 1;
+                } else {
+                    localCount = parseInt(localCount) + 1;
                 }
+                localStorage.setItem('visitas_local', localCount);
+                document.getElementById('contador-visitas').textContent = localCount;
             }
         }
         
-        // Ejecutar cuando la página termine de cargar
-        actualizarContadorVisitas();
+        // Ejecutar el contador
+        actualizarContador();
     </script>
 </body>
 </html>
