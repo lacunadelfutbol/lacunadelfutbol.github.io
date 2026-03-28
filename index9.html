@@ -2,63 +2,374 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Inscripciones - La Cuna del Fútbol</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Enlace al archivo CSS -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Agregar Chart.js -->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Estilos específicos para el formulario */
-        .inscripcion-form {
-            background-color: #fffaf0;
-            padding: 25px;
-            border-radius: 12px;
-            max-width: 600px;
-            margin: 30px auto;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        /* Estilos adicionales SOLO para la página de inscripciones - SIN AFECTAR EL MENÚ */
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #000000 100%);
+            color: #fff;
+            min-height: 100vh;
         }
-
+        
+        /* Contenedor principal */
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 20px 80px;
+        }
+        
+        /* Header */
+        .content header {
+            text-align: center;
+            padding: 20px 20px 30px;
+            position: relative;
+            border-bottom: 2px solid rgba(255, 215, 0, 0.3);
+            margin-bottom: 30px;
+        }
+        
+        .content header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+        
+        .content header h1 i {
+            background: none;
+            -webkit-background-clip: unset;
+            background-clip: unset;
+            color: #FFD700;
+        }
+        
+        /* Logo inferior derecho */
+        .logo-bottom-right {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 70px;
+            height: auto;
+            opacity: 0.5;
+            z-index: 10;
+            transition: opacity 0.3s ease;
+        }
+        
+        .logo-bottom-right:hover {
+            opacity: 1;
+        }
+        
+        /* ===== FORMULARIO ===== */
+        .inscripcion-form {
+            background: linear-gradient(145deg, rgba(20, 20, 20, 0.95), rgba(0, 0, 0, 0.95));
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 40px;
+            max-width: 650px;
+            margin: 0 auto 40px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .inscripcion-form:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+        }
+        
         .inscripcion-form h2 {
             text-align: center;
-            color: #111;
-            margin-bottom: 20px;
+            color: #FFD700;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
         }
-
+        
+        .inscripcion-form h2 i {
+            font-size: 1.8rem;
+            color: #FFD700;
+        }
+        
+        .inscripcion-form > p {
+            text-align: center;
+            color: #aaa;
+            margin-bottom: 30px;
+            font-size: 0.95rem;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+            padding-bottom: 15px;
+        }
+        
+        /* Grupos de formulario */
+        .form-group {
+            margin-bottom: 22px;
+        }
+        
         .inscripcion-form label {
             display: block;
-            margin: 10px 0 5px;
+            margin-bottom: 8px;
             font-weight: 600;
+            color: #FFD700;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
         }
-
+        
+        .inscripcion-form label i {
+            margin-right: 10px;
+            width: 22px;
+            color: #FFD700;
+        }
+        
         .inscripcion-form input,
         .inscripcion-form select {
             width: 100%;
-            padding: 10px;
-            border-radius: 6px;
-            border: 1px solid #ccc;
-            margin-bottom: 15px;
+            padding: 14px 16px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 12px;
             font-size: 1rem;
+            color: #fff;
+            transition: all 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
         }
-
-        .inscripcion-form button {
-            background-color: #fcbf49;
-            color: #111;
-            font-weight: bold;
-            padding: 12px 20px;
-            border: none;
+        
+        .inscripcion-form input:focus,
+        .inscripcion-form select:focus {
+            outline: none;
+            border-color: #FFD700;
+            background: rgba(255, 215, 0, 0.1);
+            box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.2);
+        }
+        
+        .inscripcion-form input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+        
+        /* Select personalizado */
+        .inscripcion-form select option {
+            background: #1a1a1a;
+            color: #fff;
+        }
+        
+        /* Campo de archivo */
+        .inscripcion-form input[type="file"] {
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+        }
+        
+        .inscripcion-form input[type="file"]::file-selector-button {
+            background: rgba(255, 215, 0, 0.2);
+            border: 1px solid #FFD700;
             border-radius: 8px;
+            padding: 8px 18px;
+            color: #FFD700;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-right: 15px;
+        }
+        
+        .inscripcion-form input[type="file"]::file-selector-button:hover {
+            background: rgba(255, 215, 0, 0.35);
+        }
+        
+        /* Botón de envío */
+        .inscripcion-form button {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #000;
+            font-weight: 800;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 12px;
             cursor: pointer;
             width: 100%;
             font-size: 1.1rem;
-            transition: background-color 0.3s;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
-
+        
         .inscripcion-form button:hover {
-            background-color: #faa307;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+            background: linear-gradient(135deg, #FFE55C, #FFB347);
+        }
+        
+        .inscripcion-form button:active {
+            transform: translateY(0);
+        }
+        
+        /* Caja de información */
+        .info-box {
+            background: rgba(255, 215, 0, 0.08);
+            border-left: 4px solid #FFD700;
+            padding: 16px 20px;
+            margin-top: 25px;
+            border-radius: 12px;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+        
+        .info-box i {
+            font-size: 1.5rem;
+            color: #FFD700;
+        }
+        
+        .info-box p {
+            color: #ccc;
+            font-size: 0.85rem;
+            margin: 0;
+            line-height: 1.5;
+        }
+        
+        .info-box small {
+            display: block;
+            margin-top: 5px;
+            color: #888;
+        }
+        
+        /* ===== SECCIÓN DE BENEFICIOS ===== */
+        .benefits-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 50px auto;
+            max-width: 1000px;
+        }
+        
+        .benefit-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 20px;
+            padding: 25px 20px;
+            text-align: center;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .benefit-card:hover {
+            transform: translateY(-5px);
+            border-color: #FFD700;
+            background: rgba(255, 215, 0, 0.05);
+        }
+        
+        .benefit-card i {
+            font-size: 2.5rem;
+            color: #FFD700;
+            margin-bottom: 15px;
+        }
+        
+        .benefit-card h3 {
+            color: #FFD700;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .benefit-card p {
+            color: #aaa;
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+        
+        /* ===== FOOTER ===== */
+        footer {
+            text-align: center;
+            padding: 30px 20px 20px;
+            margin-top: 40px;
+            border-top: 1px solid rgba(255, 215, 0, 0.2);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.8rem;
+        }
+        
+        footer a {
+            color: #FFD700;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        footer a:hover {
+            color: #FFA500;
+            text-decoration: underline;
+        }
+        
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .content {
+                padding: 15px 15px 70px;
+            }
+            
+            .content header h1 {
+                font-size: 1.6rem;
+            }
+            
+            .inscripcion-form {
+                padding: 25px 20px;
+                margin: 0 10px 30px;
+            }
+            
+            .inscripcion-form h2 {
+                font-size: 1.4rem;
+            }
+            
+            .inscripcion-form h2 i {
+                font-size: 1.4rem;
+            }
+            
+            .benefits-section {
+                gap: 15px;
+                margin: 30px auto;
+            }
+            
+            .benefit-card {
+                padding: 20px 15px;
+            }
+            
+            .logo-bottom-right {
+                width: 55px;
+                bottom: 15px;
+                right: 15px;
+            }
+        }
+        
+        /* Animación de entrada */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .inscripcion-form,
+        .benefits-section {
+            animation: fadeInUp 0.6s ease-out;
         }
     </style>
 </head>
 <body>
-   <nav id="menu" class="menu">
+    <!-- Menú Lateral - EXACTAMENTE IGUAL A TUS OTRAS PÁGINAS -->
+    <nav id="menu" class="menu">
         <ul>
             <li><a href="index.html">Inicio</a></li>
             <li><a href="index2.html">Entrenamientos</a></li>
@@ -70,8 +381,8 @@
             <li><a href="index8.html">Asistencias</a></li>
             <li><a href="index9.html">Inscripciones</a></li>
             <li><a href="index10.html">Torneos</a></li>
-            <li><a href="index11.html" class="active">Nuestros Héroes</a></li>
-            <li><a href="index12.html" class="">CunaTech</a></li>
+            <li><a href="index11.html">Nuestros Héroes</a></li>
+            <li><a href="index12.html">CunaTech</a></li>
         </ul>
     </nav>
 
@@ -85,52 +396,95 @@
     <!-- Contenido principal -->
     <div class="content">
         <header>
-            <h1>Inscripciones - La Cuna del Fútbol</h1>
-            <!-- Imagen Lacuna abajo a la derecha -->
+            <h1><i class="fas fa-pen-alt"></i> Inscripciones - La Cuna del Fútbol</h1>
             <img src="lacuna.jpg" alt="Logo La Cuna del Fútbol" class="logo-bottom-right">
         </header>
 
-        <!-- Sección de formulario de inscripciones -->
-        <center><section class="inscripcion-form">
-            <h2>Formulario de Inscripción</h2>
-            <p>¡Registra a tu hijo y forma parte de nuestra familia futbolística!</p>
+        <!-- Formulario de inscripción -->
+        <section class="inscripcion-form">
+            <h2>
+                <i class="fas fa-futbol"></i>
+                Formulario de Inscripción
+                <i class="fas fa-futbol"></i>
+            </h2>
+            <p>¡Completa tus datos y forma parte de nuestra gran familia!</p>
 
-           <form action="https://formspree.io/f/movkdzqg" method="POST">
-                <label for="nombre">Nombre del niño:</label>
-                <input type="text" id="nombre" name="nombre" required>
+            <form action="https://formspree.io/f/movkdzqg" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="nombre"><i class="fas fa-child"></i> Nombre completo del niño:</label>
+                    <input type="text" id="nombre" name="nombre" placeholder="Ej: Juan Carlos Pérez Martínez" required>
+                </div>
 
-                <label for="edad">Edad:</label>
-                <input type="number" id="edad" name="edad" min="4" max="18" required>
+                <div class="form-group">
+                    <label for="edad"><i class="fas fa-calendar-alt"></i> Edad del niño:</label>
+                    <input type="number" id="edad" name="edad" min="4" max="18" placeholder="Ej: 8 años" required>
+                </div>
 
-                <label for="grupo">Grupo / Categoría:</label>
-                <select id="grupo" name="grupo" required>
-                    <option value="">Selecciona un grupo</option>
-                    <option value="4-6">4-6 años</option>
-                    <option value="7-9">7-9 años</option>
-                    <option value="10-12">10-12 años</option>
-                    <option value="13-15">13-15 años</option>
-                    <option value="16-18">16-18 años</option>
-                </select>
+                <div class="form-group">
+                    <label for="grupo"><i class="fas fa-layer-group"></i> Categoría / Grupo:</label>
+                    <select id="grupo" name="grupo" required>
+                        <option value="" disabled selected>Selecciona una categoría</option>
+                        <option value="4-6">4-6 años | Iniciación Deportiva</option>
+                        <option value="7-9">7-9 años | Pre-Infantil</option>
+                        <option value="10-12">10-12 años | Infantil</option>
+                        <option value="13-15">13-15 años | Juvenil B</option>
+                        <option value="16-18">16-18 años | Juvenil A</option>
+                    </select>
+                </div>
 
-                <label for="padre">Nombre del padre/madre:</label>
-                <input type="text" id="padre" name="padre" required>
+                <div class="form-group">
+                    <label for="padre"><i class="fas fa-user-friends"></i> Nombre del padre, madre o tutor:</label>
+                    <input type="text" id="padre" name="padre" placeholder="Ej: María Elena López García" required>
+                </div>
 
-                <label for="contacto">Teléfono o WhatsApp:</label>
-                <input type="tel" id="contacto" name="contacto" required>
+                <div class="form-group">
+                    <label for="contacto"><i class="fas fa-phone-alt"></i> Teléfono / WhatsApp:</label>
+                    <input type="tel" id="contacto" name="contacto" placeholder="Ej: 771 123 4567" required>
+                </div>
 
-                <label for="autorizacion">Autorización médica (opcional):</label>
-                <input type="file" id="autorizacion" name="autorizacion">
+                <div class="form-group">
+                    <label for="autorizacion"><i class="fas fa-file-medical-alt"></i> Autorización médica (opcional):</label>
+                    <input type="file" id="autorizacion" name="autorizacion" accept=".pdf,.jpg,.png,.jpeg">
+                    <small style="color: #888; font-size: 0.7rem; display: block; margin-top: 5px;">Formatos aceptados: PDF, JPG, PNG (máx 5MB)</small>
+                </div>
 
-                <button type="submit">Enviar inscripción</button>
+                <button type="submit">
+                    <i class="fas fa-paper-plane"></i>
+                    Enviar Inscripción
+                </button>
+
+                <div class="info-box">
+                    <i class="fas fa-shield-alt"></i>
+                    <p>Tu información está protegida. Solo será utilizada para fines deportivos y de contacto. Al enviar, aceptas los términos de participación y código de conducta del club.</p>
+                </div>
             </form>
-        </section></center> 
+        </section>
+
+        <!-- Beneficios de formar parte -->
+        <div class="benefits-section">
+            <div class="benefit-card">
+                <i class="fas fa-chalkboard-user"></i>
+                <h3>Entrenadores Calificados</h3>
+                <p>Profesionales con amplia experiencia en formación deportiva infantil.</p>
+            </div>
+            <div class="benefit-card">
+                <i class="fas fa-trophy"></i>
+                <h3>Desarrollo Integral</h3>
+                <p>Formación en valores, disciplina, trabajo en equipo y técnica deportiva.</p>
+            </div>
+            <div class="benefit-card">
+                <i class="fas fa-heart"></i>
+                <h3>Ambiente Familiar</h3>
+                <p>Somos más que un equipo, somos una familia que apoya el crecimiento de cada niño.</p>
+            </div>
+        </div>
 
         <footer>
-            <p>© 2023 Entrenamiento Deportivo para Niños. Todos los derechos reservados.</p>
-            <p>La información está avalada por la <a href="https://www.fifa.com/" target="_blank">FIFA</a>.</p>
+            <p>© 2024 La Cuna del Fútbol - Donde nacen los campeones. Todos los derechos reservados.</p>
+            <p>Formando talentos desde la base | <a href="https://www.fifa.com/" target="_blank">Avalado por FIFA</a></p>
         </footer>
     </div>
 
-    <script src="script9.js"></script> <!-- Enlace al archivo JavaScript específico -->
+    <script src="script9.js"></script>
 </body>
 </html>
