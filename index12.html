@@ -2,14 +2,13 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>CUNATECH - Sistema por Categorías</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Agregar html2canvas para capturar como PNG -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     
     <style>
-        /* ===== ESTILOS OPTIMIZADOS ===== */
+        /* ===== ESTILOS OPTIMIZADOS (sin cambios visuales) ===== */
         * {
             margin: 0;
             padding: 0;
@@ -25,9 +24,9 @@
             --danger: #ff4444;
             --warning: #ff9800;
             --info: #2196F3;
-            --pbaja: #9C27B0;    /* Primaria Baja */
-            --palta: #3F51B5;    /* Primaria Alta */
-            --secundaria: #009688; /* Secundaria */
+            --pbaja: #9C27B0;
+            --palta: #3F51B5;
+            --secundaria: #009688;
         }
         
         html, body {
@@ -47,14 +46,15 @@
             background: linear-gradient(135deg, #000000 0%, #0a0a0a 100%);
         }
         
-        /* ===== HEADER SEGURO ===== */
+        /* ===== HEADER ===== */
         .secure-header {
             background: linear-gradient(90deg, #000000, #1a1a1a);
-            padding: 15px 20px;
+            padding: 12px 15px;
             border-bottom: 3px solid var(--secondary);
             position: sticky;
             top: 0;
             z-index: 100;
+            flex-shrink: 0;
         }
         
         .header-content {
@@ -66,12 +66,13 @@
         .secure-logo {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
+            flex-wrap: wrap;
         }
         
         .secure-icon {
-            width: 45px;
-            height: 45px;
+            width: 40px;
+            height: 40px;
             background: linear-gradient(135deg, var(--secondary), var(--accent));
             border-radius: 10px;
             display: flex;
@@ -79,24 +80,30 @@
             justify-content: center;
             font-weight: bold;
             color: #000;
-            font-size: 20px;
+            font-size: 18px;
             position: relative;
+            flex-shrink: 0;
         }
         
         .secure-icon::after {
             content: '🔒';
             position: absolute;
-            bottom: -5px;
-            right: -5px;
-            font-size: 12px;
+            bottom: -4px;
+            right: -4px;
+            font-size: 10px;
         }
         
         .secure-title h1 {
-            font-size: 1.3rem;
+            font-size: 1rem;
             background: linear-gradient(45deg, var(--secondary), var(--accent));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-weight: 800;
+        }
+        
+        .secure-title div {
+            font-size: 0.6rem;
+            color: #ccc;
         }
         
         /* ===== MENÚ HAMBURGUESA ===== */
@@ -104,10 +111,10 @@
             background: none;
             border: none;
             color: var(--secondary);
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             cursor: pointer;
-            display: block;
             z-index: 1001;
+            padding: 5px;
         }
         
         .menu {
@@ -120,9 +127,9 @@
             border-right: 3px solid var(--secondary);
             transition: left 0.3s ease;
             z-index: 1000;
-            padding-top: 80px;
+            padding-top: 70px;
             overflow-y: auto;
-            box-shadow: 5px 0 25px rgba(0,0,0,0.5);
+            -webkit-overflow-scrolling: touch;
         }
         
         .menu.active {
@@ -140,10 +147,10 @@
         
         .menu ul li a {
             display: block;
-            padding: 15px 25px;
+            padding: 12px 20px;
             color: #ccc;
             text-decoration: none;
-            font-size: 1rem;
+            font-size: 0.95rem;
             transition: all 0.2s;
         }
         
@@ -151,7 +158,7 @@
         .menu ul li a.active {
             background: rgba(255,215,0,0.1);
             color: var(--secondary);
-            padding-left: 30px;
+            padding-left: 25px;
         }
         
         .menu ul li a i {
@@ -169,7 +176,6 @@
             background: rgba(0,0,0,0.5);
             z-index: 999;
             display: none;
-            backdrop-filter: blur(3px);
         }
         
         .menu-overlay.active {
@@ -179,22 +185,20 @@
         /* ===== CHAT IA ===== */
         .ia-chat-container {
             position: fixed;
-            bottom: 80px;
+            bottom: 70px;
             right: 10px;
-            width: 300px;
+            width: 280px;
             background: rgba(20, 20, 20, 0.98);
-            backdrop-filter: blur(10px);
             border: 2px solid var(--secondary);
             border-radius: 15px;
-            box-shadow: 0 5px 25px rgba(0,0,0,0.5);
             z-index: 1000;
             overflow: hidden;
-            transition: all 0.3s ease;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.5);
         }
         
         .ia-chat-header {
             background: linear-gradient(90deg, var(--secondary), var(--accent));
-            padding: 12px;
+            padding: 10px 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -203,30 +207,25 @@
         
         .ia-chat-header h3 {
             color: #000;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             display: flex;
             align-items: center;
             gap: 5px;
         }
         
-        .ia-chat-header h3 i {
-            font-size: 1rem;
-        }
-        
         .ia-chat-messages {
-            height: 250px;
+            height: 200px;
             overflow-y: auto;
-            padding: 10px;
+            padding: 8px;
             background: rgba(0,0,0,0.9);
-            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
         }
         
         .ia-message {
-            margin-bottom: 10px;
-            padding: 10px;
+            margin-bottom: 8px;
+            padding: 8px 10px;
             border-radius: 10px;
-            font-size: 0.85rem;
-            animation: fadeIn 0.3s ease;
+            font-size: 0.8rem;
             line-height: 1.4;
             word-wrap: break-word;
         }
@@ -269,7 +268,7 @@
             padding: 8px 12px;
             border-radius: 20px;
             color: white;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
         }
         
         .ia-chat-input input:focus {
@@ -279,26 +278,12 @@
         .ia-chat-input button {
             background: var(--secondary);
             border: none;
-            width: 36px;
-            height: 36px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             margin-left: 5px;
             cursor: pointer;
             color: #000;
-            transition: transform 0.2s;
-        }
-        
-        .ia-chat-input button:hover {
-            transform: scale(1.1);
-        }
-        
-        .ia-chat-minimized {
-            display: none;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
-            to { opacity: 1; transform: translateY(0); }
         }
         
         /* ===== CONTENT AREA ===== */
@@ -306,79 +291,69 @@
             flex: 1;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
-            padding: 20px;
-            padding-bottom: 80px;
+            padding: 15px;
+            padding-bottom: 70px;
+            will-change: transform;
         }
         
         .content-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
+            gap: 15px;
+        }
+        
+        .view {
+            display: none;
+        }
+        
+        .view.active {
+            display: block;
         }
         
         /* ===== SECURE CARD ===== */
         .secure-card {
             background: linear-gradient(145deg, rgba(26, 26, 26, 0.95), rgba(0, 0, 0, 0.95));
             border-radius: 15px;
-            padding: 20px;
+            padding: 15px;
             border: 1px solid rgba(255, 215, 0, 0.2);
-            backdrop-filter: blur(5px);
+            margin-bottom: 15px;
         }
         
         .card-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
             border-bottom: 1px solid rgba(255, 215, 0, 0.1);
         }
         
         .card-title {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             color: var(--secondary);
             font-weight: bold;
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
         
         /* ===== CATEGORY BADGES ===== */
         .category-badge {
-            padding: 4px 10px;
+            padding: 3px 8px;
             border-radius: 12px;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             font-weight: bold;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
         
-        .category-pbaja {
-            background: rgba(156, 39, 176, 0.2);
-            color: var(--pbaja);
-            border: 1px solid var(--pbaja);
-        }
-        
-        .category-palta {
-            background: rgba(63, 81, 181, 0.2);
-            color: var(--palta);
-            border: 1px solid var(--palta);
-        }
-        
-        .category-secundaria {
-            background: rgba(0, 150, 136, 0.2);
-            color: var(--secundaria);
-            border: 1px solid var(--secundaria);
-        }
+        .category-pbaja { background: rgba(156, 39, 176, 0.2); color: var(--pbaja); border: 1px solid var(--pbaja); }
+        .category-palta { background: rgba(63, 81, 181, 0.2); color: var(--palta); border: 1px solid var(--palta); }
+        .category-secundaria { background: rgba(0, 150, 136, 0.2); color: var(--secundaria); border: 1px solid var(--secundaria); }
         
         /* ===== TACTICAL FIELD ===== */
-        .tactical-container {
-            margin: 15px 0;
-        }
-        
         .tactical-field {
             width: 100%;
-            height: 220px;
+            height: 200px;
             background: linear-gradient(135deg, #0a2a0a, #1a3a1a);
             border-radius: 10px;
             border: 2px solid var(--success);
@@ -388,23 +363,19 @@
         
         .position-dot {
             position: absolute;
-            width: 32px;
-            height: 32px;
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
             border: 2px solid #000;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            font-size: 0.9rem;
+            font-size: 0.7rem;
             color: #000;
             cursor: pointer;
             transform: translate(-50%, -50%);
-            transition: transform 0.2s;
-        }
-        
-        .position-dot:hover {
-            transform: translate(-50%, -50%) scale(1.1);
+            transition: transform 0.1s ease;
         }
         
         .position-dot.portero { background: var(--danger); }
@@ -415,54 +386,44 @@
         /* ===== FORMATION SELECTOR ===== */
         .formation-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-            gap: 12px;
-            margin: 15px 0;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 10px;
+            margin: 12px 0;
         }
         
         .formation-card {
-            padding: 15px;
+            padding: 10px;
             background: rgba(255, 215, 0, 0.05);
-            border-radius: 10px;
+            border-radius: 8px;
             cursor: pointer;
             border: 2px solid transparent;
-            transition: all 0.2s;
             text-align: center;
-        }
-        
-        .formation-card:hover {
-            background: rgba(255, 215, 0, 0.1);
-            transform: translateY(-2px);
+            transition: all 0.15s;
         }
         
         .formation-card.active {
             border-color: var(--secondary);
             background: rgba(255, 215, 0, 0.15);
-            box-shadow: 0 4px 12px rgba(255, 215, 0, 0.2);
         }
         
         /* ===== PLAYER MANAGEMENT ===== */
         .player-management {
-            max-height: 300px;
+            max-height: 250px;
             overflow-y: auto;
-            margin: 15px 0;
+            -webkit-overflow-scrolling: touch;
+            margin: 12px 0;
         }
         
         .player-slot {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 12px;
+            gap: 10px;
+            padding: 10px;
             background: rgba(255, 215, 0, 0.05);
             border-radius: 8px;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             cursor: pointer;
-            transition: all 0.2s;
             border: 2px solid transparent;
-        }
-        
-        .player-slot:hover {
-            background: rgba(255, 215, 0, 0.1);
         }
         
         .player-slot.selected {
@@ -472,12 +433,11 @@
         
         .player-slot.assigned {
             border-color: var(--success);
-            background: rgba(76, 175, 80, 0.1);
         }
         
         .player-avatar {
-            width: 40px;
-            height: 40px;
+            width: 35px;
+            height: 35px;
             background: linear-gradient(135deg, var(--secondary), var(--accent));
             border-radius: 50%;
             display: flex;
@@ -486,6 +446,7 @@
             font-weight: bold;
             color: #000;
             flex-shrink: 0;
+            font-size: 0.9rem;
         }
         
         .player-details {
@@ -499,33 +460,33 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            font-size: 0.85rem;
         }
         
         .player-info {
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             color: #ccc;
             display: flex;
-            gap: 10px;
-            margin-top: 3px;
+            gap: 8px;
+            flex-wrap: wrap;
         }
         
         /* ===== FILTER CONTROLS ===== */
         .filter-controls {
             display: flex;
-            gap: 10px;
-            margin: 15px 0;
+            gap: 8px;
+            margin: 12px 0;
             flex-wrap: wrap;
         }
         
         .filter-btn {
-            padding: 8px 15px;
+            padding: 6px 12px;
             background: rgba(255, 215, 0, 0.05);
             border: 1px solid #333;
             border-radius: 20px;
             color: #ccc;
             cursor: pointer;
-            transition: all 0.2s;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
         }
         
         .filter-btn.active {
@@ -541,28 +502,27 @@
             left: 0;
             right: 0;
             background: rgba(0, 0, 0, 0.95);
-            backdrop-filter: blur(10px);
             border-top: 2px solid var(--secondary);
             display: flex;
             justify-content: space-around;
-            padding: 10px 5px;
+            padding: 8px 5px;
             z-index: 100;
+            flex-shrink: 0;
         }
         
         .nav-btn {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 5px;
+            gap: 3px;
             background: none;
             border: none;
             color: #ccc;
-            padding: 8px;
+            padding: 6px;
             border-radius: 8px;
             cursor: pointer;
-            min-width: 60px;
+            min-width: 55px;
             flex: 1;
-            transition: all 0.2s;
         }
         
         .nav-btn.active {
@@ -571,21 +531,17 @@
         }
         
         .nav-btn i {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
         }
         
         .nav-btn span {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             font-weight: bold;
-        }
-        
-        .nav-btn:hover {
-            color: var(--secondary);
         }
         
         /* ===== BUTTONS ===== */
         .action-btn {
-            padding: 12px 20px;
+            padding: 10px 15px;
             background: var(--secondary);
             color: #000;
             border: none;
@@ -595,15 +551,10 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 6px;
             width: 100%;
-            margin-top: 10px;
-            transition: all 0.2s;
-        }
-        
-        .action-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
+            margin-top: 8px;
+            font-size: 0.85rem;
         }
         
         .action-btn.secondary {
@@ -611,7 +562,7 @@
             color: white;
         }
         
-        /* ===== MODAL DE CONFIGURACIÓN ===== */
+        /* ===== MODAL ===== */
         .config-modal {
             display: none;
             position: fixed;
@@ -620,7 +571,7 @@
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.9);
-            z-index: 1000;
+            z-index: 2000;
             align-items: center;
             justify-content: center;
         }
@@ -632,9 +583,9 @@
         .config-content {
             background: linear-gradient(145deg, #1a1a1a, #000);
             border-radius: 15px;
-            padding: 25px;
+            padding: 20px;
             width: 90%;
-            max-width: 500px;
+            max-width: 400px;
             border: 2px solid var(--secondary);
         }
         
@@ -642,75 +593,65 @@
         .recommendation-box {
             background: rgba(33, 150, 243, 0.1);
             border-radius: 10px;
-            padding: 15px;
-            margin: 15px 0;
+            padding: 12px;
+            margin: 12px 0;
             border-left: 4px solid var(--info);
         }
         
         .recommendation-header {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             color: var(--info);
             font-weight: bold;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
         
-        /* ===== BOTÓN DE COMPARTIR ===== */
         .share-btn {
             background: var(--success);
             color: white;
             border: none;
             border-radius: 8px;
-            padding: 10px 15px;
-            font-size: 0.9rem;
+            padding: 10px;
+            font-size: 0.85rem;
             font-weight: bold;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 6px;
             width: 100%;
-            margin: 15px 0;
-            transition: all 0.2s;
+            margin-top: 12px;
         }
         
-        .share-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+        /* ===== STATS GRID ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 12px 0;
         }
         
-        /* ===== CONTENEDOR PARA CAPTURA ===== */
-        #topPlayersContainer {
-            background: linear-gradient(145deg, #1a1a1a, #000);
-            border-radius: 15px;
-            padding: 20px;
+        .stats-card {
+            text-align: center;
+            padding: 12px;
+            background: rgba(255,215,0,0.05);
+            border-radius: 10px;
         }
         
         /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
             .content-grid {
                 grid-template-columns: 1fr;
-                padding: 15px;
-                gap: 15px;
             }
             
-            .formation-grid {
-                grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-            }
-            
-            .secure-card {
-                padding: 15px;
+            .secure-title h1 {
+                font-size: 0.85rem;
             }
             
             .ia-chat-container {
                 width: 260px;
-                bottom: 70px;
-                right: 5px;
-            }
-            
-            .ia-chat-messages {
-                height: 200px;
+                bottom: 65px;
             }
             
             .menu {
@@ -721,24 +662,26 @@
         /* ===== SCROLL STYLES ===== */
         .content-wrapper::-webkit-scrollbar,
         .ia-chat-messages::-webkit-scrollbar,
-        .player-management::-webkit-scrollbar,
-        .menu::-webkit-scrollbar {
-            width: 6px;
-        }
-        
-        .content-wrapper::-webkit-scrollbar-track,
-        .ia-chat-messages::-webkit-scrollbar-track,
-        .player-management::-webkit-scrollbar-track,
-        .menu::-webkit-scrollbar-track {
-            background: rgba(255, 215, 0, 0.05);
+        .player-management::-webkit-scrollbar {
+            width: 4px;
         }
         
         .content-wrapper::-webkit-scrollbar-thumb,
         .ia-chat-messages::-webkit-scrollbar-thumb,
-        .player-management::-webkit-scrollbar-thumb,
-        .menu::-webkit-scrollbar-thumb {
+        .player-management::-webkit-scrollbar-thumb {
             background: var(--secondary);
-            border-radius: 3px;
+            border-radius: 2px;
+        }
+        
+        /* Animaciones */
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
         }
     </style>
 </head>
@@ -760,30 +703,21 @@
         </ul>
     </nav>
     
-    <!-- Overlay para cerrar menú al hacer clic fuera -->
     <div class="menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
     
-    <!-- APP CONTAINER -->
     <div id="app">
-        
-        <!-- HEADER SEGURO -->
         <header class="secure-header">
             <div class="header-content">
                 <div class="secure-logo">
                     <button class="menu-btn" onclick="toggleMenu()">
                         <i class="fas fa-bars"></i>
                     </button>
-                    <div class="secure-icon">
-                        C
-                    </div>
+                    <div class="secure-icon">C</div>
                     <div class="secure-title">
                         <h1>CUNATECH - Sistema por Categorías</h1>
-                        <div style="font-size: 0.7rem; color: #ccc;">
-                            Fútbol 7 y Fútbol 6 - Categorías Separadas
-                        </div>
+                        <div>Fútbol 7 y Fútbol 6 - Categorías Separadas</div>
                     </div>
                 </div>
-                
                 <button onclick="mostrarConfig()" style="background: none; border: none; color: var(--secondary); font-size: 1.2rem; cursor: pointer;">
                     <i class="fas fa-cog"></i>
                 </button>
@@ -793,10 +727,7 @@
         <!-- IA CHAT ASSISTANT -->
         <div class="ia-chat-container" id="iaChat">
             <div class="ia-chat-header" onclick="toggleChat()">
-                <h3>
-                    <i class="fas fa-robot"></i>
-                    Asistente CUNATECH
-                </h3>
+                <h3><i class="fas fa-robot"></i> Asistente CUNATECH</h3>
                 <i class="fas fa-chevron-up" id="chatToggleIcon"></i>
             </div>
             <div class="ia-chat-messages" id="chatMessages">
@@ -810,515 +741,251 @@
             </div>
             <div class="ia-chat-input">
                 <input type="text" id="chatInput" placeholder="Escribe tu pregunta..." onkeypress="if(event.key==='Enter') enviarPreguntaIA()">
-                <button onclick="enviarPreguntaIA()">
-                    <i class="fas fa-paper-plane"></i>
-                </button>
+                <button onclick="enviarPreguntaIA()"><i class="fas fa-paper-plane"></i></button>
             </div>
         </div>
         
-        <!-- CONTENT WRAPPER -->
         <div class="content-wrapper" id="contentWrapper">
-            
             <!-- VIEW 1: DASHBOARD -->
-            <div class="content-grid view active" id="viewDashboard">
-                
-                <!-- CARD: RESUMEN POR CATEGORÍA -->
-                <div class="secure-card">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <i class="fas fa-layer-group"></i>
-                            <span>Resumen por Categoría</span>
+            <div class="view active" id="viewDashboard">
+                <div class="content-grid">
+                    <div class="secure-card">
+                        <div class="card-header">
+                            <div class="card-title"><i class="fas fa-layer-group"></i><span>Resumen por Categoría</span></div>
+                            <div style="color: var(--success);"><i class="fas fa-users"></i> Activo</div>
                         </div>
-                        <div style="color: var(--success);">
-                            <i class="fas fa-users"></i> Activo
+                        <div class="stats-grid">
+                            <div class="stats-card"><div style="font-size: 1.5rem; color: var(--pbaja); font-weight: bold;" id="countPbaja">0</div><div>Primaria Baja</div></div>
+                            <div class="stats-card"><div style="font-size: 1.5rem; color: var(--palta); font-weight: bold;" id="countPalta">0</div><div>Primaria Alta</div></div>
+                            <div class="stats-card"><div style="font-size: 1.5rem; color: var(--secundaria); font-weight: bold;" id="countSecundaria">0</div><div>Secundaria</div></div>
                         </div>
-                    </div>
-                    
-                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 15px 0;">
-                        <div style="text-align: center; padding: 15px; background: rgba(156, 39, 176, 0.1); border-radius: 10px; border: 1px solid var(--pbaja);">
-                            <div style="font-size: 1.5rem; color: var(--pbaja); font-weight: bold;" id="countPbaja">0</div>
-                            <div style="font-size: 0.8rem; color: #ccc;">Primaria Baja</div>
-                        </div>
-                        <div style="text-align: center; padding: 15px; background: rgba(63, 81, 181, 0.1); border-radius: 10px; border: 1px solid var(--palta);">
-                            <div style="font-size: 1.5rem; color: var(--palta); font-weight: bold;" id="countPalta">0</div>
-                            <div style="font-size: 0.8rem; color: #ccc;">Primaria Alta</div>
-                        </div>
-                        <div style="text-align: center; padding: 15px; background: rgba(0, 150, 136, 0.1); border-radius: 10px; border: 1px solid var(--secundaria);">
-                            <div style="font-size: 1.5rem; color: var(--secundaria); font-weight: bold;" id="countSecundaria">0</div>
-                            <div style="font-size: 0.8rem; color: #ccc;">Secundaria</div>
+                        <div class="recommendation-box">
+                            <div class="recommendation-header"><i class="fas fa-info-circle"></i><span>Información del Sistema</span></div>
+                            <div style="color: #ccc; font-size: 0.85rem;">Sistema separado por 3 categorías. Los rendimientos se calculan automáticamente según goles y asistencias.</div>
                         </div>
                     </div>
                     
-                    <div class="recommendation-box">
-                        <div class="recommendation-header">
-                            <i class="fas fa-info-circle"></i>
-                            <span>Información del Sistema</span>
+                    <div class="secure-card">
+                        <div class="card-header">
+                            <div class="card-title"><i class="fas fa-calendar-alt"></i><span>Entrenamientos por Categoría</span></div>
+                            <span style="color: var(--warning);">Esta semana</span>
                         </div>
-                        <div style="color: #ccc; font-size: 0.9rem;">
-                            Sistema separado por 3 categorías. Los rendimientos se calculan automáticamente según goles y asistencias.
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- CARD: PRÓXIMOS ENTRENAMIENTOS -->
-                <div class="secure-card">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <i class="fas fa-calendar-alt"></i>
-                            <span>Entrenamientos por Categoría</span>
-                        </div>
-                        <span style="color: var(--warning);">Esta semana</span>
-                    </div>
-                    
-                    <div style="margin: 15px 0;">
-                        <div style="padding: 12px; background: rgba(255,215,0,0.05); border-radius: 8px; margin-bottom: 10px;">
-                            <div style="display: flex; justify-content: space-between; align-items: center;">
-                                <div>
-                                    <div style="font-weight: bold; color: white;">Técnica Básica</div>
-                                    <div style="color: #ccc; font-size: 0.9rem;">
-                                        <i class="fas fa-clock"></i> 16:00 hrs • Primaria Baja
-                                    </div>
+                        <div style="margin: 12px 0;">
+                            <div style="padding: 10px; background: rgba(255,215,0,0.05); border-radius: 8px; margin-bottom: 8px;">
+                                <div style="display: flex; justify-content: space-between;">
+                                    <div><div style="font-weight: bold;">Técnica Básica</div><div style="font-size: 0.75rem;"><i class="fas fa-clock"></i> 16:00 hrs • Primaria Baja</div></div>
+                                    <span class="category-badge category-pbaja">PB</span>
                                 </div>
-                                <span class="category-badge category-pbaja">PB</span>
+                            </div>
+                            <div style="padding: 10px; background: rgba(255,215,0,0.05); border-radius: 8px; margin-bottom: 8px;">
+                                <div style="display: flex; justify-content: space-between;">
+                                    <div><div style="font-weight: bold;">Preparación Física</div><div style="font-size: 0.75rem;"><i class="fas fa-clock"></i> 17:30 hrs • Primaria Alta</div></div>
+                                    <span class="category-badge category-palta">PA</span>
+                                </div>
+                            </div>
+                            <div style="padding: 10px; background: rgba(255,215,0,0.05); border-radius: 8px;">
+                                <div style="display: flex; justify-content: space-between;">
+                                    <div><div style="font-weight: bold;">Táctica Avanzada</div><div style="font-size: 0.75rem;"><i class="fas fa-clock"></i> 18:00 hrs • Secundaria</div></div>
+                                    <span class="category-badge category-secundaria">S</span>
+                                </div>
                             </div>
                         </div>
-                        
-                        <div style="padding: 12px; background: rgba(255,215,0,0.05); border-radius: 8px; margin-bottom: 10px;">
-                            <div style="display: flex; justify-content: space-between; align-items: center;">
-                                <div>
-                                    <div style="font-weight: bold; color: white;">Preparación Física</div>
-                                    <div style="color: #ccc; font-size: 0.9rem;">
-                                        <i class="fas fa-clock"></i> 17:30 hrs • Primaria Alta
-                                    </div>
-                                </div>
-                                <span class="category-badge category-palta">PA</span>
-                            </div>
-                        </div>
-                        
-                        <div style="padding: 12px; background: rgba(255,215,0,0.05); border-radius: 8px;">
-                            <div style="display: flex; justify-content: space-between; align-items: center;">
-                                <div>
-                                    <div style="font-weight: bold; color: white;">Táctica Avanzada</div>
-                                    <div style="color: #ccc; font-size: 0.9rem;">
-                                        <i class="fas fa-clock"></i> 18:00 hrs • Secundaria
-                                    </div>
-                                </div>
-                                <span class="category-badge category-secundaria">S</span>
-                            </div>
-                        </div>
+                        <button class="action-btn" onclick="cambiarVista('tactics')"><i class="fas fa-chess-board"></i> Preparar Formación</button>
                     </div>
                     
-                    <button class="action-btn" onclick="cambiarVista('tactics')">
-                        <i class="fas fa-chess-board"></i>
-                        Preparar Formación
-                    </button>
-                </div>
-                
-                <!-- CARD: JUGADORES POR CATEGORÍA -->
-                <div class="secure-card">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <i class="fas fa-users"></i>
-                            <span>Jugadores por Categoría</span>
+                    <div class="secure-card">
+                        <div class="card-header">
+                            <div class="card-title"><i class="fas fa-users"></i><span>Jugadores por Categoría</span></div>
+                            <span style="color: var(--info);" id="totalPlayers">0</span>
                         </div>
-                        <span style="color: var(--info);" id="totalPlayers">0</span>
-                    </div>
-                    
-                    <div class="filter-controls">
-                        <button class="filter-btn active" onclick="filtrarJugadoresPorCategoria('todas')">
-                            Todos
-                        </button>
-                        <button class="filter-btn" onclick="filtrarJugadoresPorCategoria('PB')">
-                            Primaria Baja
-                        </button>
-                        <button class="filter-btn" onclick="filtrarJugadoresPorCategoria('PA')">
-                            Primaria Alta
-                        </button>
-                        <button class="filter-btn" onclick="filtrarJugadoresPorCategoria('S')">
-                            Secundaria
-                        </button>
-                    </div>
-                    
-                    <div class="player-management" id="dashboardPlayers">
-                        <!-- Jugadores cargados dinámicamente -->
+                        <div class="filter-controls">
+                            <button class="filter-btn active" onclick="filtrarJugadoresPorCategoria('todas')">Todos</button>
+                            <button class="filter-btn" onclick="filtrarJugadoresPorCategoria('PB')">Primaria Baja</button>
+                            <button class="filter-btn" onclick="filtrarJugadoresPorCategoria('PA')">Primaria Alta</button>
+                            <button class="filter-btn" onclick="filtrarJugadoresPorCategoria('S')">Secundaria</button>
+                        </div>
+                        <div class="player-management" id="dashboardPlayers"></div>
                     </div>
                 </div>
-                
             </div>
             
             <!-- VIEW 2: TÁCTICAS -->
-            <div class="content-grid view" id="viewTactics">
-                
-                <!-- CARD: CONFIGURACIÓN -->
-                <div class="secure-card">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <i class="fas fa-cog"></i>
-                            <span>Configuración</span>
-                        </div>
-                        <div>
-                            <select id="tipoJuego" onchange="cambiarTipoJuego(this.value)" style="background: #000; color: #FFF; border: 1px solid #333; padding: 6px 10px; border-radius: 6px;">
+            <div class="view" id="viewTactics">
+                <div class="content-grid">
+                    <div class="secure-card">
+                        <div class="card-header">
+                            <div class="card-title"><i class="fas fa-cog"></i><span>Configuración</span></div>
+                            <select id="tipoJuego" onchange="cambiarTipoJuego(this.value)" style="background:#000;color:#FFF;border:1px solid #333;padding:4px 8px;border-radius:6px;font-size:0.8rem;">
                                 <option value="futbol7">⚽ Fútbol 7</option>
                                 <option value="futbol6">⚡ Fútbol 6</option>
                             </select>
                         </div>
-                    </div>
-                    
-                    <div class="recommendation-box">
-                        <div class="recommendation-header">
-                            <i class="fas fa-lightbulb"></i>
-                            <span>Recomendación por Categoría</span>
-                        </div>
-                        <div style="color: #ccc; font-size: 0.9rem;" id="recomendacionCategoria">
+                        <div class="recommendation-box" id="recomendacionCategoria">
                             Selecciona una categoría para ver recomendaciones
                         </div>
                     </div>
-                </div>
-                
-                <!-- CARD: SELECCIÓN DE CATEGORÍA -->
-                <div class="secure-card">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <i class="fas fa-filter"></i>
-                            <span>Seleccionar Categoría</span>
-                        </div>
-                        <span style="color: var(--secondary);" id="selectedCategory">Todas</span>
-                    </div>
                     
-                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 15px 0;">
-                        <button class="category-btn" onclick="seleccionarCategoria('PB')" style="background: none; border: 1px solid var(--pbaja); border-radius: 10px; padding: 15px; cursor: pointer;">
-                            <div style="font-size: 2rem; color: var(--pbaja);">PB</div>
-                            <div style="font-size: 0.9rem; color: white;">Primaria Baja</div>
-                        </button>
-                        
-                        <button class="category-btn" onclick="seleccionarCategoria('PA')" style="background: none; border: 1px solid var(--palta); border-radius: 10px; padding: 15px; cursor: pointer;">
-                            <div style="font-size: 2rem; color: var(--palta);">PA</div>
-                            <div style="font-size: 0.9rem; color: white;">Primaria Alta</div>
-                        </button>
-                        
-                        <button class="category-btn" onclick="seleccionarCategoria('S')" style="background: none; border: 1px solid var(--secundaria); border-radius: 10px; padding: 15px; cursor: pointer;">
-                            <div style="font-size: 2rem; color: var(--secundaria);">S</div>
-                            <div style="font-size: 0.9rem; color: white;">Secundaria</div>
-                        </button>
-                    </div>
-                    
-                    <div style="background: rgba(255,215,0,0.05); padding: 12px; border-radius: 8px; margin-top: 15px;">
-                        <div style="color: var(--secondary); font-weight: bold; margin-bottom: 5px;">
-                            <i class="fas fa-info-circle"></i> Jugadores Disponibles:
+                    <div class="secure-card">
+                        <div class="card-header">
+                            <div class="card-title"><i class="fas fa-filter"></i><span>Seleccionar Categoría</span></div>
+                            <span style="color: var(--secondary);" id="selectedCategory">Todas</span>
                         </div>
-                        <div style="color: #ccc; font-size: 0.9rem;" id="jugadoresDisponibles">
-                            0 jugadores en esta categoría
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 12px 0;">
+                            <button onclick="seleccionarCategoria('PB')" style="background:none;border:1px solid var(--pbaja);border-radius:8px;padding:10px;cursor:pointer;">
+                                <div style="font-size:1.2rem;color:var(--pbaja);">PB</div>
+                                <div style="font-size:0.7rem;">Primaria Baja</div>
+                            </button>
+                            <button onclick="seleccionarCategoria('PA')" style="background:none;border:1px solid var(--palta);border-radius:8px;padding:10px;cursor:pointer;">
+                                <div style="font-size:1.2rem;color:var(--palta);">PA</div>
+                                <div style="font-size:0.7rem;">Primaria Alta</div>
+                            </button>
+                            <button onclick="seleccionarCategoria('S')" style="background:none;border:1px solid var(--secundaria);border-radius:8px;padding:10px;cursor:pointer;">
+                                <div style="font-size:1.2rem;color:var(--secundaria);">S</div>
+                                <div style="font-size:0.7rem;">Secundaria</div>
+                            </button>
                         </div>
-                    </div>
-                </div>
-                
-                <!-- CARD: FORMACIONES -->
-                <div class="secure-card">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <i class="fas fa-chess-board"></i>
-                            <span>Formaciones Disponibles</span>
-                        </div>
-                        <span style="color: var(--success);" id="formationCount">0</span>
-                    </div>
-                    
-                    <div class="formation-grid" id="formationGrid">
-                        <!-- Formaciones cargadas dinámicamente -->
-                    </div>
-                </div>
-                
-                <!-- CARD: CAMPO TÁCTICO -->
-                <div class="secure-card">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <i class="fas fa-map"></i>
-                            <span>Alineación</span>
-                        </div>
-                        <span style="color: var(--success);" id="assignedCount">0/0</span>
-                    </div>
-                    
-                    <div class="tactical-container">
-                        <div class="tactical-field" id="tacticalField">
-                            <!-- Campo generado dinámicamente -->
+                        <div style="background:rgba(255,215,0,0.05);padding:10px;border-radius:8px;">
+                            <div style="color:var(--secondary);font-weight:bold;"><i class="fas fa-info-circle"></i> Jugadores Disponibles:</div>
+                            <div style="color:#ccc;font-size:0.8rem;" id="jugadoresDisponibles">0 jugadores en esta categoría</div>
                         </div>
                     </div>
                     
-                    <div style="display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap;">
-                        <button class="action-btn secondary" style="flex: 1;" onclick="autoAsignar()">
-                            <i class="fas fa-magic"></i>
-                            Auto-Asignar
-                        </button>
-                        <button class="action-btn secondary" style="flex: 1;" onclick="limpiarAsignaciones()">
-                            <i class="fas fa-trash"></i>
-                            Limpiar
-                        </button>
-                    </div>
-                    
-                    <div style="display: flex; gap: 10px; margin-top: 10px;">
-                        <button class="action-btn" style="flex: 1;" onclick="guardarFormacion()">
-                            <i class="fas fa-save"></i>
-                            Guardar
-                        </button>
-                        <button class="action-btn secondary" style="flex: 1;" onclick="imprimirFormacion()">
-                            <i class="fas fa-print"></i>
-                            Imprimir
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- CARD: JUGADORES DE LA CATEGORÍA -->
-                <div class="secure-card">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <i class="fas fa-user-friends"></i>
-                            <span>Jugadores Disponibles</span>
+                    <div class="secure-card">
+                        <div class="card-header">
+                            <div class="card-title"><i class="fas fa-chess-board"></i><span>Formaciones Disponibles</span></div>
+                            <span style="color: var(--success);" id="formationCount">0</span>
                         </div>
-                        <span style="color: var(--info);" id="availablePlayers">0</span>
+                        <div class="formation-grid" id="formationGrid"></div>
                     </div>
                     
-                    <div style="margin: 10px 0;">
-                        <input type="text" id="playerSearch" placeholder="Buscar jugador por nombre..." 
-                               style="width: 100%; padding: 10px; background: #1a1a1a; border: 1px solid #333; border-radius: 8px; color: white;">
-                    </div>
-                    
-                    <div class="player-management" id="tacticalPlayers">
-                        <!-- Jugadores cargados dinámicamente -->
-                    </div>
-                    
-                    <div class="recommendation-box" style="margin-top: 15px;">
-                        <div class="recommendation-header">
-                            <i class="fas fa-list-ol"></i>
-                            <span>Instrucciones:</span>
+                    <div class="secure-card">
+                        <div class="card-header">
+                            <div class="card-title"><i class="fas fa-map"></i><span>Alineación</span></div>
+                            <span style="color: var(--success);" id="assignedCount">0/0</span>
                         </div>
-                        <div style="color: #ccc; font-size: 0.9rem;">
-                            1. Selecciona un jugador<br>
-                            2. Haz clic en una posición del campo<br>
-                            3. Usa "Auto-Asignar" para configuración rápida
+                        <div class="tactical-field" id="tacticalField"></div>
+                        <div style="display: flex; gap: 8px; margin-top: 12px;">
+                            <button class="action-btn secondary" style="flex:1;" onclick="autoAsignar()"><i class="fas fa-magic"></i> Auto-Asignar</button>
+                            <button class="action-btn secondary" style="flex:1;" onclick="limpiarAsignaciones()"><i class="fas fa-trash"></i> Limpiar</button>
+                        </div>
+                        <div style="display: flex; gap: 8px; margin-top: 8px;">
+                            <button class="action-btn" style="flex:1;" onclick="guardarFormacion()"><i class="fas fa-save"></i> Guardar</button>
+                            <button class="action-btn secondary" style="flex:1;" onclick="imprimirFormacion()"><i class="fas fa-print"></i> Imprimir</button>
+                        </div>
+                    </div>
+                    
+                    <div class="secure-card">
+                        <div class="card-header">
+                            <div class="card-title"><i class="fas fa-user-friends"></i><span>Jugadores Disponibles</span></div>
+                            <span style="color: var(--info);" id="availablePlayers">0</span>
+                        </div>
+                        <input type="text" id="playerSearch" placeholder="Buscar jugador por nombre..." style="width:100%;padding:8px;background:#1a1a1a;border:1px solid #333;border-radius:8px;color:white;margin-bottom:8px;">
+                        <div class="player-management" id="tacticalPlayers"></div>
+                        <div class="recommendation-box" style="margin-top:12px;">
+                            <div class="recommendation-header"><i class="fas fa-list-ol"></i><span>Instrucciones:</span></div>
+                            <div style="color:#ccc;font-size:0.8rem;">1. Selecciona un jugador<br>2. Haz clic en una posición del campo<br>3. Usa "Auto-Asignar" para configuración rápida</div>
                         </div>
                     </div>
                 </div>
-                
             </div>
             
             <!-- VIEW 3: ESTADÍSTICAS -->
-            <div class="content-grid view" id="viewStats">
-                
-                <!-- CARD: FILTRO DE ESTADÍSTICAS -->
-                <div class="secure-card">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <i class="fas fa-chart-bar"></i>
-                            <span>Filtrar Estadísticas</span>
+            <div class="view" id="viewStats">
+                <div class="content-grid">
+                    <div class="secure-card">
+                        <div class="card-header">
+                            <div class="card-title"><i class="fas fa-chart-bar"></i><span>Filtrar Estadísticas</span></div>
+                            <span style="color: var(--info);"><i class="fas fa-database"></i></span>
                         </div>
-                        <span style="color: var(--info);">
-                            <i class="fas fa-database"></i>
-                        </span>
-                    </div>
-                    
-                    <div style="margin: 15px 0;">
-                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
-                            <button class="stats-category-btn active" onclick="mostrarEstadisticasPorCategoria('todas')" style="background: none; border: 1px solid var(--secondary); border-radius: 10px; padding: 12px; cursor: pointer;">
-                                <div style="font-size: 1.2rem; color: var(--secondary);">Total</div>
-                                <div style="font-size: 0.8rem; color: #ccc;">General</div>
+                        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 12px 0;">
+                            <button class="stats-category-btn active" onclick="mostrarEstadisticasPorCategoria('todas')" style="background:none;border:1px solid var(--secondary);border-radius:8px;padding:8px;cursor:pointer;">
+                                <div style="color:var(--secondary);">Total</div>
                             </button>
-                            <button class="stats-category-btn" onclick="mostrarEstadisticasPorCategoria('PB')" style="background: none; border: 1px solid var(--pbaja); border-radius: 10px; padding: 12px; cursor: pointer;">
-                                <div style="font-size: 1.2rem; color: var(--pbaja);">PB</div>
-                                <div style="font-size: 0.8rem; color: #ccc;">Primaria Baja</div>
+                            <button class="stats-category-btn" onclick="mostrarEstadisticasPorCategoria('PB')" style="background:none;border:1px solid var(--pbaja);border-radius:8px;padding:8px;cursor:pointer;">
+                                <div style="color:var(--pbaja);">PB</div>
                             </button>
-                            <button class="stats-category-btn" onclick="mostrarEstadisticasPorCategoria('PA')" style="background: none; border: 1px solid var(--palta); border-radius: 10px; padding: 12px; cursor: pointer;">
-                                <div style="font-size: 1.2rem; color: var(--palta);">PA</div>
-                                <div style="font-size: 0.8rem; color: #ccc;">Primaria Alta</div>
+                            <button class="stats-category-btn" onclick="mostrarEstadisticasPorCategoria('PA')" style="background:none;border:1px solid var(--palta);border-radius:8px;padding:8px;cursor:pointer;">
+                                <div style="color:var(--palta);">PA</div>
                             </button>
-                            <button class="stats-category-btn" onclick="mostrarEstadisticasPorCategoria('S')" style="background: none; border: 1px solid var(--secundaria); border-radius: 10px; padding: 12px; cursor: pointer;">
-                                <div style="font-size: 1.2rem; color: var(--secundaria);">S</div>
-                                <div style="font-size: 0.8rem; color: #ccc;">Secundaria</div>
+                            <button class="stats-category-btn" onclick="mostrarEstadisticasPorCategoria('S')" style="background:none;border:1px solid var(--secundaria);border-radius:8px;padding:8px;cursor:pointer;">
+                                <div style="color:var(--secundaria);">S</div>
                             </button>
+                        </div>
+                        <div class="recommendation-box">
+                            <div class="recommendation-header"><i class="fas fa-info-circle"></i><span>Datos del Sistema</span></div>
+                            <div style="color:#ccc;font-size:0.8rem;">Los rendimientos se calculan automáticamente según goles y asistencias de la temporada.</div>
                         </div>
                     </div>
                     
-                    <div class="recommendation-box">
-                        <div class="recommendation-header">
-                            <i class="fas fa-info-circle"></i>
-                            <span>Datos del Sistema</span>
+                    <div class="secure-card">
+                        <div class="card-header">
+                            <div class="card-title"><i class="fas fa-futbol"></i><span>Rendimiento General</span></div>
+                            <span style="color: var(--success);">Temporada</span>
                         </div>
-                        <div style="color: #ccc; font-size: 0.9rem;">
-                            Los rendimientos se calculan automáticamente según goles y asistencias de la temporada.
+                        <div class="stats-grid">
+                            <div class="stats-card"><div style="color:var(--success);font-weight:bold;" id="totalGoals">0</div><div>Goles</div></div>
+                            <div class="stats-card"><div style="color:var(--info);font-weight:bold;" id="totalAssists">0</div><div>Asistencias</div></div>
+                            <div class="stats-card"><div style="color:var(--warning);font-weight:bold;" id="avgPerformance">0%</div><div>Rendimiento</div></div>
                         </div>
+                    </div>
+                    
+                    <div class="secure-card">
+                        <div class="card-header">
+                            <div class="card-title"><i class="fas fa-medal"></i><span>Top Jugadores por Categoría</span></div>
+                            <span style="color: var(--warning);">Top 3</span>
+                        </div>
+                        <div id="topPlayersContainer">
+                            <div id="topPlayersByCategory"></div>
+                        </div>
+                        <button class="share-btn" onclick="compartirTopJugadores()"><i class="fas fa-share-alt"></i> Compartir Top 3</button>
                     </div>
                 </div>
-                
-                <!-- CARD: ESTADÍSTICAS GENERALES -->
-                <div class="secure-card">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <i class="fas fa-futbol"></i>
-                            <span>Rendimiento General</span>
-                        </div>
-                        <span style="color: var(--success);">Temporada</span>
-                    </div>
-                    
-                    <div style="margin: 15px 0;">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
-                            <span style="color: #ccc;">Total de Goles:</span>
-                            <span style="color: var(--success); font-weight: bold;" id="totalGoals">0</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
-                            <span style="color: #ccc;">Total de Asistencias:</span>
-                            <span style="color: var(--info); font-weight: bold;" id="totalAssists">0</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
-                            <span style="color: #ccc;">Jugadores Activos:</span>
-                            <span style="color: var(--secondary); font-weight: bold;" id="activePlayersStats">0</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between;">
-                            <span style="color: #ccc;">Rendimiento Promedio:</span>
-                            <span style="color: var(--warning); font-weight: bold;" id="avgPerformance">0%</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- CARD: TOP JUGADORES POR CATEGORÍA (MODIFICADO - AÑADIDO BOTÓN DE COMPARTIR) -->
-                <div class="secure-card">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <i class="fas fa-medal"></i>
-                            <span>Top Jugadores por Categoría</span>
-                        </div>
-                        <span style="color: var(--warning);">Top 3</span>
-                    </div>
-                    
-                    <!-- Contenedor que se va a capturar como imagen -->
-                    <div id="topPlayersContainer">
-                        <div id="topPlayersByCategory">
-                            <!-- Top jugadores cargados dinámicamente -->
-                        </div>
-                    </div>
-                    
-                    <!-- Botón de compartir para descargar PNG -->
-                    <button class="share-btn" onclick="compartirTopJugadores()">
-                        <i class="fas fa-share-alt"></i>
-                        Compartir Top 3
-                    </button>
-                </div>
-                
             </div>
-            
         </div>
         
-        <!-- BOTTOM NAVIGATION -->
         <nav class="bottom-nav">
-            <button class="nav-btn active" onclick="cambiarVista('dashboard')">
-                <i class="fas fa-home"></i>
-                <span>Inicio</span>
-            </button>
-            <button class="nav-btn" onclick="cambiarVista('tactics')">
-                <i class="fas fa-chess-board"></i>
-                <span>Táctica</span>
-            </button>
-            <button class="nav-btn" onclick="cambiarVista('stats')">
-                <i class="fas fa-chart-line"></i>
-                <span>Estadísticas</span>
-            </button>
+            <button class="nav-btn active" onclick="cambiarVista('dashboard')"><i class="fas fa-home"></i><span>Inicio</span></button>
+            <button class="nav-btn" onclick="cambiarVista('tactics')"><i class="fas fa-chess-board"></i><span>Táctica</span></button>
+            <button class="nav-btn" onclick="cambiarVista('stats')"><i class="fas fa-chart-line"></i><span>Estadísticas</span></button>
         </nav>
         
-        <!-- MODAL DE CONFIGURACIÓN -->
         <div class="config-modal" id="configModal">
             <div class="config-content">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                    <h2 style="color: var(--secondary);">
-                        <i class="fas fa-user-shield"></i> Configuración
-                    </h2>
-                    <button onclick="ocultarConfig()" style="background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer;">
-                        <i class="fas fa-times"></i>
-                    </button>
+                <div style="display:flex;justify-content:space-between;margin-bottom:15px;">
+                    <h2 style="color:var(--secondary);font-size:1.3rem;"><i class="fas fa-user-shield"></i> Configuración</h2>
+                    <button onclick="ocultarConfig()" style="background:none;border:none;color:white;font-size:1.3rem;">✕</button>
                 </div>
-                
-                <div style="margin-bottom: 20px;">
-                    <div style="color: var(--warning); font-weight: bold; margin-bottom: 10px;">
-                        <i class="fas fa-info-circle"></i> Información del Sistema
-                    </div>
-                    <div style="color: #ccc; font-size: 0.9rem; margin-bottom: 15px;">
-                        Sistema de gestión por categorías. Los rendimientos se calculan automáticamente según goles y asistencias.
-                    </div>
-                    
-                    <div style="background: rgba(255,215,0,0.05); padding: 15px; border-radius: 8px; margin-bottom: 15px;">
-                        <div style="color: var(--secondary); font-weight: bold; margin-bottom: 10px;">
-                            Cómo modificar datos:
-                        </div>
-                        <div style="color: #ccc; font-size: 0.9rem;">
-                            1. Abre el archivo HTML<br>
-                            2. Modifica los arrays JUGADORES y CATEGORIAS<br>
-                            3. Los rendimientos se calcularán automáticamente<br>
-                            4. Guarda y recarga la página
-                        </div>
-                    </div>
-                    
-                    <button onclick="exportarDatos()" style="width: 100%; padding: 12px; background: var(--info); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-bottom: 10px;">
-                        <i class="fas fa-download"></i> Exportar Datos
-                    </button>
-                    
-                    <button onclick="reiniciarDatos()" style="width: 100%; padding: 12px; background: var(--danger); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">
-                        <i class="fas fa-redo"></i> Reiniciar Datos
-                    </button>
+                <div class="recommendation-box" style="margin:10px 0;">
+                    <div style="font-weight:bold;">Cómo modificar datos:</div>
+                    <div style="font-size:0.8rem;">1. Abre el archivo HTML<br>2. Modifica los arrays JUGADORES<br>3. Los rendimientos se calculan automáticamente<br>4. Guarda y recarga</div>
                 </div>
+                <button onclick="exportarDatos()" style="width:100%;padding:10px;background:var(--info);color:white;border:none;border-radius:8px;margin-bottom:8px;"><i class="fas fa-download"></i> Exportar Datos</button>
+                <button onclick="reiniciarDatos()" style="width:100%;padding:10px;background:var(--danger);color:white;border:none;border-radius:8px;"><i class="fas fa-redo"></i> Reiniciar Datos</button>
             </div>
         </div>
-        
     </div>
     
-    <!-- JAVASCRIPT -->
     <script>
-        // ===== FUNCIÓN PARA EL MENÚ HAMBURGUESA =====
-        function toggleMenu() {
-            const menu = document.getElementById('menu');
-            const overlay = document.getElementById('menuOverlay');
-            menu.classList.toggle('active');
-            overlay.classList.toggle('active');
-        }
-
-        // Cerrar menú al hacer clic en un enlace (para móviles)
-        document.querySelectorAll('.menu a').forEach(link => {
-            link.addEventListener('click', () => {
-                document.getElementById('menu').classList.remove('active');
-                document.getElementById('menuOverlay').classList.remove('active');
-            });
-        });
-
-        // ===== FUNCIÓN PARA CALIFICACIÓN AUTOMÁTICA =====
+        // ===== FUNCIONES DE RENDIMIENTO =====
         function calcularRendimiento(goles, asistencias) {
-            // Fórmula: 60 + (goles * 5) + (asistencias * 3)
-            // Máximo 99, mínimo 60
             let rendimiento = 60 + (goles * 5) + (asistencias * 3);
-            
-            // Limitar entre 60 y 99
             if (rendimiento > 99) rendimiento = 99;
             if (rendimiento < 60) rendimiento = 60;
-            
             return rendimiento;
         }
-
-        // ===== DATOS PRIVADOS - SOLO TÚ MODIFICAS =====
+        
+        function actualizarRendimientos() {
+            JUGADORES.forEach(j => { j.rendimiento = calcularRendimiento(j.goles, j.asistencias); });
+        }
+        
+        // ===== DATOS =====
         const CATEGORIAS = {
-            PB: { 
-                nombre: "Primaria Baja", 
-                color: "#9C27B0", 
-                edad: "6-9 años"
-            },
-            PA: { 
-                nombre: "Primaria Alta", 
-                color: "#3F51B5", 
-                edad: "10-12 años"
-            },
-            S: { 
-                nombre: "Primero de Secundaria", 
-                color: "#009688", 
-                edad: "13-15 años"
-            }
+            PB: { nombre: "Primaria Baja", color: "#9C27B0", edad: "6-9 años" },
+            PA: { nombre: "Primaria Alta", color: "#3F51B5", edad: "10-12 años" },
+            S: { nombre: "Primero de Secundaria", color: "#009688", edad: "13-15 años" }
         };
-
-        // NOTA: SOLO MODIFICA GOLES Y ASISTENCIAS, EL RENDIMIENTO SE CALCULA SOLO
+        
         const JUGADORES = [
-            // Primaria Baja (PB) - MODIFICA AQUÍ TUS JUGADORES
             {id: 1, nombre: "Edgar Roberto", numero: 1, categoria: "PB", posiciones: ["POR"], goles: 0, asistencias: 0},
             {id: 2, nombre: "Franki Amador", numero: 17, categoria: "PB", posiciones: ["DFC"], goles: 2, asistencias: 1},
             {id: 3, nombre: "Cristopher Zarco", numero: 4, categoria: "PB", posiciones: ["MC", "DFC"], goles: 1, asistencias: 3},
@@ -1329,8 +996,6 @@
             {id: 8, nombre: "Alexander Solis", numero: 10, categoria: "PB", posiciones: ["DEL", "MC"], goles: 11, asistencias: 4},
             {id: 9, nombre: "Matias Ordones", numero: 29, categoria: "PB", posiciones: ["DEL", "EI"], goles: 0, asistencias: 0},
             {id: 10, nombre: "Santi Ordones", numero: 21, categoria: "PB", posiciones: ["DEL", "EI"], goles: 0, asistencias: 0},
-
-            // Primaria Alta (PA) - MODIFICA AQUÍ TUS JUGADORES
             {id: 11, nombre: "Edgar Roberto", numero: 1, categoria: "PA", posiciones: ["POR"], goles: 0, asistencias: 0},
             {id: 12, nombre: "Mateo Rodriguez", numero: 4, categoria: "PA", posiciones: ["DFC"], goles: 0, asistencias: 0},
             {id: 13, nombre: "Ian Castillo", numero: 8, categoria: "PA", posiciones: ["MC", "DFC"], goles: 2, asistencias: 3},
@@ -1344,11 +1009,9 @@
             {id: 21, nombre: "Adrian Sierra", numero: 18, categoria: "PA", posiciones: ["DEL"], goles: 0, asistencias: 0},
             {id: 22, nombre: "Ricardo Castillo", numero: 12, categoria: "PA", posiciones: ["MC","DEL"], goles: 0, asistencias: 1},
             {id: 23, nombre: "Alexander Solis", numero: 110, categoria: "PA", posiciones: ["DEL"], goles: 2, asistencias: 2},
-
-            // Secundaria (S) - MODIFICA AQUÍ TUS JUGADORES
             {id: 24, nombre: "Santiago Pelcastre", numero: 1, categoria: "S", posiciones: ["POR"], goles: 0, asistencias: 0},
             {id: 25, nombre: "Dylan Pelcastre", numero: 99, categoria: "S", posiciones: ["POR"], goles: 0, asistencias: 0},
-            {id: 26, nombre: "Mateo Rodriguez", numero: 4, categoria: "S", posiciones: ["DFC",], goles: 0, asistencias: 0},
+            {id: 26, nombre: "Mateo Rodriguez", numero: 4, categoria: "S", posiciones: ["DFC"], goles: 0, asistencias: 0},
             {id: 27, nombre: "Ian Castillo", numero: 8, categoria: "S", posiciones: ["DFC", "MC"], goles: 1, asistencias: 2},
             {id: 28, nombre: "Brayan Hernandez", numero: 21, categoria: "S", posiciones: ["MC"], goles: 2, asistencias: 1},
             {id: 29, nombre: "Yeik Solis", numero: 11, categoria: "S", posiciones: ["MC"], goles: 4, asistencias: 4},
@@ -1358,358 +1021,45 @@
             {id: 33, nombre: "Barush Amador", numero: 13, categoria: "S", posiciones: ["DEL"], goles: 0, asistencias: 0},
             {id: 34, nombre: "Gabriel Hernandez", numero: 14, categoria: "S", posiciones: ["DFC"], goles: 0, asistencias: 0},
         ];
-
-        // ===== FUNCIÓN PARA ACTUALIZAR RENDIMIENTOS AUTOMÁTICAMENTE =====
-        function actualizarRendimientos() {
-            JUGADORES.forEach(jugador => {
-                jugador.rendimiento = calcularRendimiento(jugador.goles, jugador.asistencias);
-            });
-        }
-
-        // ===== ASISTENTE IA MEJORADO =====
-        let chatMinimizado = false;
-
-        function toggleChat() {
-            const chat = document.getElementById('iaChat');
-            const messages = document.querySelector('.ia-chat-messages');
-            const input = document.querySelector('.ia-chat-input');
-            const icon = document.getElementById('chatToggleIcon');
-            
-            if (chatMinimizado) {
-                messages.style.display = 'block';
-                input.style.display = 'flex';
-                chat.style.height = 'auto';
-                icon.className = 'fas fa-chevron-up';
-                chatMinimizado = false;
-            } else {
-                messages.style.display = 'none';
-                input.style.display = 'none';
-                chat.style.height = 'auto';
-                icon.className = 'fas fa-chevron-down';
-                chatMinimizado = true;
-            }
-        }
-
-        function enviarPreguntaIA() {
-            const input = document.getElementById('chatInput');
-            const pregunta = input.value.trim();
-            
-            if (!pregunta) return;
-            
-            // Agregar pregunta del usuario
-            agregarMensajeChat(pregunta, 'user');
-            input.value = '';
-            
-            // Procesar y responder
-            setTimeout(() => {
-                const respuesta = obtenerRespuestaIA(pregunta);
-                agregarMensajeChat(respuesta, 'bot');
-            }, 500);
-        }
-
-        function buscarJugadorPorNombre(nombre) {
-            const nombreLower = nombre.toLowerCase().trim();
-            
-            // Buscar todos los jugadores que coincidan (incluyendo diferentes categorías)
-            const jugadoresEncontrados = JUGADORES.filter(j => 
-                j.nombre.toLowerCase().includes(nombreLower) || 
-                nombreLower.includes(j.nombre.toLowerCase())
-            );
-            
-            if (jugadoresEncontrados.length === 0) {
-                return null;
-            }
-            
-            // Si hay múltiples jugadores con el mismo nombre (diferentes categorías)
-            if (jugadoresEncontrados.length > 1) {
-                let respuesta = `Encontré ${jugadoresEncontrados.length} jugadores con ese nombre:\n\n`;
-                
-                jugadoresEncontrados.forEach((j, index) => {
-                    respuesta += `${index + 1}. ${j.nombre} (#${j.numero}) - ${CATEGORIAS[j.categoria].nombre}\n`;
-                    respuesta += `   ⚽ Goles: ${j.goles} | 🅰️ Asistencias: ${j.asistencias} | 📊 Rend: ${j.rendimiento}%\n`;
-                    respuesta += `   🎯 Posiciones: ${j.posiciones.join(', ')}\n\n`;
-                });
-                
-                return respuesta;
-            }
-            
-            // Un solo jugador encontrado
-            const j = jugadoresEncontrados[0];
-            return `📋 <strong>${j.nombre}</strong> (#${j.numero})\n` +
-                   `📌 Categoría: ${CATEGORIAS[j.categoria].nombre}\n` +
-                   `⚽ Goles: ${j.goles}\n` +
-                   `🅰️ Asistencias: ${j.asistencias}\n` +
-                   `📊 Rendimiento: ${j.rendimiento}%\n` +
-                   `🎯 Posiciones: ${j.posiciones.join(', ')}`;
-        }
-
-        function obtenerRespuestaIA(pregunta) {
-            const p = pregunta.toLowerCase();
-            
-            // 1. PREGUNTAS SOBRE EL DESARROLLADOR (NUEVA FUNCIONALIDAD)
-            const palabrasDesarrollador = ['desarrolló', 'desarrollo', 'creó', 'creador', 'hizo', 'quien te hizo', 'quién te creó', 'quién te programó', 'quién te desarrolló', 'tus creadores', 'tus desarrolladores'];
-            
-            for (let palabra of palabrasDesarrollador) {
-                if (p.includes(palabra)) {
-                    // Simular conexión a servidores
-                    return `🔌 <strong>CONECTANDO A SERVIDORES CUNATECH...</strong>\n\n` +
-                           `🖥️ <strong>RESPUESTA DEL SERVIDOR:</strong>\n` +
-                           `¡Hola! Me alegra que preguntes. Fui desarrollado por el equipo de CUNATECH, una organización dedicada a la formación deportiva y tecnológica. Nuestro objetivo es combinar el fútbol con la innovación para ofrecer herramientas de gestión a entrenadores y equipos.\n\n` +
-                           `⚙️ <strong>Más información:</strong>\n` +
-                           `• Fundador:ING DILLAN SOLIS\n` +
-                           `• Tecnologías utilizadas: HTML5, CSS3, JavaScript\n` +
-                           `• Versión actual: 2.0 (con IA integrada)\n` +
-                           `• Servidor: Conectado a la nube de CUNATECH\n\n` +
-                           `📡 <strong>¿Quieres saber algo más específico?</strong> Pregúntame sobre el equipo, patrocinadores o cómo puedes contribuir.`;
-                }
-            }
-            
-            // 2. BUSCAR JUGADORES (prioridad alta)
-            // Palabras clave para búsqueda de jugadores
-            const palabrasJugador = ['jugador', 'dime de', 'quién es', 'información de', 'datos de', 'cómo está', 'estadísticas de'];
-            
-            for (let palabra of palabrasJugador) {
-                if (p.includes(palabra)) {
-                    // Extraer posible nombre después de la palabra clave
-                    let posibleNombre = p.replace(palabra, '').trim();
-                    
-                    // Limpiar artículos y palabras comunes
-                    posibleNombre = posibleNombre.replace(/^(el|la|al|del|de|sobre)\s+/i, '');
-                    
-                    if (posibleNombre.length > 2) {
-                        const resultado = buscarJugadorPorNombre(posibleNombre);
-                        if (resultado) {
-                            return resultado;
-                        }
-                    }
-                }
-            }
-            
-            // Búsqueda directa "nombre del jugador"
-            for (let jugador of JUGADORES) {
-                if (p.includes(jugador.nombre.toLowerCase())) {
-                    return buscarJugadorPorNombre(jugador.nombre);
-                }
-            }
-            
-            // 3. INFORMACIÓN DE LA CUNA DEL FÚTBOL (REAL DEL MONTE)
-            if (p.includes('cuna del fútbol') || p.includes('cuna del futbol') || 
-                p.includes('real del monte') || p.includes('real del monte') ||
-                p.includes('fundación') || p.includes('fundacion') ||
-                p.includes('26 de octubre') || p.includes('26 octubre')) {
-                
-                return `<strong>⚽ LA CUNA DEL FÚTBOL MEXICANO ⚽</strong>\n\n` +
-                       `📍 <strong>Real del Monte</strong>, también conocido como el "Mineral del Monte", es considerado la Cuna del Fútbol en México.\n\n` +
-                       `🏆 <strong>Nuestro equipo CUNATECH</strong>:\n` +
-                       `• Fundado el <strong>26 de octubre de 2024</strong>\n` +
-                       `• Totalmente <strong>GRATUITO</strong> para todos los niños y jóvenes\n` +
-                       `• Categorías: Primaria Baja, Primaria Alta y Secundaria\n\n` +
-                       `🤝 <strong>PATROCINADORES</strong>:\n` +
-                       `Contamos con el apoyo de varias empresas locales que creen en el deporte y la formación de nuestros jóvenes talentos.\n\n` +
-                       `💛 <strong>VALORES</strong>:\n` +
-                       `• Inclusión (todos pueden jugar gratis)\n` +
-                       `• Formación deportiva y personal\n` +
-                       `• Desarrollo de talentos\n\n` +
-                       `¡Únete a la familia CUNATECH! ⚽✨`;
-            }
-            
-            // 4. RESPUESTAS SOBRE CATEGORÍAS (existente)
-            if (p.includes('categoría') || p.includes('categorias')) {
-                return "Hay 3 categorías:\n" +
-                       "• <span class='player-highlight'>PB - Primaria Baja</span> (6-9 años)\n" +
-                       "• <span class='player-highlight'>PA - Primaria Alta</span> (10-12 años)\n" +
-                       "• <span class='player-highlight'>S - Secundaria</span> (13-15 años)";
-            }
-            
-            // 5. RESPUESTAS SOBRE RENDIMIENTO
-            if (p.includes('rendimiento') || p.includes('calificación') || p.includes('calificacion')) {
-                return "Los rendimientos se calculan automáticamente con esta fórmula:\n" +
-                       "📊 60 + (goles × 5) + (asistencias × 3)\n" +
-                       "• Mínimo: 60%\n" +
-                       "• Máximo: 99%\n" +
-                       "• Se actualiza automáticamente al modificar goles/asistencias";
-            }
-            
-            // 6. FORMACIONES
-            if (p.includes('formación') || p.includes('formaciones') || p.includes('táctica') || p.includes('tactica')) {
-                return "Hay formaciones para:\n" +
-                       "⚽ <strong>Fútbol 7</strong>: 2-3-1, 3-2-1, 2-1-3, 1-3-2\n" +
-                       "⚡ <strong>Fútbol 6</strong>: 2-1-2, 1-2-2, 2-2-1, 1-3-1\n\n" +
-                       "Puedes seleccionarlas en la vista Táctica y asignar jugadores según su categoría.";
-            }
-            
-            // 7. ESTADÍSTICAS GENERALES
-            if (p.includes('estadística') || p.includes('estadisticas') || p.includes('totales')) {
-                const totalGoles = JUGADORES.reduce((sum, j) => sum + j.goles, 0);
-                const totalAsistencias = JUGADORES.reduce((sum, j) => sum + j.asistencias, 0);
-                const promedioRendimiento = (JUGADORES.reduce((sum, j) => sum + j.rendimiento, 0) / JUGADORES.length).toFixed(1);
-                
-                return `📊 <strong>ESTADÍSTICAS GENERALES</strong>\n\n` +
-                       `• Total de Goles: ${totalGoles} ⚽\n` +
-                       `• Total de Asistencias: ${totalAsistencias} 🅰️\n` +
-                       `• Jugadores: ${JUGADORES.length} 👥\n` +
-                       `• Rendimiento Promedio: ${promedioRendimiento}% 📈`;
-            }
-            
-            // 8. INFORMACIÓN GENERAL DEL SISTEMA
-            if (p.includes('ayuda') || p.includes('funciona') || p.includes('qué puedes hacer') || p.includes('que puedes hacer')) {
-                return "🤖 <strong>ASISTENTE CUNATECH</strong>\n\n" +
-                       "Puedo ayudarte con:\n" +
-                       "• <strong>Jugadores</strong>: Pregunta por cualquier jugador (ej: 'dime de Alexander Solis')\n" +
-                       "• <strong>La Cuna del Fútbol</strong>: Información sobre Real del Monte y nuestro equipo\n" +
-                       "• <strong>Categorías</strong>: PB, PA, S y sus características\n" +
-                       "• <strong>Formaciones</strong>: Tácticas disponibles para F7 y F6\n" +
-                       "• <strong>Estadísticas</strong>: Totales de goles, asistencias y rendimientos\n" +
-                       "• <strong>Rendimientos</strong>: Cómo se calculan las calificaciones\n" +
-                       "• <strong>Desarrollador</strong>: Pregunta quién me creó (con conexión a servidores)";
-            }
-            
-            // 9. SALUDOS
-            if (p.includes('hola') || p.includes('buenos días') || p.includes('buenas')) {
-                return "¡Hola! ⚽ Soy el asistente de CUNATECH.\n\n" +
-                       "Puedes preguntarme sobre:\n" +
-                       "• Jugadores (ej: 'dime de Alexander Solis')\n" +
-                       "• La Cuna del Fútbol (Real del Monte)\n" +
-                       "• Categorías, formaciones o estadísticas\n" +
-                       "• Quién me desarrolló (con conexión a servidores)\n\n" +
-                       "¿En qué puedo ayudarte?";
-            }
-            
-            // Respuesta por defecto
-            return "Lo siento, no entendí tu pregunta. 🤔\n\n" +
-                   "Puedes preguntarme sobre:\n" +
-                   "• <strong>Jugadores</strong> (ej: 'dime de Alexander Solis')\n" +
-                   "• <strong>La Cuna del Fútbol</strong> (Real del Monte)\n" +
-                   "• <strong>Categorías</strong>, <strong>formaciones</strong> o <strong>estadísticas</strong>\n" +
-                   "• <strong>Quién me desarrolló</strong> (con conexión a servidores)\n\n" +
-                   "O escribe 'ayuda' para ver todo lo que puedo hacer.";
-        }
-
-        function agregarMensajeChat(texto, tipo) {
-            const messagesDiv = document.getElementById('chatMessages');
-            const mensaje = document.createElement('div');
-            mensaje.className = `ia-message ${tipo}`;
-            mensaje.innerHTML = texto.replace(/\n/g, '<br>');
-            messagesDiv.appendChild(mensaje);
-            messagesDiv.scrollTop = messagesDiv.scrollHeight;
-        }
-
-        // ===== FORMACIONES POR TIPO DE JUEGO =====
+        
+        actualizarRendimientos();
+        
+        // ===== FORMACIONES =====
         const FORMACIONES = {
             futbol7: [
-                { 
-                    codigo: "2-3-1", 
-                    nombre: "Clásica", 
-                    descripcion: "Equilibrada defensa-ataque",
-                    posiciones: [
-                        {x: 50, y: 90, rol: 'POR', tipo: 'portero'},
-                        {x: 30, y: 70, rol: 'DFC', tipo: 'defensa'},
-                        {x: 70, y: 70, rol: 'DFC', tipo: 'defensa'},
-                        {x: 20, y: 50, rol: 'MC', tipo: 'mediocampo'},
-                        {x: 50, y: 50, rol: 'MC', tipo: 'mediocampo'},
-                        {x: 80, y: 50, rol: 'MC', tipo: 'mediocampo'},
-                        {x: 50, y: 20, rol: 'DEL', tipo: 'delantero'}
-                    ]
-                },
-                { 
-                    codigo: "3-2-1", 
-                    nombre: "Defensiva", 
-                    descripcion: "Sólida defensa",
-                    posiciones: [
-                        {x: 50, y: 90, rol: 'POR', tipo: 'portero'},
-                        {x: 25, y: 70, rol: 'DFC', tipo: 'defensa'},
-                        {x: 50, y: 70, rol: 'DFC', tipo: 'defensa'},
-                        {x: 75, y: 70, rol: 'DFC', tipo: 'defensa'},
-                        {x: 35, y: 45, rol: 'MC', tipo: 'mediocampo'},
-                        {x: 65, y: 45, rol: 'MC', tipo: 'mediocampo'},
-                        {x: 50, y: 20, rol: 'DEL', tipo: 'delantero'}
-                    ]
-                },
-                { 
-                    codigo: "2-1-3", 
-                    nombre: "Ofensiva", 
-                    descripcion: "Ataque potente",
-                    posiciones: [
-                        {x: 50, y: 90, rol: 'POR', tipo: 'portero'},
-                        {x: 30, y: 75, rol: 'DFC', tipo: 'defensa'},
-                        {x: 70, y: 75, rol: 'DFC', tipo: 'defensa'},
-                        {x: 50, y: 60, rol: 'MC', tipo: 'mediocampo'},
-                        {x: 20, y: 35, rol: 'EI', tipo: 'delantero'},
-                        {x: 50, y: 25, rol: 'DC', tipo: 'delantero'},
-                        {x: 80, y: 35, rol: 'ED', tipo: 'delantero'}
-                    ]
-                },
-                { 
-                    codigo: "1-3-2", 
-                    nombre: "Media Cancha", 
-                    descripcion: "Control del medio",
-                    posiciones: [
-                        {x: 50, y: 90, rol: 'POR', tipo: 'portero'},
-                        {x: 50, y: 70, rol: 'DFC', tipo: 'defensa'},
-                        {x: 25, y: 50, rol: 'MC', tipo: 'mediocampo'},
-                        {x: 50, y: 50, rol: 'MC', tipo: 'mediocampo'},
-                        {x: 75, y: 50, rol: 'MC', tipo: 'mediocampo'},
-                        {x: 35, y: 25, rol: 'DEL', tipo: 'delantero'},
-                        {x: 65, y: 25, rol: 'DEL', tipo: 'delantero'}
-                    ]
-                }
+                { codigo: "2-3-1", nombre: "Clásica", descripcion: "Equilibrada defensa-ataque", posiciones: [
+                    {x:50,y:90,rol:'POR',tipo:'portero'},{x:30,y:70,rol:'DFC',tipo:'defensa'},{x:70,y:70,rol:'DFC',tipo:'defensa'},
+                    {x:20,y:50,rol:'MC',tipo:'mediocampo'},{x:50,y:50,rol:'MC',tipo:'mediocampo'},{x:80,y:50,rol:'MC',tipo:'mediocampo'},
+                    {x:50,y:20,rol:'DEL',tipo:'delantero'}]},
+                { codigo: "3-2-1", nombre: "Defensiva", descripcion: "Sólida defensa", posiciones: [
+                    {x:50,y:90,rol:'POR',tipo:'portero'},{x:25,y:70,rol:'DFC',tipo:'defensa'},{x:50,y:70,rol:'DFC',tipo:'defensa'},
+                    {x:75,y:70,rol:'DFC',tipo:'defensa'},{x:35,y:45,rol:'MC',tipo:'mediocampo'},{x:65,y:45,rol:'MC',tipo:'mediocampo'},
+                    {x:50,y:20,rol:'DEL',tipo:'delantero'}]},
+                { codigo: "2-1-3", nombre: "Ofensiva", descripcion: "Ataque potente", posiciones: [
+                    {x:50,y:90,rol:'POR',tipo:'portero'},{x:30,y:75,rol:'DFC',tipo:'defensa'},{x:70,y:75,rol:'DFC',tipo:'defensa'},
+                    {x:50,y:60,rol:'MC',tipo:'mediocampo'},{x:20,y:35,rol:'EI',tipo:'delantero'},{x:50,y:25,rol:'DC',tipo:'delantero'},
+                    {x:80,y:35,rol:'ED',tipo:'delantero'}]},
+                { codigo: "1-3-2", nombre: "Media Cancha", descripcion: "Control del medio", posiciones: [
+                    {x:50,y:90,rol:'POR',tipo:'portero'},{x:50,y:70,rol:'DFC',tipo:'defensa'},{x:25,y:50,rol:'MC',tipo:'mediocampo'},
+                    {x:50,y:50,rol:'MC',tipo:'mediocampo'},{x:75,y:50,rol:'MC',tipo:'mediocampo'},{x:35,y:25,rol:'DEL',tipo:'delantero'},
+                    {x:65,y:25,rol:'DEL',tipo:'delantero'}]}
             ],
             futbol6: [
-                { 
-                    codigo: "2-1-2", 
-                    nombre: "Clásica Rápida", 
-                    descripcion: "Equilibrada para fútbol rápido",
-                    posiciones: [
-                        {x: 50, y: 90, rol: 'POR', tipo: 'portero'},
-                        {x: 30, y: 70, rol: 'DFC', tipo: 'defensa'},
-                        {x: 70, y: 70, rol: 'DFC', tipo: 'defensa'},
-                        {x: 50, y: 55, rol: 'MC', tipo: 'mediocampo'},
-                        {x: 35, y: 35, rol: 'DEL', tipo: 'delantero'},
-                        {x: 65, y: 35, rol: 'DEL', tipo: 'delantero'}
-                    ]
-                },
-                { 
-                    codigo: "1-2-2", 
-                    nombre: "Ofensiva Rápida", 
-                    descripcion: "Muy ofensiva",
-                    posiciones: [
-                        {x: 50, y: 90, rol: 'POR', tipo: 'portero'},
-                        {x: 50, y: 70, rol: 'DFC', tipo: 'defensa'},
-                        {x: 30, y: 55, rol: 'MC', tipo: 'mediocampo'},
-                        {x: 70, y: 55, rol: 'MC', tipo: 'mediocampo'},
-                        {x: 40, y: 35, rol: 'DEL', tipo: 'delantero'},
-                        {x: 60, y: 35, rol: 'DEL', tipo: 'delantero'}
-                    ]
-                },
-                { 
-                    codigo: "2-2-1", 
-                    nombre: "Defensiva Rápida", 
-                    descripcion: "Compacta defensivamente",
-                    posiciones: [
-                        {x: 50, y: 90, rol: 'POR', tipo: 'portero'},
-                        {x: 30, y: 70, rol: 'DFC', tipo: 'defensa'},
-                        {x: 70, y: 70, rol: 'DFC', tipo: 'defensa'},
-                        {x: 35, y: 55, rol: 'MC', tipo: 'mediocampo'},
-                        {x: 65, y: 55, rol: 'MC', tipo: 'mediocampo'},
-                        {x: 50, y: 35, rol: 'DEL', tipo: 'delantero'}
-                    ]
-                },
-                { 
-                    codigo: "1-3-1", 
-                    nombre: "Rombo", 
-                    descripcion: "Control del centro",
-                    posiciones: [
-                        {x: 50, y: 90, rol: 'POR', tipo: 'portero'},
-                        {x: 50, y: 70, rol: 'DFC', tipo: 'defensa'},
-                        {x: 30, y: 55, rol: 'MC', tipo: 'mediocampo'},
-                        {x: 50, y: 50, rol: 'MCO', tipo: 'mediocampo'},
-                        {x: 70, y: 55, rol: 'MC', tipo: 'mediocampo'},
-                        {x: 50, y: 30, rol: 'DEL', tipo: 'delantero'}
-                    ]
-                }
+                { codigo: "2-1-2", nombre: "Clásica Rápida", descripcion: "Equilibrada para fútbol rápido", posiciones: [
+                    {x:50,y:90,rol:'POR',tipo:'portero'},{x:30,y:70,rol:'DFC',tipo:'defensa'},{x:70,y:70,rol:'DFC',tipo:'defensa'},
+                    {x:50,y:55,rol:'MC',tipo:'mediocampo'},{x:35,y:35,rol:'DEL',tipo:'delantero'},{x:65,y:35,rol:'DEL',tipo:'delantero'}]},
+                { codigo: "1-2-2", nombre: "Ofensiva Rápida", descripcion: "Muy ofensiva", posiciones: [
+                    {x:50,y:90,rol:'POR',tipo:'portero'},{x:50,y:70,rol:'DFC',tipo:'defensa'},{x:30,y:55,rol:'MC',tipo:'mediocampo'},
+                    {x:70,y:55,rol:'MC',tipo:'mediocampo'},{x:40,y:35,rol:'DEL',tipo:'delantero'},{x:60,y:35,rol:'DEL',tipo:'delantero'}]},
+                { codigo: "2-2-1", nombre: "Defensiva Rápida", descripcion: "Compacta defensivamente", posiciones: [
+                    {x:50,y:90,rol:'POR',tipo:'portero'},{x:30,y:70,rol:'DFC',tipo:'defensa'},{x:70,y:70,rol:'DFC',tipo:'defensa'},
+                    {x:35,y:55,rol:'MC',tipo:'mediocampo'},{x:65,y:55,rol:'MC',tipo:'mediocampo'},{x:50,y:35,rol:'DEL',tipo:'delantero'}]},
+                { codigo: "1-3-1", nombre: "Rombo", descripcion: "Control del centro", posiciones: [
+                    {x:50,y:90,rol:'POR',tipo:'portero'},{x:50,y:70,rol:'DFC',tipo:'defensa'},{x:30,y:55,rol:'MC',tipo:'mediocampo'},
+                    {x:50,y:50,rol:'MCO',tipo:'mediocampo'},{x:70,y:55,rol:'MC',tipo:'mediocampo'},{x:50,y:30,rol:'DEL',tipo:'delantero'}]}
             ]
         };
-
+        
         // ===== VARIABLES GLOBALES =====
         let vistaActual = 'dashboard';
         let categoriaSeleccionada = 'todas';
@@ -1717,940 +1067,350 @@
         let formacionActual = null;
         let jugadorSeleccionadoId = null;
         let jugadoresAsignados = {};
-
-        // ===== INICIALIZACIÓN =====
-        document.addEventListener('DOMContentLoaded', function() {
-            // Actualizar rendimientos automáticamente
-            actualizarRendimientos();
-            inicializarSistema();
-            
-            // Configurar eventos
-            document.getElementById('playerSearch').addEventListener('input', function() {
-                filtrarJugadoresTacticos(this.value);
-            });
-            
-            // Configurar tipo de juego
-            document.getElementById('tipoJuego').addEventListener('change', function() {
-                cambiarTipoJuego(this.value);
+        
+        // ===== FUNCIONES DE UTILIDAD =====
+        function mostrarNotificacion(mensaje, tipo = 'info') {
+            const colores = { success: '#4CAF50', error: '#FF4444', warning: '#FF9800', info: '#2196F3' };
+            const iconos = { success: 'fa-check-circle', error: 'fa-exclamation-circle', warning: 'fa-exclamation-triangle', info: 'fa-info-circle' };
+            const notif = document.createElement('div');
+            notif.style.cssText = `position:fixed;top:70px;right:10px;background:${colores[tipo]};color:white;padding:10px 14px;border-radius:10px;z-index:2000;font-size:0.8rem;display:flex;align-items:center;gap:8px;animation:slideIn 0.3s ease;max-width:260px;`;
+            notif.innerHTML = `<i class="fas ${iconos[tipo]}"></i> ${mensaje}`;
+            document.body.appendChild(notif);
+            setTimeout(() => { notif.style.animation = 'slideOut 0.3s ease'; setTimeout(() => notif.remove(), 300); }, 2500);
+        }
+        
+        // ===== MENÚ =====
+        function toggleMenu() {
+            const menu = document.getElementById('menu');
+            const overlay = document.getElementById('menuOverlay');
+            menu.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+        
+        document.querySelectorAll('.menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('menu').classList.remove('active');
+                document.getElementById('menuOverlay').classList.remove('active');
             });
         });
-
-        function inicializarSistema() {
-            // Seleccionar primera formación por defecto
-            formacionActual = FORMACIONES[tipoJuego][0];
-            
-            // Actualizar todas las vistas
-            actualizarDashboard();
-            actualizarVistaTacticas();
-            actualizarVistaEstadisticas();
-            
-            // Mostrar recomendación inicial
-            actualizarRecomendacion();
-        }
-
-        // ===== FUNCIONES DE VISTAS =====
+        
+        // ===== VISTAS =====
         function cambiarVista(vista) {
             vistaActual = vista;
-            
-            // Actualizar navegación
-            document.querySelectorAll('.nav-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.target.classList.add('active');
-            
-            // Mostrar vista correspondiente
-            document.querySelectorAll('.view').forEach(v => {
-                v.classList.remove('active');
-            });
-            document.getElementById(`view${vista.charAt(0).toUpperCase() + vista.slice(1)}`)?.classList.add('active');
-            
-            // Actualizar contenido específico
-            if (vista === 'dashboard') {
-                actualizarDashboard();
-            } else if (vista === 'tactics') {
-                actualizarVistaTacticas();
-            } else if (vista === 'stats') {
-                actualizarVistaEstadisticas();
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            if(event && event.target) {
+                if(event.target.closest('.nav-btn')) event.target.closest('.nav-btn').classList.add('active');
             }
-            
-            // Scroll al inicio
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.getElementById(`view${vista.charAt(0).toUpperCase() + vista.slice(1)}`).classList.add('active');
+            if (vista === 'dashboard') actualizarDashboard();
+            else if (vista === 'tactics') actualizarVistaTacticas();
+            else if (vista === 'stats') actualizarVistaEstadisticas();
             document.getElementById('contentWrapper').scrollTop = 0;
         }
-
+        
         // ===== DASHBOARD =====
         function actualizarDashboard() {
-            // Actualizar rendimientos primero
             actualizarRendimientos();
-            
-            // Contar jugadores por categoría
-            const conteoPB = JUGADORES.filter(j => j.categoria === 'PB').length;
-            const conteoPA = JUGADORES.filter(j => j.categoria === 'PA').length;
-            const conteoS = JUGADORES.filter(j => j.categoria === 'S').length;
-            
-            // Actualizar contadores
-            document.getElementById('countPbaja').textContent = conteoPB;
-            document.getElementById('countPalta').textContent = conteoPA;
-            document.getElementById('countSecundaria').textContent = conteoS;
+            document.getElementById('countPbaja').textContent = JUGADORES.filter(j => j.categoria === 'PB').length;
+            document.getElementById('countPalta').textContent = JUGADORES.filter(j => j.categoria === 'PA').length;
+            document.getElementById('countSecundaria').textContent = JUGADORES.filter(j => j.categoria === 'S').length;
             document.getElementById('totalPlayers').textContent = JUGADORES.length;
-            
-            // Cargar jugadores del dashboard
             cargarJugadoresDashboard('todas');
         }
-
+        
         function filtrarJugadoresPorCategoria(categoria) {
-            // Actualizar botones
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.target.classList.add('active');
-            
-            // Cargar jugadores filtrados
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            if(event && event.target) event.target.classList.add('active');
             cargarJugadoresDashboard(categoria);
         }
-
+        
         function cargarJugadoresDashboard(categoria) {
-            const container = document.getElementById('dashboardPlayers');
-            let jugadoresFiltrados = JUGADORES;
-            
-            if (categoria !== 'todas') {
-                jugadoresFiltrados = JUGADORES.filter(j => j.categoria === categoria);
-            }
-            
-            container.innerHTML = jugadoresFiltrados.map(jugador => `
-                <div class="player-slot" onclick="seleccionarJugador(${jugador.id})">
-                    <div class="player-avatar">${jugador.numero}</div>
+            const filtrados = categoria === 'todas' ? JUGADORES : JUGADORES.filter(j => j.categoria === categoria);
+            document.getElementById('dashboardPlayers').innerHTML = filtrados.map(j => `
+                <div class="player-slot" onclick="mostrarDetallesJugador(${j.id})">
+                    <div class="player-avatar">${j.numero}</div>
                     <div class="player-details">
-                        <div class="player-name">${jugador.nombre}</div>
+                        <div class="player-name">${j.nombre}</div>
                         <div class="player-info">
-                            <span>Cat: ${jugador.categoria}</span>
-                            <span>${jugador.goles}⚽ ${jugador.asistencias}🅰️</span>
-                            <span>${jugador.rendimiento}%</span>
+                            <span>Cat: ${j.categoria}</span>
+                            <span>${j.goles}⚽ ${j.asistencias}🅰️</span>
+                            <span>${j.rendimiento}%</span>
                         </div>
                     </div>
-                    <span class="category-badge ${jugador.categoria === 'PB' ? 'category-pbaja' : jugador.categoria === 'PA' ? 'category-palta' : 'category-secundaria'}">
-                        ${jugador.categoria}
-                    </span>
-                </div>
-            `).join('');
+                    <span class="category-badge ${j.categoria === 'PB' ? 'category-pbaja' : j.categoria === 'PA' ? 'category-palta' : 'category-secundaria'}">${j.categoria}</span>
+                </div>`).join('');
         }
-
+        
         // ===== TÁCTICAS =====
         function actualizarVistaTacticas() {
-            // Actualizar jugadores disponibles
-            const jugadoresCategoria = categoriaSeleccionada === 'todas' 
-                ? JUGADORES 
-                : JUGADORES.filter(j => j.categoria === categoriaSeleccionada);
-            
-            document.getElementById('availablePlayers').textContent = jugadoresCategoria.length;
-            document.getElementById('jugadoresDisponibles').textContent = `${jugadoresCategoria.length} jugadores en ${CATEGORIAS[categoriaSeleccionada]?.nombre || 'todas las categorías'}`;
-            
-            // Actualizar formaciones
+            actualizarRendimientos();
+            const jugadoresCat = categoriaSeleccionada === 'todas' ? JUGADORES : JUGADORES.filter(j => j.categoria === categoriaSeleccionada);
+            document.getElementById('availablePlayers').textContent = jugadoresCat.length;
+            document.getElementById('jugadoresDisponibles').textContent = `${jugadoresCat.length} jugadores en ${CATEGORIAS[categoriaSeleccionada]?.nombre || 'todas las categorías'}`;
             actualizarFormaciones();
-            
-            // Actualizar campo táctico
             dibujarCampoTactico();
-            
-            // Cargar jugadores tácticos
             cargarJugadoresTacticos();
-            
-            // Actualizar recomendación
             actualizarRecomendacion();
         }
-
-        function cambiarTipoJuego(tipo) {
-            tipoJuego = tipo;
-            
-            // Seleccionar primera formación del nuevo tipo
-            formacionActual = FORMACIONES[tipoJuego][0];
-            
-            // Limpiar asignaciones anteriores
-            jugadoresAsignados = {};
-            
-            // Actualizar toda la vista
-            actualizarVistaTacticas();
-            
-            // Mostrar mensaje
-            mostrarNotificacion(`Cambiado a ${tipo === 'futbol7' ? 'Fútbol 7' : 'Fútbol Rápido 6'}`, 'info');
-        }
-
-        function seleccionarCategoria(categoria) {
-            categoriaSeleccionada = categoria;
-            
-            // Actualizar interfaz
-            document.getElementById('selectedCategory').textContent = CATEGORIAS[categoria]?.nombre || 'Todas';
-            
-            // Actualizar botones
-            document.querySelectorAll('.category-btn').forEach(btn => {
-                btn.style.border = '1px solid #333';
-            });
-            event.target.style.border = `2px solid ${CATEGORIAS[categoria]?.color || '#333'}`;
-            
-            // Actualizar vista
-            actualizarVistaTacticas();
-        }
-
+        
+        function cambiarTipoJuego(tipo) { tipoJuego = tipo; formacionActual = FORMACIONES[tipoJuego][0]; jugadoresAsignados = {}; actualizarVistaTacticas(); mostrarNotificacion(`Cambiado a ${tipo === 'futbol7' ? 'Fútbol 7' : 'Fútbol Rápido 6'}`, 'info'); }
+        
+        function seleccionarCategoria(categoria) { categoriaSeleccionada = categoria; document.getElementById('selectedCategory').textContent = CATEGORIAS[categoria]?.nombre || 'Todas'; actualizarVistaTacticas(); }
+        
         function actualizarFormaciones() {
             const container = document.getElementById('formationGrid');
             const formaciones = FORMACIONES[tipoJuego];
-            
-            container.innerHTML = formaciones.map(formacion => `
-                <div class="formation-card ${formacion.codigo === formacionActual?.codigo ? 'active' : ''}" 
-                     onclick="seleccionarFormacion('${formacion.codigo}')"
-                     title="${formacion.descripcion}">
-                    <div style="font-size: 1.5rem; font-weight: bold; color: var(--secondary);">
-                        ${formacion.codigo}
-                    </div>
-                    <div style="font-size: 0.9rem; color: white; margin: 5px 0;">
-                        ${formacion.nombre}
-                    </div>
-                    <div style="font-size: 0.8rem; color: #ccc;">
-                        ${formacion.descripcion}
-                    </div>
-                    <div style="margin-top: 8px; font-size: 0.7rem; color: #999;">
-                        ${formacion.posiciones.length} jugadores
-                    </div>
-                </div>
-            `).join('');
-            
+            container.innerHTML = formaciones.map(f => `
+                <div class="formation-card ${f.codigo === formacionActual?.codigo ? 'active' : ''}" onclick="seleccionarFormacion('${f.codigo}')" title="${f.descripcion}">
+                    <div style="font-weight:bold;color:var(--secondary);">${f.codigo}</div>
+                    <div style="font-size:0.7rem;">${f.nombre}</div>
+                </div>`).join('');
             document.getElementById('formationCount').textContent = formaciones.length;
         }
-
-        function seleccionarFormacion(codigo) {
-            const formaciones = FORMACIONES[tipoJuego];
-            formacionActual = formaciones.find(f => f.codigo === codigo);
-            
-            if (!formacionActual) return;
-            
-            // Actualizar interfaz
-            actualizarFormaciones();
-            dibujarCampoTactico();
-            
-            // Actualizar contador
-            actualizarContadorAsignados();
-            
-            mostrarNotificacion(`Formación ${codigo} seleccionada`, 'success');
-        }
-
+        
+        function seleccionarFormacion(codigo) { formacionActual = FORMACIONES[tipoJuego].find(f => f.codigo === codigo); actualizarFormaciones(); dibujarCampoTactico(); actualizarContadorAsignados(); mostrarNotificacion(`Formación ${codigo} seleccionada`, 'success'); }
+        
         function dibujarCampoTactico() {
             if (!formacionActual) return;
-            
             const field = document.getElementById('tacticalField');
             field.innerHTML = '';
             
-            // Dibujar líneas del campo
-            const centerLine = document.createElement('div');
-            centerLine.style.cssText = `
-                position: absolute;
-                top: 50%;
-                left: 0;
-                right: 0;
-                height: 2px;
-                background: rgba(255, 215, 0, 0.2);
-                transform: translateY(-50%);
-            `;
-            field.appendChild(centerLine);
+            const centerLine = document.createElement('div'); centerLine.style.cssText = 'position:absolute;top:50%;left:0;right:0;height:2px;background:rgba(255,215,0,0.2);transform:translateY(-50%);'; field.appendChild(centerLine);
+            const centerCircle = document.createElement('div'); centerCircle.style.cssText = 'position:absolute;top:50%;left:50%;width:40px;height:40px;border:2px solid rgba(255,215,0,0.2);border-radius:50%;transform:translate(-50%,-50%);'; field.appendChild(centerCircle);
             
-            // Círculo central
-            const centerCircle = document.createElement('div');
-            centerCircle.style.cssText = `
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                width: 50px;
-                height: 50px;
-                border: 2px solid rgba(255, 215, 0, 0.2);
-                border-radius: 50%;
-                transform: translate(-50%, -50%);
-            `;
-            field.appendChild(centerCircle);
-            
-            // Área
-            const area = document.createElement('div');
-            area.style.cssText = `
-                position: absolute;
-                bottom: 0;
-                left: 30%;
-                right: 30%;
-                height: 15%;
-                border: 2px solid rgba(255, 215, 0, 0.2);
-                border-bottom: none;
-            `;
-            field.appendChild(area);
-            
-            // Dibujar posiciones
-            formacionActual.posiciones.forEach((pos, index) => {
-                const posNum = index + 1;
+            formacionActual.posiciones.forEach((pos, idx) => {
                 const dot = document.createElement('div');
                 dot.className = `position-dot ${pos.tipo}`;
-                dot.style.left = `${pos.x}%`;
-                dot.style.top = `${pos.y}%`;
-                dot.dataset.position = posNum;
-                dot.dataset.rol = pos.rol;
-                
-                // Verificar si hay jugador asignado
-                if (jugadoresAsignados[posNum]) {
-                    const jugador = jugadoresAsignados[posNum];
-                    dot.textContent = jugador.numero;
-                    dot.title = `${jugador.nombre}\n${jugador.categoria}\n${pos.rol}\nRend: ${jugador.rendimiento}%`;
-                } else {
-                    dot.textContent = pos.rol;
-                    dot.title = `Posición ${posNum}: ${pos.rol}\nClick para asignar jugador`;
-                }
-                
-                dot.addEventListener('click', function() {
-                    if (jugadorSeleccionadoId) {
-                        asignarJugadorAPosicion(jugadorSeleccionadoId, posNum);
-                    } else if (jugadoresAsignados[posNum]) {
-                        // Mostrar opciones para jugador asignado
-                        mostrarOpcionesPosicion(posNum);
-                    } else {
-                        mostrarNotificacion('Selecciona un jugador primero', 'warning');
-                    }
-                });
-                
+                dot.style.left = `${pos.x}%`; dot.style.top = `${pos.y}%`;
+                const jugador = jugadoresAsignados[idx + 1];
+                dot.textContent = jugador ? jugador.numero : pos.rol;
+                dot.title = jugador ? `${jugador.nombre}\n${jugador.categoria}\n${pos.rol}\nRend: ${jugador.rendimiento}%` : `Posición ${idx + 1}: ${pos.rol}\nClick para asignar jugador`;
+                dot.onclick = () => { if (jugadorSeleccionadoId) asignarJugadorAPosicion(jugadorSeleccionadoId, idx + 1); else if (jugador) mostrarOpcionesPosicion(idx + 1); else mostrarNotificacion('Selecciona un jugador primero', 'warning'); };
                 field.appendChild(dot);
             });
-            
             actualizarContadorAsignados();
         }
-
+        
         function cargarJugadoresTacticos() {
-            const container = document.getElementById('tacticalPlayers');
-            let jugadoresFiltrados = JUGADORES;
-            
-            if (categoriaSeleccionada !== 'todas') {
-                jugadoresFiltrados = JUGADORES.filter(j => j.categoria === categoriaSeleccionada);
-            }
-            
-            container.innerHTML = jugadoresFiltrados.map(jugador => {
-                const estaAsignado = Object.values(jugadoresAsignados).some(j => j.id === jugador.id);
-                const posicionAsignada = Object.keys(jugadoresAsignados).find(pos => jugadoresAsignados[pos].id === jugador.id);
-                
-                return `
-                    <div class="player-slot ${jugadorSeleccionadoId === jugador.id ? 'selected' : ''} ${estaAsignado ? 'assigned' : ''}" 
-                         onclick="seleccionarJugadorParaAsignar(${jugador.id})"
-                         title="${jugador.posiciones.join(', ')}">
-                        <div class="player-avatar">${jugador.numero}</div>
-                        <div class="player-details">
-                            <div class="player-name">${jugador.nombre}</div>
-                            <div class="player-info">
-                                <span>${jugador.categoria}</span>
-                                <span>${jugador.goles}⚽ ${jugador.asistencias}🅰️</span>
-                                <span>${jugador.rendimiento}%</span>
-                            </div>
-                        </div>
-                        ${estaAsignado ? 
-                            `<span style="color: var(--success); font-size: 0.8rem; font-weight: bold;">
-                                Pos ${posicionAsignada}
-                            </span>` : 
-                            `<span style="color: #666; font-size: 0.8rem;">
-                                Disponible
-                            </span>`
-                        }
-                    </div>
-                `;
+            let jugadores = categoriaSeleccionada === 'todas' ? JUGADORES : JUGADORES.filter(j => j.categoria === categoriaSeleccionada);
+            const searchTerm = document.getElementById('playerSearch')?.value.toLowerCase() || '';
+            if (searchTerm) jugadores = jugadores.filter(j => j.nombre.toLowerCase().includes(searchTerm));
+            document.getElementById('tacticalPlayers').innerHTML = jugadores.map(j => {
+                const asignado = Object.values(jugadoresAsignados).some(a => a.id === j.id);
+                const posAsignada = Object.keys(jugadoresAsignados).find(p => jugadoresAsignados[p].id === j.id);
+                return `<div class="player-slot ${jugadorSeleccionadoId === j.id ? 'selected' : ''} ${asignado ? 'assigned' : ''}" onclick="seleccionarJugadorParaAsignar(${j.id})"><div class="player-avatar">${j.numero}</div><div class="player-details"><div class="player-name">${j.nombre}</div><div class="player-info"><span>${j.categoria}</span><span>${j.goles}⚽ ${j.asistencias}🅰️</span><span>${j.rendimiento}%</span></div></div>${asignado ? `<span style="color:var(--success);font-size:0.7rem;">Pos ${posAsignada}</span>` : `<span style="color:#666;font-size:0.7rem;">Disponible</span>`}</div>`;
             }).join('');
+            if (searchTerm) document.getElementById('availablePlayers').textContent = jugadores.length;
+            else document.getElementById('availablePlayers').textContent = (categoriaSeleccionada === 'todas' ? JUGADORES : JUGADORES.filter(j => j.categoria === categoriaSeleccionada)).length;
         }
-
-        function filtrarJugadoresTacticos(termino) {
-            const container = document.getElementById('tacticalPlayers');
-            const jugadores = container.querySelectorAll('.player-slot');
-            const terminoLower = termino.toLowerCase();
-            
-            let encontrados = 0;
-            jugadores.forEach(jugador => {
-                const nombre = jugador.querySelector('.player-name').textContent.toLowerCase();
-                if (nombre.includes(terminoLower) || terminoLower === '') {
-                    jugador.style.display = 'flex';
-                    encontrados++;
-                } else {
-                    jugador.style.display = 'none';
-                }
-            });
-            
-            // Actualizar contador de disponibles
-            if (termino !== '') {
-                document.getElementById('availablePlayers').textContent = encontrados;
-            } else {
-                const total = categoriaSeleccionada === 'todas' 
-                    ? JUGADORES.length 
-                    : JUGADORES.filter(j => j.categoria === categoriaSeleccionada).length;
-                document.getElementById('availablePlayers').textContent = total;
-            }
-        }
-
-        function seleccionarJugadorParaAsignar(id) {
-            jugadorSeleccionadoId = id;
-            
-            // Remover selección anterior
-            document.querySelectorAll('.player-slot').forEach(slot => {
-                slot.classList.remove('selected');
-            });
-            
-            // Agregar selección actual
-            event.target.closest('.player-slot').classList.add('selected');
-            
-            // Mostrar mensaje
-            const jugador = JUGADORES.find(j => j.id === id);
-            if (jugador) {
-                mostrarNotificacion(`${jugador.nombre} seleccionado. Haz clic en una posición del campo.`, 'info');
-            }
-        }
-
-        function asignarJugadorAPosicion(jugadorId, posicionNum) {
+        
+        function seleccionarJugadorParaAsignar(id) { jugadorSeleccionadoId = id; cargarJugadoresTacticos(); const j = JUGADORES.find(j => j.id === id); if(j) mostrarNotificacion(`${j.nombre} seleccionado. Haz clic en una posición del campo.`, 'info'); }
+        
+        function asignarJugadorAPosicion(jugadorId, posNum) {
             const jugador = JUGADORES.find(j => j.id === jugadorId);
-            if (!jugador) return;
-            
-            // Verificar que la posición existe en la formación actual
-            if (!formacionActual || posicionNum > formacionActual.posiciones.length) {
-                mostrarNotificacion('Posición no válida', 'error');
-                return;
-            }
-            
-            // Remover jugador de otras posiciones
-            Object.keys(jugadoresAsignados).forEach(pos => {
-                if (jugadoresAsignados[pos].id === jugadorId) {
-                    delete jugadoresAsignados[pos];
-                }
-            });
-            
-            // Asignar a nueva posición
-            jugadoresAsignados[posicionNum] = jugador;
-            
-            // Actualizar interfaz
+            if (!jugador || !formacionActual || posNum > formacionActual.posiciones.length) return;
+            Object.keys(jugadoresAsignados).forEach(pos => { if (jugadoresAsignados[pos].id === jugadorId) delete jugadoresAsignados[pos]; });
+            jugadoresAsignados[posNum] = jugador;
             dibujarCampoTactico();
             cargarJugadoresTacticos();
             jugadorSeleccionadoId = null;
-            
-            // Mostrar mensaje
-            const posicion = formacionActual.posiciones[posicionNum - 1];
-            mostrarNotificacion(`${jugador.nombre} asignado a ${posicion.rol} (Posición ${posicionNum})`, 'success');
+            mostrarNotificacion(`${jugador.nombre} asignado a ${formacionActual.posiciones[posNum-1].rol} (Posición ${posNum})`, 'success');
         }
-
-        function mostrarOpcionesPosicion(posicionNum) {
-            const jugador = jugadoresAsignados[posicionNum];
-            const posicion = formacionActual.posiciones[posicionNum - 1];
-            
-            const opciones = `
-                Jugador: ${jugador.nombre}
-                Posición: ${posicion.rol} (${posicionNum})
-                Rendimiento: ${jugador.rendimiento}%
-                
-                ¿Qué quieres hacer?
-                1. Ver detalles del jugador
-                2. Cambiar de jugador
-                3. Quitar jugador de esta posición
-                
-                Escribe el número de la opción (1-3):
-            `;
-            
-            const opcion = prompt(opciones);
-            if (opcion === '1') {
-                mostrarDetallesJugador(jugador.id);
-            } else if (opcion === '2') {
-                mostrarNotificacion('Selecciona un nuevo jugador de la lista', 'info');
-            } else if (opcion === '3') {
-                delete jugadoresAsignados[posicionNum];
-                dibujarCampoTactico();
-                cargarJugadoresTacticos();
-                mostrarNotificacion('Jugador removido de la posición', 'warning');
-            }
+        
+        function mostrarOpcionesPosicion(posNum) {
+            const jugador = jugadoresAsignados[posNum];
+            if(confirm(`¿Quitar a ${jugador?.nombre} de esta posición?`)) { delete jugadoresAsignados[posNum]; dibujarCampoTactico(); cargarJugadoresTacticos(); mostrarNotificacion('Jugador removido', 'warning'); }
         }
-
+        
         function autoAsignar() {
-            if (categoriaSeleccionada === 'todas') {
-                mostrarNotificacion('Por favor, selecciona una categoría específica', 'warning');
-                return;
-            }
-            
-            if (!formacionActual) {
-                mostrarNotificacion('Selecciona una formación primero', 'warning');
-                return;
-            }
-            
+            if (categoriaSeleccionada === 'todas') { mostrarNotificacion('Por favor, selecciona una categoría específica', 'warning'); return; }
+            if (!formacionActual) return;
             jugadoresAsignados = {};
-            const jugadoresCategoria = JUGADORES.filter(j => j.categoria === categoriaSeleccionada);
-            
-            // Si no hay suficientes jugadores
-            if (jugadoresCategoria.length < formacionActual.posiciones.length) {
-                mostrarNotificacion(`No hay suficientes jugadores. Necesitas ${formacionActual.posiciones.length}, tienes ${jugadoresCategoria.length}`, 'error');
-                return;
-            }
-            
-            // Asignación inteligente por posición (con prioridad a mejor rendimiento)
-            jugadoresCategoria.sort((a, b) => b.rendimiento - a.rendimiento);
-            
-            formacionActual.posiciones.forEach((pos, index) => {
-                const posNum = index + 1;
-                const jugadorAdecuado = encontrarJugadorParaPosicion(jugadoresCategoria, pos.rol);
-                
-                if (jugadorAdecuado) {
-                    jugadoresAsignados[posNum] = jugadorAdecuado;
-                }
-            });
-            
-            // Actualizar interfaz
-            dibujarCampoTactico();
-            cargarJugadoresTacticos();
-            
-            mostrarNotificacion(`${Object.keys(jugadoresAsignados).length} jugadores asignados automáticamente`, 'success');
+            let jugadores = JUGADORES.filter(j => j.categoria === categoriaSeleccionada);
+            if (jugadores.length < formacionActual.posiciones.length) { mostrarNotificacion(`No hay suficientes jugadores. Necesitas ${formacionActual.posiciones.length}, tienes ${jugadores.length}`, 'error'); return; }
+            jugadores.sort((a,b) => b.rendimiento - a.rendimiento);
+            formacionActual.posiciones.forEach((pos, idx) => { if (jugadores[idx]) jugadoresAsignados[idx + 1] = jugadores[idx]; });
+            dibujarCampoTactico(); cargarJugadoresTacticos(); mostrarNotificacion(`${Object.keys(jugadoresAsignados).length} jugadores asignados automáticamente`, 'success');
         }
-
-        function encontrarJugadorParaPosicion(jugadores, rol) {
-            // Buscar jugador con esa posición específica
-            for (const jugador of jugadores) {
-                if (jugador.posiciones.includes(rol) && 
-                    !Object.values(jugadoresAsignados).some(j => j.id === jugador.id)) {
-                    return jugador;
-                }
-            }
-            
-            // Buscar jugador con posición similar
-            const posicionesSimilares = {
-                'POR': ['POR'],
-                'DFC': ['DFC', 'LD', 'LI'],
-                'MC': ['MC', 'MCO', 'MCD'],
-                'MCO': ['MC', 'MCO'],
-                'MCD': ['MC', 'MCD'],
-                'EI': ['EI', 'DEL'],
-                'ED': ['ED', 'DEL'],
-                'DEL': ['DEL', 'DC', 'EI', 'ED'],
-                'DC': ['DC', 'DEL']
-            };
-            
-            for (const jugador of jugadores) {
-                for (const pos of jugador.posiciones) {
-                    if (posicionesSimilares[rol]?.includes(pos) && 
-                        !Object.values(jugadoresAsignados).some(j => j.id === jugador.id)) {
-                        return jugador;
-                    }
-                }
-            }
-            
-            // Cualquier jugador disponible
-            for (const jugador of jugadores) {
-                if (!Object.values(jugadoresAsignados).some(j => j.id === jugador.id)) {
-                    return jugador;
-                }
-            }
-            
-            return null;
-        }
-
-        function limpiarAsignaciones() {
-            if (Object.keys(jugadoresAsignados).length === 0) {
-                mostrarNotificacion('No hay jugadores asignados', 'warning');
-                return;
-            }
-            
-            if (confirm(`¿Estás seguro de quitar a ${Object.keys(jugadoresAsignados).length} jugadores de sus posiciones?`)) {
-                jugadoresAsignados = {};
-                dibujarCampoTactico();
-                cargarJugadoresTacticos();
-                mostrarNotificacion('Todas las asignaciones han sido limpiadas', 'info');
-            }
-        }
-
-        function actualizarContadorAsignados() {
-            if (!formacionActual) {
-                document.getElementById('assignedCount').textContent = '0/0';
-                return;
-            }
-            
-            const total = formacionActual.posiciones.length;
-            const asignados = Object.keys(jugadoresAsignados).length;
-            document.getElementById('assignedCount').textContent = `${asignados}/${total}`;
-        }
-
+        
+        function limpiarAsignaciones() { if(Object.keys(jugadoresAsignados).length && confirm('¿Estás seguro de quitar a todos los jugadores?')) { jugadoresAsignados = {}; dibujarCampoTactico(); cargarJugadoresTacticos(); mostrarNotificacion('Todas las asignaciones han sido limpiadas', 'info'); } }
+        
+        function actualizarContadorAsignados() { if(formacionActual) document.getElementById('assignedCount').textContent = `${Object.keys(jugadoresAsignados).length}/${formacionActual.posiciones.length}`; }
+        
         function actualizarRecomendacion() {
             const container = document.getElementById('recomendacionCategoria');
-            
-            if (categoriaSeleccionada === 'todas') {
-                container.innerHTML = 'Selecciona una categoría para ver recomendaciones específicas';
-                return;
-            }
-            
-            const categoria = CATEGORIAS[categoriaSeleccionada];
-            let recomendacion = '';
-            
-            switch(categoriaSeleccionada) {
-                case 'PB':
-                    recomendacion = 'Primaria Baja: Recomendado usar formaciones simples como 2-3-1. Enfocar en técnica básica y diversión.';
-                    break;
-                case 'PA':
-                    recomendacion = 'Primaria Alta: Pueden usar formaciones más complejas como 2-1-3. Trabajar transiciones y trabajo en equipo.';
-                    break;
-                case 'S':
-                    recomendacion = 'Secundaria: Capaces de usar todas las formaciones. Enfocar en táctica, estrategia y roles específicos.';
-                    break;
-                default:
-                    recomendacion = 'Selecciona una categoría para recomendaciones específicas.';
-            }
-            
-            container.innerHTML = recomendacion;
+            if (categoriaSeleccionada === 'todas') { container.innerHTML = 'Selecciona una categoría para ver recomendaciones específicas'; return; }
+            const recs = { PB: 'Primaria Baja: Recomendado usar formaciones simples como 2-3-1. Enfocar en técnica básica y diversión.', PA: 'Primaria Alta: Pueden usar formaciones más complejas como 2-1-3. Trabajar transiciones y trabajo en equipo.', S: 'Secundaria: Capaces de usar todas las formaciones. Enfocar en táctica, estrategia y roles específicos.' };
+            container.innerHTML = recs[categoriaSeleccionada];
         }
-
+        
         function guardarFormacion() {
-            if (!formacionActual) {
-                mostrarNotificacion('Selecciona una formación primero', 'warning');
-                return;
-            }
-            
-            if (Object.keys(jugadoresAsignados).length < formacionActual.posiciones.length) {
-                mostrarNotificacion(`Completa la alineación primero (${Object.keys(jugadoresAsignados).length}/${formacionActual.posiciones.length})`, 'warning');
-                return;
-            }
-            
-            const nombre = prompt('Nombre para esta alineación:', 
-                `${categoriaSeleccionada}-${formacionActual.codigo}-${new Date().toLocaleDateString()}`);
-            
+            if (!formacionActual) { mostrarNotificacion('Selecciona una formación primero', 'warning'); return; }
+            const nombre = prompt('Nombre para esta alineación:', `${categoriaSeleccionada}-${formacionActual.codigo}-${new Date().toLocaleDateString()}`);
             if (nombre) {
-                // Guardar en localStorage
                 const formacionesGuardadas = JSON.parse(localStorage.getItem('cunatech_formaciones') || '[]');
-                formacionesGuardadas.push({
-                    nombre: nombre,
-                    categoria: categoriaSeleccionada,
-                    tipoJuego: tipoJuego,
-                    formacion: formacionActual.codigo,
-                    jugadores: jugadoresAsignados,
-                    fecha: new Date().toISOString()
-                });
-                
+                formacionesGuardadas.push({ nombre, categoria: categoriaSeleccionada, tipoJuego, formacion: formacionActual.codigo, jugadores: jugadoresAsignados, fecha: new Date().toISOString() });
                 localStorage.setItem('cunatech_formaciones', JSON.stringify(formacionesGuardadas));
                 mostrarNotificacion(`Alineación "${nombre}" guardada`, 'success');
             }
         }
-
+        
         function imprimirFormacion() {
-            if (!formacionActual || Object.keys(jugadoresAsignados).length === 0) {
-                mostrarNotificacion('No hay alineación para imprimir', 'warning');
-                return;
-            }
-            
-            let contenido = `
-                A LINEACIÓN - ${CATEGORIAS[categoriaSeleccionada]?.nombre || 'General'}
-                Formación: ${formacionActual.codigo}
-                Tipo: ${tipoJuego === 'futbol7' ? 'Fútbol 7' : 'Fútbol Rápido 6'}
-                Fecha: ${new Date().toLocaleDateString()}
-                
-                POSICIONES:
-            `;
-            
-            formacionActual.posiciones.forEach((pos, index) => {
-                const posNum = index + 1;
-                const jugador = jugadoresAsignados[posNum];
-                contenido += `\n${posNum}. ${pos.rol}: ${jugador ? `${jugador.nombre} (#${jugador.numero}) - ${jugador.rendimiento}%` : 'VACANTE'}`;
-            });
-            
-            // Crear ventana de impresión
+            if (!formacionActual || Object.keys(jugadoresAsignados).length === 0) { mostrarNotificacion('No hay alineación para imprimir', 'warning'); return; }
+            let contenido = `ALINEACIÓN - ${CATEGORIAS[categoriaSeleccionada]?.nombre || 'General'}\nFormación: ${formacionActual.codigo}\nTipo: ${tipoJuego === 'futbol7' ? 'Fútbol 7' : 'Fútbol Rápido 6'}\nFecha: ${new Date().toLocaleDateString()}\n\nPOSICIONES:\n`;
+            formacionActual.posiciones.forEach((pos, idx) => { const jugador = jugadoresAsignados[idx + 1]; contenido += `${idx+1}. ${pos.rol}: ${jugador ? `${jugador.nombre} (#${jugador.numero}) - ${jugador.rendimiento}%` : 'VACANTE'}\n`; });
             const ventana = window.open('', '_blank');
-            ventana.document.write(`
-                <html>
-                    <head>
-                        <title>Alineación CUNATECH</title>
-                        <style>
-                            body { font-family: Arial, sans-serif; padding: 20px; }
-                            h1 { color: #333; }
-                            .posicion { margin: 5px 0; padding: 10px; border-left: 4px solid #FFD700; }
-                        </style>
-                    </head>
-                    <body>
-                        <h1>🔒 CUNATECH - Alineación</h1>
-                        <p><strong>Categoría:</strong> ${CATEGORIAS[categoriaSeleccionada]?.nombre || 'General'}</p>
-                        <p><strong>Formación:</strong> ${formacionActual.codigo}</p>
-                        <p><strong>Tipo:</strong> ${tipoJuego === 'futbol7' ? 'Fútbol 7' : 'Fútbol Rápido 6'}</p>
-                        <p><strong>Fecha:</strong> ${new Date().toLocaleDateString()}</p>
-                        <hr>
-                        <h2>Jugadores:</h2>
-                        ${formacionActual.posiciones.map((pos, index) => {
-                            const posNum = index + 1;
-                            const jugador = jugadoresAsignados[posNum];
-                            return `
-                                <div class="posicion">
-                                    <strong>${pos.rol}:</strong> ${jugador ? `${jugador.nombre} (#${jugador.numero}) - ${jugador.rendimiento}%` : 'VACANTE'}
-                                </div>
-                            `;
-                        }).join('')}
-                    </body>
-                </html>
-            `);
-            ventana.document.close();
-            ventana.print();
+            ventana.document.write(`<html><head><title>Alineación CUNATECH</title><style>body{font-family:Arial;padding:20px;} .posicion{margin:5px 0;padding:10px;border-left:4px solid #FFD700;}</style></head><body><h1>CUNATECH - Alineación</h1><p><strong>Categoría:</strong> ${CATEGORIAS[categoriaSeleccionada]?.nombre || 'General'}</p><p><strong>Formación:</strong> ${formacionActual.codigo}</p><p><strong>Fecha:</strong> ${new Date().toLocaleDateString()}</p><hr><h2>Jugadores:</h2>${formacionActual.posiciones.map((pos, idx) => { const jugador = jugadoresAsignados[idx + 1]; return `<div class="posicion"><strong>${pos.rol}:</strong> ${jugador ? `${jugador.nombre} (#${jugador.numero}) - ${jugador.rendimiento}%` : 'VACANTE'}</div>`; }).join('')}</body></html>`);
+            ventana.document.close(); ventana.print();
         }
-
+        
         // ===== ESTADÍSTICAS =====
         function actualizarVistaEstadisticas() {
-            // Actualizar rendimientos primero
             actualizarRendimientos();
-            
-            // Calcular estadísticas generales
-            const totalGoles = JUGADORES.reduce((sum, j) => sum + j.goles, 0);
-            const totalAsistencias = JUGADORES.reduce((sum, j) => sum + j.asistencias, 0);
-            const rendimientoPromedio = JUGADORES.reduce((sum, j) => sum + j.rendimiento, 0) / JUGADORES.length;
-            
-            document.getElementById('totalGoals').textContent = totalGoles;
-            document.getElementById('totalAssists').textContent = totalAsistencias;
-            document.getElementById('activePlayersStats').textContent = JUGADORES.length;
-            document.getElementById('avgPerformance').textContent = `${rendimientoPromedio.toFixed(1)}%`;
-            
-            // Cargar top jugadores
-            cargarTopJugadores();
+            mostrarEstadisticasPorCategoria('todas');
         }
-
+        
         function mostrarEstadisticasPorCategoria(categoria) {
-            // Actualizar botones
-            document.querySelectorAll('.stats-category-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.target.classList.add('active');
-            
-            // Calcular estadísticas por categoría
-            let jugadoresFiltrados = JUGADORES;
-            
-            if (categoria !== 'todas') {
-                jugadoresFiltrados = JUGADORES.filter(j => j.categoria === categoria);
-            }
-            
-            const totalGoles = jugadoresFiltrados.reduce((sum, j) => sum + j.goles, 0);
-            const totalAsistencias = jugadoresFiltrados.reduce((sum, j) => sum + j.asistencias, 0);
-            const rendimientoPromedio = jugadoresFiltrados.length > 0 
-                ? jugadoresFiltrados.reduce((sum, j) => sum + j.rendimiento, 0) / jugadoresFiltrados.length 
-                : 0;
-            
+            document.querySelectorAll('.stats-category-btn').forEach(btn => btn.classList.remove('active'));
+            if(event && event.target) event.target.classList.add('active');
+            const jugadores = categoria === 'todas' ? JUGADORES : JUGADORES.filter(j => j.categoria === categoria);
+            const totalGoles = jugadores.reduce((s,j) => s + j.goles, 0);
+            const totalAsistencias = jugadores.reduce((s,j) => s + j.asistencias, 0);
+            const rendProm = jugadores.length ? (jugadores.reduce((s,j) => s + j.rendimiento, 0) / jugadores.length).toFixed(1) : 0;
             document.getElementById('totalGoals').textContent = totalGoles;
             document.getElementById('totalAssists').textContent = totalAsistencias;
-            document.getElementById('activePlayersStats').textContent = jugadoresFiltrados.length;
-            document.getElementById('avgPerformance').textContent = `${rendimientoPromedio.toFixed(1)}%`;
-            
-            // Actualizar top jugadores
-            cargarTopJugadores(categoria);
-        }
-
-        function cargarTopJugadores(categoria = 'todas') {
-            const container = document.getElementById('topPlayersByCategory');
-            let jugadoresFiltrados = JUGADORES;
-            
-            if (categoria !== 'todas') {
-                jugadoresFiltrados = JUGADORES.filter(j => j.categoria === categoria);
-            }
-            
-            // Ordenar por rendimiento
-            const topJugadores = [...jugadoresFiltrados]
-                .sort((a, b) => {
-                    const scoreA = a.goles * 3 + a.asistencias * 2 + a.rendimiento;
-                    const scoreB = b.goles * 3 + b.asistencias * 2 + b.rendimiento;
-                    return scoreB - scoreA;
-                })
-                .slice(0, 3);
-            
-            container.innerHTML = topJugadores.map((jugador, index) => {
-                const medallas = ['🥇', '🥈', '🥉'];
-                return `
-                    <div class="player-slot" style="margin-bottom: 10px;">
-                        <div style="font-size: 1.5rem; width: 30px; text-align: center;">${medallas[index] || '🏅'}</div>
-                        <div class="player-avatar">${jugador.numero}</div>
-                        <div class="player-details">
-                            <div class="player-name">${jugador.nombre}</div>
-                            <div class="player-info">
-                                <span>${jugador.categoria} • ${jugador.rendimiento}%</span>
-                                <span>${jugador.goles}⚽ ${jugador.asistencias}🅰️</span>
-                            </div>
-                        </div>
-                        <div style="text-align: right;">
-                            <div style="color: var(--success); font-weight: bold;">${jugador.goles * 3 + jugador.asistencias * 2}</div>
-                            <div style="color: #ccc; font-size: 0.7rem;">puntos</div>
-                        </div>
+            document.getElementById('avgPerformance').textContent = `${rendProm}%`;
+            const top = [...jugadores].sort((a,b) => (b.goles*3 + b.asistencias*2) - (a.goles*3 + a.asistencias*2)).slice(0,3);
+            document.getElementById('topPlayersByCategory').innerHTML = top.map((j,i) => `
+                <div class="player-slot" style="margin-bottom:8px;">
+                    <div style="font-size:1.2rem;width:30px;">${['🥇','🥈','🥉'][i]||'🏅'}</div>
+                    <div class="player-avatar">${j.numero}</div>
+                    <div class="player-details">
+                        <div class="player-name">${j.nombre}</div>
+                        <div class="player-info">${j.categoria} • ${j.goles}⚽ ${j.asistencias}🅰️ • ${j.rendimiento}%</div>
                     </div>
-                `;
-            }).join('');
-            
-            if (topJugadores.length === 0) {
-                container.innerHTML = `
-                    <div style="text-align: center; padding: 20px; color: #ccc;">
-                        <i class="fas fa-users" style="font-size: 2rem; margin-bottom: 10px; opacity: 0.5;"></i>
-                        <div>No hay jugadores en esta categoría</div>
-                    </div>
-                `;
-            }
+                </div>`).join('') || '<div style="text-align:center;padding:15px;">No hay jugadores en esta categoría</div>';
         }
-
-        // ===== NUEVA FUNCIÓN PARA COMPARTIR TOP JUGADORES COMO PNG =====
+        
         function compartirTopJugadores() {
-            const elemento = document.getElementById('topPlayersContainer');
-            
-            // Mostrar notificación de que se está procesando
             mostrarNotificacion('Generando imagen...', 'info');
-            
-            // Opciones para la captura
-            const opciones = {
-                scale: 2, // Mayor calidad
-                backgroundColor: '#1a1a1a',
-                allowTaint: false,
-                useCORS: true,
-                logging: false,
-                windowWidth: elemento.scrollWidth,
-                windowHeight: elemento.scrollHeight
-            };
-            
-            // Capturar el elemento como canvas
-            html2canvas(elemento, opciones).then(canvas => {
-                // Convertir canvas a URL de datos
-                const imagenURL = canvas.toDataURL('image/png');
-                
-                // Crear enlace de descarga
-                const enlace = document.createElement('a');
-                enlace.href = imagenURL;
-                enlace.download = `cunatech_top3_${new Date().toISOString().split('T')[0]}.png`;
-                
-                // Simular clic para descargar
-                document.body.appendChild(enlace);
-                enlace.click();
-                document.body.removeChild(enlace);
-                
-                // Notificar éxito
-                mostrarNotificacion('¡Imagen descargada! Lista para compartir en la página del club.', 'success');
-            }).catch(error => {
-                console.error('Error al generar la imagen:', error);
-                mostrarNotificacion('Error al generar la imagen. Intenta de nuevo.', 'error');
-            });
+            html2canvas(document.getElementById('topPlayersContainer')).then(canvas => {
+                const link = document.createElement('a'); link.download = `cunatech_top3_${new Date().toISOString().split('T')[0]}.png`; link.href = canvas.toDataURL(); link.click();
+                mostrarNotificacion('¡Imagen descargada! Lista para compartir.', 'success');
+            }).catch(() => mostrarNotificacion('Error al generar la imagen', 'error'));
         }
-
-        // ===== FUNCIONES DE CONFIGURACIÓN =====
-        function mostrarConfig() {
-            document.getElementById('configModal').classList.add('active');
+        
+        // ===== CHAT IA =====
+        let chatMinimizado = false;
+        function toggleChat() {
+            const messages = document.querySelector('.ia-chat-messages');
+            const input = document.querySelector('.ia-chat-input');
+            const icon = document.getElementById('chatToggleIcon');
+            chatMinimizado = !chatMinimizado;
+            messages.style.display = chatMinimizado ? 'none' : 'block';
+            input.style.display = chatMinimizado ? 'none' : 'flex';
+            icon.className = chatMinimizado ? 'fas fa-chevron-down' : 'fas fa-chevron-up';
         }
-
-        function ocultarConfig() {
-            document.getElementById('configModal').classList.remove('active');
+        
+        function enviarPreguntaIA() {
+            const input = document.getElementById('chatInput');
+            const pregunta = input.value.trim();
+            if (!pregunta) return;
+            agregarMensajeChat(pregunta, 'user');
+            input.value = '';
+            setTimeout(() => { const respuesta = obtenerRespuestaIA(pregunta); agregarMensajeChat(respuesta, 'bot'); }, 200);
         }
-
-        function exportarDatos() {
-            const datos = {
-                jugadores: JUGADORES,
-                categorias: CATEGORIAS,
-                formaciones: FORMACIONES,
-                fechaExportacion: new Date().toISOString()
-            };
-            
-            const datosStr = JSON.stringify(datos, null, 2);
-            const blob = new Blob([datosStr], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `cunatech_datos_${new Date().toISOString().split('T')[0]}.json`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            
-            mostrarNotificacion('Datos exportados correctamente', 'success');
-        }
-
-        function reiniciarDatos() {
-            if (confirm('¿Estás seguro de reiniciar todos los datos? Esto eliminará las formaciones guardadas.')) {
-                localStorage.removeItem('cunatech_formaciones');
-                location.reload();
+        
+        function buscarJugadorPorNombre(nombre) {
+            const nombreLower = nombre.toLowerCase().trim();
+            const encontrados = JUGADORES.filter(j => j.nombre.toLowerCase().includes(nombreLower));
+            if (encontrados.length === 0) return null;
+            if (encontrados.length > 1) {
+                let resp = `Encontré ${encontrados.length} jugadores con ese nombre:\n\n`;
+                encontrados.forEach((j,idx) => { resp += `${idx+1}. ${j.nombre} (#${j.numero}) - ${CATEGORIAS[j.categoria].nombre}\n   ⚽ Goles: ${j.goles} | 🅰️ Asistencias: ${j.asistencias} | 📊 Rend: ${j.rendimiento}%\n   🎯 Posiciones: ${j.posiciones.join(', ')}\n\n`; });
+                return resp;
             }
+            const j = encontrados[0];
+            return `📋 <strong>${j.nombre}</strong> (#${j.numero})\n📌 Categoría: ${CATEGORIAS[j.categoria].nombre}\n⚽ Goles: ${j.goles}\n🅰️ Asistencias: ${j.asistencias}\n📊 Rendimiento: ${j.rendimiento}%\n🎯 Posiciones: ${j.posiciones.join(', ')}`;
         }
-
-        // ===== FUNCIONES UTILITARIAS =====
-        function mostrarDetallesJugador(id) {
-            const jugador = JUGADORES.find(j => j.id === id);
-            if (!jugador) return;
+        
+        function obtenerRespuestaIA(pregunta) {
+            const p = pregunta.toLowerCase();
             
-            const detalles = `
-                🏷️ ${jugador.nombre} #${jugador.numero}
-                
-                📊 ESTADÍSTICAS:
-                ⚽ Goles: ${jugador.goles}
-                🅰️ Asistencias: ${jugador.asistencias}
-                📈 Rendimiento: ${jugador.rendimiento}% (calculado automáticamente)
-                
-                🏷️ INFORMACIÓN:
-                📋 Categoría: ${CATEGORIAS[jugador.categoria]?.nombre || jugador.categoria}
-                🎯 Posiciones: ${jugador.posiciones.join(', ')}
-            `;
-            
-            alert(detalles);
-        }
-
-        function mostrarNotificacion(mensaje, tipo = 'info') {
-            // Colores por tipo
-            const colores = {
-                'success': '#4CAF50',
-                'error': '#FF4444',
-                'warning': '#FF9800',
-                'info': '#2196F3'
-            };
-            
-            const color = colores[tipo] || '#2196F3';
-            const iconos = {
-                'success': 'fas fa-check-circle',
-                'error': 'fas fa-exclamation-circle',
-                'warning': 'fas fa-exclamation-triangle',
-                'info': 'fas fa-info-circle'
-            };
-            
-            const icono = iconos[tipo] || 'fas fa-info-circle';
-            
-            // Crear notificación
-            const notificacion = document.createElement('div');
-            notificacion.style.cssText = `
-                position: fixed;
-                top: 80px;
-                right: 10px;
-                background: ${color};
-                color: white;
-                padding: 12px 16px;
-                border-radius: 10px;
-                box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-                z-index: 1000;
-                animation: slideIn 0.3s ease-out;
-                max-width: 280px;
-                font-size: 0.9rem;
-                backdrop-filter: blur(10px);
-                border: 1px solid rgba(255,255,255,0.1);
-                display: flex;
-                align-items: center;
-                gap: 10px;
-            `;
-            
-            notificacion.innerHTML = `
-                <i class="${icono}" style="font-size: 1.1rem;"></i>
-                <div>${mensaje}</div>
-            `;
-            
-            document.body.appendChild(notificacion);
-            
-            // Remover después de 3 segundos
-            setTimeout(() => {
-                notificacion.style.animation = 'slideOut 0.3s ease-out';
-                setTimeout(() => notificacion.remove(), 300);
-            }, 3000);
-            
-            // Agregar estilos de animación si no existen
-            if (!document.querySelector('#notificacion-estilos')) {
-                const estilos = document.createElement('style');
-                estilos.id = 'notificacion-estilos';
-                estilos.textContent = `
-                    @keyframes slideIn {
-                        from { transform: translateX(100%); opacity: 0; }
-                        to { transform: translateX(0); opacity: 1; }
-                    }
-                    
-                    @keyframes slideOut {
-                        from { transform: translateX(0); opacity: 1; }
-                        to { transform: translateX(100%); opacity: 0; }
-                    }
-                `;
-                document.head.appendChild(estilos);
+            // Desarrollador
+            if(p.includes('desarrolló') || p.includes('creó') || p.includes('quien te hizo') || p.includes('quién te creó')) {
+                return `🔌 <strong>CONECTANDO A SERVIDORES CUNATECH...</strong>\n\n🖥️ <strong>RESPUESTA DEL SERVIDOR:</strong>\n¡Hola! Fui desarrollado por el equipo de CUNATECH. Nuestro objetivo es combinar el fútbol con la innovación.\n\n⚙️ <strong>Más información:</strong>\n• Fundador: ING DILLAN SOLIS\n• Tecnologías: HTML5, CSS3, JavaScript\n• Versión actual: 2.0 (con IA integrada)`;
             }
+            
+            // Buscar jugadores
+            for(let jugador of JUGADORES) {
+                if(p.includes(jugador.nombre.toLowerCase())) {
+                    return buscarJugadorPorNombre(jugador.nombre);
+                }
+            }
+            
+            // La Cuna del Fútbol
+            if(p.includes('cuna del fútbol') || p.includes('cuna del futbol') || p.includes('real del monte')) {
+                return `<strong>⚽ LA CUNA DEL FÚTBOL MEXICANO ⚽</strong>\n\n📍 <strong>Real del Monte</strong> es considerado la Cuna del Fútbol en México.\n\n🏆 <strong>Nuestro equipo CUNATECH</strong>:\n• Fundado el <strong>26 de octubre de 2024</strong>\n• Totalmente <strong>GRATUITO</strong>\n• Categorías: Primaria Baja, Primaria Alta y Secundaria\n\n🤝 <strong>PATROCINADORES</strong>:\nContamos con el apoyo de varias empresas locales.\n\n💛 <strong>VALORES</strong>: Inclusión, formación deportiva y desarrollo de talentos.`;
+            }
+            
+            // Categorías
+            if(p.includes('categoría') || p.includes('categorias')) {
+                return "Hay 3 categorías:\n• <span class='player-highlight'>PB - Primaria Baja</span> (6-9 años)\n• <span class='player-highlight'>PA - Primaria Alta</span> (10-12 años)\n• <span class='player-highlight'>S - Secundaria</span> (13-15 años)";
+            }
+            
+            // Rendimiento
+            if(p.includes('rendimiento') || p.includes('calificación')) {
+                return "Los rendimientos se calculan automáticamente con esta fórmula:\n📊 60 + (goles × 5) + (asistencias × 3)\n• Mínimo: 60%\n• Máximo: 99%";
+            }
+            
+            // Formaciones
+            if(p.includes('formación') || p.includes('táctica')) {
+                return "Hay formaciones para:\n⚽ <strong>Fútbol 7</strong>: 2-3-1, 3-2-1, 2-1-3, 1-3-2\n⚡ <strong>Fútbol 6</strong>: 2-1-2, 1-2-2, 2-2-1, 1-3-1\n\nPuedes seleccionarlas en la vista Táctica.";
+            }
+            
+            // Estadísticas
+            if(p.includes('estadística') || p.includes('totales')) {
+                const totalGoles = JUGADORES.reduce((s,j) => s + j.goles, 0);
+                const totalAsistencias = JUGADORES.reduce((s,j) => s + j.asistencias, 0);
+                const promedioRendimiento = (JUGADORES.reduce((s,j) => s + j.rendimiento, 0) / JUGADORES.length).toFixed(1);
+                return `📊 <strong>ESTADÍSTICAS GENERALES</strong>\n\n• Total de Goles: ${totalGoles} ⚽\n• Total de Asistencias: ${totalAsistencias} 🅰️\n• Jugadores: ${JUGADORES.length} 👥\n• Rendimiento Promedio: ${promedioRendimiento}% 📈`;
+            }
+            
+            // Ayuda
+            if(p.includes('ayuda') || p.includes('qué puedes hacer')) {
+                return "🤖 <strong>ASISTENTE CUNATECH</strong>\n\nPuedo ayudarte con:\n• <strong>Jugadores</strong>: Pregunta por cualquier jugador\n• <strong>La Cuna del Fútbol</strong>: Información sobre Real del Monte\n• <strong>Categorías</strong>: PB, PA, S\n• <strong>Formaciones</strong>: Tácticas para F7 y F6\n• <strong>Estadísticas</strong>: Totales de goles y rendimientos";
+            }
+            
+            // Saludos
+            if(p.includes('hola') || p.includes('buenos días')) {
+                return "¡Hola! ⚽ Soy el asistente de CUNATECH.\n\nPuedes preguntarme sobre jugadores, categorías, formaciones o La Cuna del Fútbol.\n\n¿En qué puedo ayudarte?";
+            }
+            
+            return "Lo siento, no entendí tu pregunta. 🤔\n\nPuedes preguntarme sobre:\n• <strong>Jugadores</strong> (ej: 'dime de Alexander Solis')\n• <strong>La Cuna del Fútbol</strong>\n• <strong>Categorías</strong>, <strong>formaciones</strong> o <strong>estadísticas</strong>\n\nO escribe 'ayuda' para ver todo lo que puedo hacer.";
         }
-
-        // Inicializar el sistema (actualizar rendimientos primero)
-        actualizarRendimientos();
-        inicializarSistema();
+        
+        function agregarMensajeChat(texto, tipo) {
+            const div = document.createElement('div'); div.className = `ia-message ${tipo}`; div.innerHTML = texto.replace(/\n/g,'<br>');
+            document.getElementById('chatMessages').appendChild(div);
+            document.getElementById('chatMessages').scrollTop = document.getElementById('chatMessages').scrollHeight;
+        }
+        
+        // ===== CONFIGURACIÓN =====
+        function mostrarConfig() { document.getElementById('configModal').classList.add('active'); }
+        function ocultarConfig() { document.getElementById('configModal').classList.remove('active'); }
+        function exportarDatos() { const data = JSON.stringify({jugadores:JUGADORES, categorias:CATEGORIAS, formaciones:FORMACIONES}, null, 2); const blob = new Blob([data], {type:'application/json'}); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `cunatech_datos_${new Date().toISOString().split('T')[0]}.json`; a.click(); URL.revokeObjectURL(a.href); mostrarNotificacion('Datos exportados', 'success'); }
+        function reiniciarDatos() { if(confirm('¿Estás seguro de reiniciar todos los datos?')) { localStorage.clear(); location.reload(); } }
+        function mostrarDetallesJugador(id) { const j = JUGADORES.find(j => j.id === id); if(j) alert(`${j.nombre} #${j.numero}\nCategoría: ${CATEGORIAS[j.categoria].nombre}\nGoles: ${j.goles}\nAsistencias: ${j.asistencias}\nRendimiento: ${j.rendimiento}%\nPosiciones: ${j.posiciones.join(', ')}`); }
+        
+        // ===== INICIALIZACIÓN =====
+        document.addEventListener('DOMContentLoaded', () => {
+            actualizarRendimientos();
+            formacionActual = FORMACIONES.futbol7[0];
+            actualizarDashboard();
+            document.getElementById('playerSearch').addEventListener('input', () => cargarJugadoresTacticos());
+        });
     </script>
-
 </body>
 </html>
