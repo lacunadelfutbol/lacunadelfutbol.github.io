@@ -803,9 +803,52 @@
             </div>
             <p>© 2024 La Cuna del Fútbol - Donde nacen los campeones</p>
             <p class="footer-motto">Formando talentos desde la base</p>
+            
+            <!-- ===== CONTADOR DE VISITAS EN VIVO ===== -->
+            <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid rgba(255,215,0,0.2);">
+                <i class="fas fa-eye" style="color: #FFD700;"></i>
+                <span style="color: #FFD700; font-weight: 600;"> Visitantes: </span>
+                <span id="contador-visitas" style="color: #FFD700; font-weight: bold; font-size: 1.1rem;">0</span>
+                <span style="color: rgba(255,255,255,0.4); font-size: 0.7rem;"> | Desde 2024</span>
+            </div>
         </div>
     </footer>
 
     <script src="scripts.js"></script>
+    
+    <!-- ===== CÓDIGO DEL CONTADOR DE VISITAS ===== -->
+    <script>
+        // NOMBRE ÚNICO PARA EL CONTADOR - Funciona para toda la página
+        const NOMBRE_UNICO_SITIO = 'lacuna-futbol-real-del-monte-2024-oficial';
+        
+        async function actualizarContadorVisitas() {
+            try {
+                // Intentar obtener el número actual de visitas
+                let respuesta = await fetch(`https://api.countapi.xyz/get/${NOMBRE_UNICO_SITIO}/visitas`);
+                let datos = await respuesta.json();
+                
+                // Si el contador no existe, crearlo y aumentar en 1
+                if (!datos.value) {
+                    const hitRespuesta = await fetch(`https://api.countapi.xyz/hit/${NOMBRE_UNICO_SITIO}/visitas`);
+                    datos = await hitRespuesta.json();
+                }
+                
+                // Mostrar el número en la página
+                const contadorElemento = document.getElementById('contador-visitas');
+                if (contadorElemento) {
+                    contadorElemento.textContent = datos.value;
+                }
+            } catch (error) {
+                console.log('Error al cargar contador de visitas:', error);
+                const contadorElemento = document.getElementById('contador-visitas');
+                if (contadorElemento) {
+                    contadorElemento.textContent = '---';
+                }
+            }
+        }
+        
+        // Ejecutar cuando la página termine de cargar
+        actualizarContadorVisitas();
+    </script>
 </body>
 </html>
