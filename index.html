@@ -806,9 +806,9 @@
             
             <!-- ===== CONTADOR GLOBAL EN VIVO ===== -->
             <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid rgba(255,215,0,0.2);">
-                <i class="fas fa-globe" style="color: #FFD700;"></i>
-                <span style="color: #FFD700; font-weight: 600;"> Visitantes globales: </span>
-                <span id="contador-global" style="color: #FFD700; font-weight: bold; font-size: 1.2rem;">---</span>
+                <i class="fas fa-chart-line" style="color: #FFD700;"></i>
+                <span style="color: #FFD700; font-weight: 600;"> Visitantes: </span>
+                <span id="contador-visitas" style="color: #FFD700; font-weight: bold; font-size: 1.2rem;">0</span>
                 <span style="color: rgba(255,255,255,0.4); font-size: 0.7rem;"> | En vivo</span>
             </div>
         </div>
@@ -816,85 +816,30 @@
 
     <script src="scripts.js"></script>
     
-    <!-- ===== CONTADOR GLOBAL CON GITHUB API ===== -->
+    <!-- ===== CÓDIGO DEL CONTADOR (SIN TOKEN) ===== -->
     <script>
-        // DATOS DE TU REPOSITORIO
-        const GITHUB_USER = "lacunadelfutbol";
-        const GITHUB_REPO = "lacunadelfutbol.github.io";
-        const ISSUE_NUMBER = 1;
+        // ID único para tu contador
+        const CONTADOR_ID = 'lacuna_futbol_2024';
         
-        // ⚠️ IMPORTANTE: Reemplaza con el NUEVO token que vas a crear
-        // Ve a: https://github.com/settings/tokens/new
-        // Marca SOLO "public_repo" y genera el token
-        const GITHUB_TOKEN = "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";  // <--- PON AQUÍ TU NUEVO TOKEN
-        
-        const GITHUB_API_URL = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/issues/${ISSUE_NUMBER}/comments`;
-        
-        async function actualizarContadorGlobal() {
+        async function actualizarContador() {
             try {
-                // 1. Obtener comentarios del Issue
-                const response = await fetch(GITHUB_API_URL, {
-                    headers: {
-                        'Authorization': `token ${GITHUB_TOKEN}`,
-                        'Accept': 'application/vnd.github.v3+json'
-                    }
-                });
+                // API gratuita que funciona con GitHub Pages (sin token)
+                const url = `https://api.counterapi.dev/v1/${CONTADOR_ID}/up`;
+                const respuesta = await fetch(url, { method: 'POST' });
+                const datos = await respuesta.json();
                 
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}`);
-                }
-                
-                const comentarios = await response.json();
-                
-                let visitasActuales = 0;
-                
-                // 2. Buscar el último número de visitas
-                if (comentarios && comentarios.length > 0) {
-                    const ultimoComentario = comentarios[comentarios.length - 1];
-                    const numeroTexto = ultimoComentario.body.match(/\d+/);
-                    if (numeroTexto) {
-                        visitasActuales = parseInt(numeroTexto[0]);
-                    }
-                }
-                
-                // 3. Aumentar en 1
-                const nuevasVisitas = visitasActuales + 1;
-                
-                // 4. Crear nuevo comentario con el número actualizado
-                const fecha = new Date().toLocaleString('es-MX');
-                const nuevoComentario = `🌐 ${nuevasVisitas} visitas totales - Actualizado: ${fecha}`;
-                
-                const postResponse = await fetch(GITHUB_API_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `token ${GITHUB_TOKEN}`,
-                        'Accept': 'application/vnd.github.v3+json',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        body: nuevoComentario
-                    })
-                });
-                
-                if (postResponse.ok) {
-                    document.getElementById('contador-global').textContent = nuevasVisitas;
+                if (datos && datos.count) {
+                    document.getElementById('contador-visitas').textContent = datos.count;
                 } else {
-                    document.getElementById('contador-global').textContent = "?";
+                    document.getElementById('contador-visitas').textContent = '1';
                 }
-                
             } catch (error) {
-                console.log("Error:", error);
-                document.getElementById('contador-global').textContent = "⚠️";
+                console.log('Error:', error);
+                document.getElementById('contador-visitas').textContent = '🌟';
             }
         }
         
-        // Verificar que el token esté configurado
-        if (GITHUB_TOKEN !== "TU_NUEVO_TOKEN_AQUI") {
-            actualizarContadorGlobal();
-        } else {
-            document.getElementById('contador-global').textContent = "Configurar";
-            console.log("⚠️ Configura tu token de GitHub en la variable GITHUB_TOKEN");
-        }
+        actualizarContador();
     </script>
 </body>
 </html>
