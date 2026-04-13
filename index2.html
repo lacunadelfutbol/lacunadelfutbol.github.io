@@ -3,16 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Beneficios de los Entrenamientos de Fútbol - La Cuna del Fútbol</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Enlace al archivo CSS -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Agregar Chart.js -->
+    <title>Entrenamientos - La Cuna del Fútbol</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Estilos adicionales solo para las tarjetas de entrenamiento */
+        .training-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        .training-card {
+            background: #f9f9f9;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        .training-card:hover {
+            transform: translateY(-5px);
+        }
+        .training-card h3 {
+            color: #1e3c72;
+            border-left: 5px solid #ff9800;
+            padding-left: 15px;
+            margin-top: 0;
+        }
+        .task-list {
+            list-style: none;
+            padding: 0;
+        }
+        .task-list li {
+            margin: 12px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .task-list input {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+        .progress-bar {
+            background: #e0e0e0;
+            border-radius: 10px;
+            height: 12px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+        .progress-fill {
+            background: #4caf50;
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s;
+        }
+        .progress-text {
+            font-weight: bold;
+            text-align: right;
+            font-size: 14px;
+        }
+        .reset-btn {
+            background: #ff9800;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 10px;
+            width: 100%;
+        }
+        .reset-btn:hover {
+            background: #e68900;
+        }
+        .total-progress {
+            background: #1e3c72;
+            color: white;
+            padding: 15px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+    </style>
 </head>
 <body>
-    <!-- Menú lateral -->
-   <nav id="menu" class="menu">
+    <nav id="menu" class="menu">
         <ul>
             <li><a href="index.html">Inicio</a></li>
-            <li><a href="index2.html">Entrenamientos</a></li>
+            <li><a href="index2.html" class="active">Entrenamientos</a></li>
             <li><a href="index3.html">Conócenos</a></li>
             <li><a href="index4.html">Jugadores</a></li>
             <li><a href="index5.html">Contáctanos</a></li>
@@ -21,61 +99,208 @@
             <li><a href="index8.html">Asistencias</a></li>
             <li><a href="index9.html">Inscripciones</a></li>
             <li><a href="index10.html">Torneos</a></li>
-            <li><a href="index11.html" class="active">Nuestros Héroes</a></li>
-            <li><a href="index12.html" class=>CunaTech</a></li>
+            <li><a href="index11.html">Nuestros Héroes</a></li>
+            <li><a href="index12.html">CunaTech</a></li>
         </ul>
     </nav>
 
-    <!-- Ícono de los 3 puntos -->
     <div id="menu-toggle" class="menu-toggle">
         <div class="dot"></div>
         <div class="dot"></div>
         <div class="dot"></div>
     </div>
 
-    <!-- Contenido principal -->
     <div class="content">
         <header>
-            <h1>Beneficios de los Entrenamientos de Fútbol - La Cuna del Fútbol</h1>
-            <!-- Imagen Lacuna abajo a la derecha -->
+            <h1>Rutinas de Entrenamiento - La Cuna del Fútbol</h1>
             <img src="lacuna.jpg" alt="Logo La Cuna del Fútbol" class="logo-bottom-right">
         </header>
 
         <section>
-            <h2>Beneficios Generales de los Entrenamientos</h2>
-            <p>Los entrenamientos regulares de fútbol ofrecen una amplia gama de beneficios tanto a nivel físico como mental. Algunos de los beneficios más destacados incluyen:</p>
+            <h2>Plan Semanal de Entrenamiento</h2>
+            <p>Marca los ejercicios que completes cada día. ¡Sigue tu progreso y mejora tus habilidades!</p>
 
-            <ul>
-                <li><strong>Trabajo en Equipo:</strong> Fomentar la cooperación y la comunicación entre los jugadores.</li>
-                <li><strong>Desarrollo de Fuerza:</strong> Mejorar la fuerza muscular y la resistencia física.</li>
-                <li><strong>Mejora de Coordinación:</strong> Desarrollar habilidades motoras finas y gruesas.</li>
-                <li><strong>Aumento de Actividad General:</strong> Mejorar la condición física general a través de ejercicios y prácticas dinámicas.</li>
-            </ul>
+            <div class="total-progress" id="totalProgressContainer">
+                <strong>🏆 Progreso total de la semana</strong>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="totalProgressFill"></div>
+                </div>
+                <span id="totalPercent">0%</span> completado
+            </div>
 
-            <!-- Canvas para los gráficos -->
-            <h3>Trabajo en Equipo</h3>
-            <p>El trabajo en equipo es esencial en el fútbol. Los ejercicios y actividades diseñados específicamente para mejorar la cooperación y comunicación entre los jugadores son fundamentales para el éxito en el campo.</p>
-            <canvas id="trabajoEquipoChart"></canvas>
-
-            <h3>Desarrollo de Fuerza</h3>
-            <p>El entrenamiento de fuerza mejora la resistencia física y la capacidad de los jugadores para soportar el esfuerzo físico durante el partido. Este es un factor clave para mantener un alto rendimiento.</p>
-            <canvas id="fuerzaChart"></canvas>
-
-            <h3>Mejora de Coordinación</h3>
-            <p>La coordinación ojo-pie y la agilidad son habilidades esenciales para controlar el balón y moverse eficazmente por el campo. Los entrenamientos de fútbol ayudan a mejorar estas habilidades mediante ejercicios técnicos.</p>
-            <canvas id="coordinacionChart"></canvas>
-
-            <h3>Aumento de Actividad General</h3>
-            <p>Los entrenamientos de fútbol promueven una mayor actividad física, mejorando la resistencia cardiovascular, la flexibilidad y la salud general.</p>
-            <canvas id="actividadChart"></canvas>
+            <div class="training-grid" id="trainingGrid"></div>
         </section>
 
         <footer>
-            <p>© 2023 Entrenamiento Deportivo para Niños. Todos los derechos reservados.</p>
+            <p>© 2025 Entrenamiento Deportivo para Niños. Todos los derechos reservados.</p>
             <p>La información está avalada por la <a href="https://www.fifa.com/" target="_blank">FIFA</a>.</p>
         </footer>
     </div>
 
-    <script src="script2.js"></script> <!-- Enlace al archivo JavaScript específico para index2 -->
+    <script>
+        // Datos de entrenamientos por categoría
+        const categories = [
+            {
+                name: "🤝 Trabajo en Equipo",
+                tasks: [
+                    "Pases en pareja (10 min)",
+                    "Rondo 3 contra 1",
+                    "Juego de posición 5x5",
+                    "Celebración en equipo tras gol"
+                ]
+            },
+            {
+                name: "💪 Desarrollo de Fuerza",
+                tasks: [
+                    "Sentadillas (3x12)",
+                    "Plancha (3x30 seg)",
+                    "Saltos al cajón (3x10)",
+                    "Zancadas con balón"
+                ]
+            },
+            {
+                name: "🦶 Coordinación",
+                tasks: [
+                    "Escalera de agilidad (5 min)",
+                    "Conducción entre conos",
+                    "Toques alternos con el balón",
+                    "Saltos en un pie con cambio"
+                ]
+            },
+            {
+                name: "❤️ Resistencia General",
+                tasks: [
+                    "Trote 15 min",
+                    "Circuito de sprints (6x40m)",
+                    "Saltos de tijera (3x20)",
+                    "Estiramientos dinámicos"
+                ]
+            }
+        ];
+
+        let tasksState = {}; // Guarda el estado de cada tarea (true/false)
+
+        // Inicializar estado desde localStorage o crear nuevo
+        function loadState() {
+            const saved = localStorage.getItem("entrenamientosState");
+            if (saved) {
+                tasksState = JSON.parse(saved);
+            } else {
+                categories.forEach((cat, catIdx) => {
+                    cat.tasks.forEach((_, taskIdx) => {
+                        tasksState[`${catIdx}-${taskIdx}`] = false;
+                    });
+                });
+            }
+        }
+
+        function saveState() {
+            localStorage.setItem("entrenamientosState", JSON.stringify(tasksState));
+        }
+
+        function updateProgress() {
+            let totalTasks = 0;
+            let completedTasks = 0;
+            
+            for (let key in tasksState) {
+                totalTasks++;
+                if (tasksState[key]) completedTasks++;
+            }
+            
+            const percent = totalTasks === 0 ? 0 : Math.round((completedTasks / totalTasks) * 100);
+            document.getElementById("totalProgressFill").style.width = percent + "%";
+            document.getElementById("totalPercent").innerText = percent;
+            
+            // Actualizar cada tarjeta individual
+            categories.forEach((cat, catIdx) => {
+                let catTotal = cat.tasks.length;
+                let catCompleted = 0;
+                cat.tasks.forEach((_, taskIdx) => {
+                    if (tasksState[`${catIdx}-${taskIdx}`]) catCompleted++;
+                });
+                const catPercent = catTotal === 0 ? 0 : Math.round((catCompleted / catTotal) * 100);
+                const fillElem = document.getElementById(`progress-fill-${catIdx}`);
+                const textElem = document.getElementById(`progress-text-${catIdx}`);
+                if (fillElem) fillElem.style.width = catPercent + "%";
+                if (textElem) textElem.innerText = `${catPercent}% completado`;
+            });
+        }
+
+        function renderTraining() {
+            const grid = document.getElementById("trainingGrid");
+            grid.innerHTML = "";
+            
+            categories.forEach((cat, catIdx) => {
+                const card = document.createElement("div");
+                card.className = "training-card";
+                
+                let tasksHtml = `<h3>${cat.name}</h3><ul class="task-list">`;
+                cat.tasks.forEach((task, taskIdx) => {
+                    const key = `${catIdx}-${taskIdx}`;
+                    const isChecked = tasksState[key] ? "checked" : "";
+                    tasksHtml += `
+                        <li>
+                            <input type="checkbox" data-cat="${catIdx}" data-task="${taskIdx}" ${isChecked}>
+                            <span>${task}</span>
+                        </li>
+                    `;
+                });
+                tasksHtml += `</ul>`;
+                tasksHtml += `<div class="progress-bar"><div class="progress-fill" id="progress-fill-${catIdx}"></div></div>`;
+                tasksHtml += `<div class="progress-text" id="progress-text-${catIdx}">0% completado</div>`;
+                tasksHtml += `<button class="reset-btn" data-cat-reset="${catIdx}">Reiniciar esta categoría</button>`;
+                
+                card.innerHTML = tasksHtml;
+                grid.appendChild(card);
+            });
+            
+            // Event listeners para checkboxes
+            document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+                cb.addEventListener("change", (e) => {
+                    const catIdx = e.target.getAttribute("data-cat");
+                    const taskIdx = e.target.getAttribute("data-task");
+                    const key = `${catIdx}-${taskIdx}`;
+                    tasksState[key] = e.target.checked;
+                    saveState();
+                    updateProgress();
+                });
+            });
+            
+            // Event listeners para botones de reinicio por categoría
+            document.querySelectorAll('[data-cat-reset]').forEach(btn => {
+                btn.addEventListener("click", (e) => {
+                    const catIdx = e.target.getAttribute("data-cat-reset");
+                    categories[catIdx].tasks.forEach((_, taskIdx) => {
+                        const key = `${catIdx}-${taskIdx}`;
+                        tasksState[key] = false;
+                    });
+                    saveState();
+                    renderTraining(); // Re-renderizar para actualizar checkboxes
+                    updateProgress();
+                });
+            });
+            
+            updateProgress();
+        }
+        
+        // Inicializar
+        loadState();
+        renderTraining();
+        
+        // Menú toggle (lo mismo que tenías)
+        document.getElementById("menu-toggle").addEventListener("click", function() {
+            var menu = document.getElementById("menu");
+            if (menu.style.left === "-250px" || getComputedStyle(menu).left === "-250px") {
+                menu.style.left = "0";
+            } else {
+                menu.style.left = "-250px";
+            }
+        });
+        // Asegurar que el menú empiece cerrado si es necesario
+        const menu = document.getElementById("menu");
+        if (menu.style.left !== "0") {
+            menu.style.left = "-250px";
+        }
+    </script>
 </body>
 </html>
