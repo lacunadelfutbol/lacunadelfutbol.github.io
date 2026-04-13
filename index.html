@@ -80,7 +80,7 @@
             color: #FFD700;
         }
 
-        /* Botón del menú (3 puntos) */
+        /* Botón del menú (3 puntos) - IZQUIERDA */
         .menu-toggle {
             position: fixed;
             top: 20px;
@@ -110,6 +110,66 @@
             height: 8px;
             background: #FFD700;
             border-radius: 50%;
+        }
+
+        /* ========== RELOJ EN VIVO - ESQUINA SUPERIOR DERECHA ========== */
+        .live-clock {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            padding: 12px 20px;
+            border-radius: 50px;
+            border: 1px solid #FFD700;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+            z-index: 1001;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: 'Montserrat', monospace;
+            transition: all 0.3s ease;
+        }
+
+        .live-clock:hover {
+            transform: scale(1.02);
+            border-color: #FFA500;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .clock-icon {
+            color: #FFD700;
+            font-size: 1.2rem;
+        }
+
+        .clock-time {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #FFD700;
+            letter-spacing: 2px;
+            background: #000000aa;
+            padding: 4px 10px;
+            border-radius: 30px;
+        }
+
+        .clock-date {
+            font-size: 0.7rem;
+            color: #cccccc;
+            margin-left: 5px;
+        }
+
+        @media (max-width: 600px) {
+            .live-clock {
+                padding: 8px 12px;
+                top: 15px;
+                right: 15px;
+            }
+            .clock-time {
+                font-size: 0.9rem;
+            }
+            .clock-date {
+                display: none;
+            }
         }
 
         /* ========== HEADER ========== */
@@ -626,6 +686,13 @@
     </style>
 </head>
 <body>
+    <!-- RELOJ EN VIVO - ESQUINA SUPERIOR DERECHA -->
+    <div class="live-clock">
+        <i class="fas fa-clock clock-icon"></i>
+        <span class="clock-time" id="liveTime">--:--:--</span>
+        <span class="clock-date" id="liveDate">--/--/----</span>
+    </div>
+
     <!-- Menú Lateral -->
     <nav id="menu" class="menu">
         <ul>
@@ -644,7 +711,7 @@
         </ul>
     </nav>
 
-    <!-- Ícono del menú (3 puntos) -->
+    <!-- Ícono del menú (3 puntos) - IZQUIERDA -->
     <div id="menu-toggle" class="menu-toggle">
         <div class="dot"></div>
         <div class="dot"></div>
@@ -804,7 +871,7 @@
             <p>© 2024 La Cuna del Fútbol - Donde nacen los campeones</p>
             <p class="footer-motto">Formando talentos desde la base</p>
             
-            <!-- ===== CONTADOR GLOBAL EN VIVO ===== -->
+            <!-- CONTADOR GLOBAL EN VIVO -->
             <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid rgba(255,215,0,0.2);">
                 <i class="fas fa-chart-line" style="color: #FFD700;"></i>
                 <span style="color: #FFD700; font-weight: 600;"> Visitantes: </span>
@@ -816,14 +883,38 @@
 
     <script src="scripts.js"></script>
     
-    <!-- ===== CÓDIGO DEL CONTADOR (SIN TOKEN) ===== -->
+    <!-- ===== RELOJ EN VIVO (HORA, MINUTO, SEGUNDO) ===== -->
     <script>
-        // ID único para tu contador
+        function actualizarReloj() {
+            const ahora = new Date();
+            
+            // Formato de hora HH:MM:SS (24h)
+            const horas = String(ahora.getHours()).padStart(2, '0');
+            const minutos = String(ahora.getMinutes()).padStart(2, '0');
+            const segundos = String(ahora.getSeconds()).padStart(2, '0');
+            const horaCompleta = `${horas}:${minutos}:${segundos}`;
+            
+            // Formato de fecha
+            const dia = String(ahora.getDate()).padStart(2, '0');
+            const mes = String(ahora.getMonth() + 1).padStart(2, '0');
+            const año = ahora.getFullYear();
+            const fechaCompleta = `${dia}/${mes}/${año}`;
+            
+            document.getElementById('liveTime').textContent = horaCompleta;
+            document.getElementById('liveDate').textContent = fechaCompleta;
+        }
+        
+        // Actualizar cada segundo
+        setInterval(actualizarReloj, 1000);
+        actualizarReloj();
+    </script>
+    
+    <!-- ===== CÓDIGO DEL CONTADOR ===== -->
+    <script>
         const CONTADOR_ID = 'lacuna_futbol_2024';
         
         async function actualizarContador() {
             try {
-                // API gratuita que funciona con GitHub Pages (sin token)
                 const url = `https://api.counterapi.dev/v1/${CONTADOR_ID}/up`;
                 const respuesta = await fetch(url, { method: 'POST' });
                 const datos = await respuesta.json();
