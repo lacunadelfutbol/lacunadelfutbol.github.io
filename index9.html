@@ -289,6 +289,117 @@
             line-height: 1.5;
         }
         
+        /* ===== REGLAMENTO ===== */
+        .reglamento-container {
+            background: linear-gradient(145deg, rgba(20, 20, 20, 0.95), rgba(0, 0, 0, 0.95));
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 40px;
+            max-width: 1000px;
+            margin: 50px auto 40px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+        
+        .reglamento-container h2 {
+            text-align: center;
+            color: #FFD700;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .reglamento-container h2 i {
+            font-size: 2rem;
+            color: #FFD700;
+        }
+        
+        .reglamento-subtitulo {
+            text-align: center;
+            color: #aaa;
+            font-style: italic;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+        }
+        
+        .reglamento-intro {
+            background: rgba(255, 215, 0, 0.08);
+            padding: 20px 25px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            border-left: 4px solid #FFD700;
+            line-height: 1.7;
+            color: #ddd;
+        }
+        
+        .reglamento-punto {
+            background: rgba(255, 215, 0, 0.05);
+            border-radius: 16px;
+            padding: 20px 25px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .reglamento-punto:hover {
+            background: rgba(255, 215, 0, 0.1);
+            transform: translateX(5px);
+        }
+        
+        .reglamento-punto h3 {
+            color: #FFD700;
+            font-size: 1.4rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .reglamento-punto h3 i {
+            font-size: 1.4rem;
+        }
+        
+        .reglamento-punto p {
+            color: #ccc;
+            line-height: 1.6;
+            margin-left: 30px;
+        }
+        
+        .reglamento-punto ul {
+            margin-left: 30px;
+            color: #ccc;
+            line-height: 1.6;
+        }
+        
+        .reglamento-punto li {
+            margin-bottom: 8px;
+        }
+        
+        .reglamento-footer {
+            text-align: center;
+            margin-top: 35px;
+            padding: 20px;
+            background: rgba(255, 215, 0, 0.08);
+            border-radius: 16px;
+            border-top: 2px solid rgba(255, 215, 0, 0.3);
+            font-style: italic;
+            color: #ddd;
+        }
+        
+        .reglamento-footer p {
+            margin: 10px 0;
+        }
+        
+        .reglamento-footer .firma {
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: #FFD700;
+        }
+        
         /* ===== FOOTER ===== */
         footer {
             text-align: center;
@@ -342,6 +453,24 @@
                 padding: 20px 15px;
             }
             
+            .reglamento-container {
+                padding: 25px 20px;
+                margin: 30px 10px;
+            }
+            
+            .reglamento-container h2 {
+                font-size: 1.5rem;
+            }
+            
+            .reglamento-punto h3 {
+                font-size: 1.2rem;
+            }
+            
+            .reglamento-punto p,
+            .reglamento-punto ul {
+                margin-left: 15px;
+            }
+            
             .logo-bottom-right {
                 width: 55px;
                 bottom: 15px;
@@ -362,7 +491,8 @@
         }
         
         .inscripcion-form,
-        .benefits-section {
+        .benefits-section,
+        .reglamento-container {
             animation: fadeInUp 0.6s ease-out;
         }
     </style>
@@ -476,6 +606,58 @@
                 <i class="fas fa-heart"></i>
                 <h3>Ambiente Familiar</h3>
                 <p>Somos más que un equipo, somos una familia que apoya el crecimiento de cada niño.</p>
+            </div>
+        </div>
+
+        <!-- REGLAMENTO INTERNO -->
+        <div class="reglamento-container">
+            <h2>
+                <i class="fas fa-book-open"></i>
+                Reglamento Interno del Equipo
+                <i class="fas fa-gavel"></i>
+            </h2>
+            <div class="reglamento-subtitulo">
+                <i class="fas fa-file-alt"></i> Motivo del escrito
+            </div>
+            
+            <div class="reglamento-intro">
+                <p>El presente documento tiene como objetivo reflejar de manera clara y honesta que los resultados obtenidos hasta ahora no han sido los esperados, tanto en los entrenamientos como en los partidos disputados. Hemos notado falta de concentración, compromiso y disciplina en varios momentos, lo cual ha afectado directamente al rendimiento del equipo y al desarrollo individual de cada jugador. Por eso, hemos decidido que muchas cosas van a cambiar de cara al futuro. No se trata de señalar a nadie, sino de mejorar todos juntos. Creemos firmemente que este equipo tiene talento y ganas, pero necesitamos orden y responsabilidad para que ese talento se convierta en buenos resultados y, lo más importante, en una buena experiencia de aprendizaje para los niños. A continuación, se propone un sistema más estricto para la evolución de cada uno de nuestros jugadores, implementando un reglamento que constará de los siguientes puntos:</p>
+            </div>
+
+            <div class="reglamento-punto">
+                <h3><i class="fas fa-mobile-alt"></i> 1. Uso de celulares</h3>
+                <p>Hemos notado que los jugadores llevan celulares a entrenamiento, lo cual está completamente prohibido durante la práctica. El jugador que sea sorprendido jugando con el celular en horario de entrenamiento recibirá una sanción de no poder disputar el siguiente partido de liga.</p>
+            </div>
+
+            <div class="reglamento-punto">
+                <h3><i class="fas fa-calendar-check"></i> 2. Asistencias</h3>
+                <p>Las asistencias serán prioritarias. Solo se entrena 2 veces por semana. Por lo tanto:</p>
+                <ul>
+                    <li>Si el jugador no asiste en la semana, no tendrá derecho a jugar el partido de liga.</li>
+                    <li>Si asiste 1 vez por semana, solo tendrá posibilidades de jugar medio tiempo.</li>
+                    <li>Las 2 asistencias en la semana otorgan el derecho de poder jugar el partido completo sin problemas.</li>
+                </ul>
+            </div>
+
+            <div class="reglamento-punto">
+                <h3><i class="fas fa-handshake"></i> 3. Respeto entre integrantes</h3>
+                <p>Se prohíben las faltas de respeto entre integrantes del grupo. Esto incluye malas palabras, discriminación, bullying, golpes, etc. El que sea sorprendido será sancionado con 2 partidos de suspensión y se separará del grupo de entrenamiento por 1 semana o más, dependiendo de la agresión.</p>
+            </div>
+
+            <div class="reglamento-punto">
+                <h3><i class="fas fa-dumbbell"></i> 4. Intensidad y compromiso</h3>
+                <p>Se exigirá intensidad en los entrenamientos y compromiso de cada uno para aprender. La falta de intensidad será sancionada con trabajo extra al final de la práctica.</p>
+            </div>
+
+            <div class="reglamento-punto">
+                <h3><i class="fas fa-coffee"></i> 5. Descansos y compras</h3>
+                <p>Solo se podrá ir a comprar durante los tiempos designados para tomar agua. El que sea sorprendido yendo antes de tiempo o sin autorización tendrá sanción mediante entrenamiento físico adicional.</p>
+            </div>
+
+            <div class="reglamento-footer">
+                <p>Este reglamento lo hacemos con mucho cariño y responsabilidad. Nuestro objetivo es que los niños aprendan, mejoren y se diviertan, pero también que entiendan la importancia del esfuerzo, el respeto y la disciplina. No se trata de castigar, sino de formar buenos deportistas y mejores personas.</p>
+                <p>Pedimos el apoyo de los padres para reforzar estos valores en casa. Juntos vamos a lograr que el equipo crezca y que los resultados lleguen.</p>
+                <p class="firma"><i class="fas fa-star"></i> Gracias por confiar en nosotros. <i class="fas fa-star"></i></p>
             </div>
         </div>
 
