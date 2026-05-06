@@ -9,14 +9,14 @@ document.getElementById("menu-toggle").addEventListener("click", function() {
 });
 
 // ----- CONFIGURACIÓN -----
-const TOTAL_ASISTENCIAS_POSIBLES = 62;
+const TOTAL_ASISTENCIAS_POSIBLES = 64;
 
 // ----- Datos de ejemplo -----
 const jugadores = [
-    { nombre: "YEIK SOLIS", asistencias: [5,7,6,8,7,9,9,9,1,0,0,0] },
-    { nombre: "ALEXANDER SOLIS", asistencias: [5,6,6,7,7,9,9,8,0,0,0,0] },
-    { nombre: "MATEO RODRIGUEZ", asistencias: [2,5,4,6,4,3,5,6,1,0,0,0] },
-    { nombre: "ALAN MELO", asistencias: [4,7,3,6,5,5,3,6,1,0,0,0] },
+    { nombre: "YEIK SOLIS", asistencias: [5,7,6,8,7,9,9,9,3,0,0,0] },
+    { nombre: "ALEXANDER SOLIS", asistencias: [5,6,6,7,7,9,9,8,2,0,0,0] },
+    { nombre: "MATEO RODRIGUEZ", asistencias: [2,5,4,6,4,3,5,6,3,0,0,0] },
+    { nombre: "ALAN MELO", asistencias: [4,7,3,6,5,5,3,6,3,0,0,0] },
     { nombre: "MICHEL MORALES", asistencias: [3,6,2,5,4,7,3,5,1,0,0,0] },
     { nombre: "ARTURO TREJO", asistencias: [4,2,2,2,2,0,0,1,0,0,0,0] },
     { nombre: "KARIM VALENCIA", asistencias: [2,6,4,5,6,7,4,5,1,0,0,0] },
@@ -37,13 +37,13 @@ const jugadores = [
     { nombre: "MATEO", asistencias: [0,0,0,0,3,4,6,3,0,0,0,0] },
     { nombre: "MATI HERNANDEZ", asistencias: [1,2,2,1,4,5,7,4,0,0,0,0] },
     { nombre: "SANTI HERNANDEZ", asistencias: [1,2,2,1,4,5,7,4,0,0,0,0] },
-    { nombre: "ELIOT TAPIA", asistencias: [0,0,0,0,0,0,0,2,1,0,0,0] },
+    { nombre: "ELIOT TAPIA", asistencias: [0,0,0,0,0,0,0,2,3,0,0,0] },
     { nombre: "IAN CASTILLO", asistencias: [1,5,2,5,5,6,8,5,1,0,0,0] },
     { nombre: "RICARDO CASTILLO", asistencias: [1,5,2,5,5,6,7,5,1,0,0,0] },
     { nombre: "VANESA", asistencias: [0,0,0,0,0,3,1,0,0,0,0,0] },
-    { nombre: "MIGUEL ANGEL", asistencias: [0,0,0,0,0,0,2,3,1,0,0,0] },
-    { nombre: "SANTIAGO MENESES", asistencias: [0,0,0,0,0,0,3,2,0,0,0,0] },
-    { nombre: "ADRIAN SIERRA", asistencias: [1,7,2,3,1,2,0,0,0,0,0,0] },
+    { nombre: "MIGUEL ANGEL", asistencias: [0,0,0,0,0,0,2,3,3,0,0,0] },
+    { nombre: "SANTIAGO MENESES", asistencias: [0,0,0,0,0,0,3,2,2,0,0,0] },
+    { nombre: "ABDIEL TAPIA", asistencias: [0,0,0,0,0,0,0,2,2,0,0,0] },
     { nombre: "YASID MARTINEZ", asistencias: [1,2,4,1,4,3,1,2,0,0,0,0] },
     { nombre: "EDGAR ROBERTO", asistencias: [0,0,3,4,5,6,3,3,1,0,0,0] }
 ];
